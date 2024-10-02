@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { NavLink } from 'react-router-dom';
-import login from '../assets/images/login.jpg';
+import loginImage from '../assets/images/login.jpg';
 
 const Login = () => {
   const formik = useFormik({
@@ -23,7 +23,7 @@ const Login = () => {
             <div className="card-body row p-5">
               <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
                 <img
-                  src={login}
+                  src={loginImage}
                   className="rounded-circle"
                   alt="Войти"
                 />
