@@ -1,15 +1,13 @@
-build:
-	npm run build
-
-start:
-	make start-backend
+install:
+		npm ci
 
 start-frontend:
-	cd frontend && npm start
+		make -C frontend start
+
+build:
+		rm -rf frontend/build
+		npm run postinstall
+		npm run build
 
 start-backend:
-	npm run start
-
-develop:
-	make start-backend & make start-frontend
-
+		npm start
