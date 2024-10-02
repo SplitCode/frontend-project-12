@@ -1,11 +1,11 @@
 install:
 	npm ci
 
-start:
-	npm run start
+# start:
+# 	npm run start
 
 build:
-	npm build
+	npm run build
 
 lint:
 	npx eslint .

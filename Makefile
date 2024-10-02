@@ -1,13 +1,19 @@
 install:
-		npm ci
+	npm ci && make -C frontend install
 
 start-frontend:
-		make -C frontend start
+	cd frontend && npm start
 
 build:
 		rm -rf frontend/build
-		npm run postinstall
 		npm run build
 
+start:
+	make start-backend
+
 start-backend:
-		npm start
+		npm run start
+
+develop:
+	make start-backend & make start-frontend
+
