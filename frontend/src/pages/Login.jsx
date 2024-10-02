@@ -1,18 +1,27 @@
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
-import { NavLink } from 'react-router-dom';
-// import axios from 'axios';
+import { NavLink, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import loginImage from '../assets/images/login.jpg';
+import apiPath from '../api/apiPath';
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
-    onSubmit: (values, { setSubmitting }) => {
-      console.log('Form is validated! Submitting the form...', values);
-      setSubmitting(false);
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        const response = await axios.post(apiPath.loginPath(), values);
+        const { token } = response.data;
+        localStorage.setItem('chat-token', token);
+        navigate('/');
+      } catch (error) {
+        setSubmitting(false);
+      }
     },
   });
 
