@@ -1,6 +1,3 @@
-install:
-	npm ci && make -C frontend install
-
 build:
 	npm run build
 
@@ -15,10 +12,4 @@ start-backend:
 
 develop:
 	make start-backend & make start-frontend
-
-lint:
-	make -C frontend lint
-
-fix:
-	make -C frontend fix
 
