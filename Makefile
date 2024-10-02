@@ -17,3 +17,8 @@ start-backend:
 develop:
 	make start-backend & make start-frontend
 
+lint:
+	make -C frontend lint
+
+fix:
+	make -C frontend fix
