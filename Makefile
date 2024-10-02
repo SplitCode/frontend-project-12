@@ -17,3 +17,8 @@ start-backend:
 develop:
 	make start-backend & make start-frontend
 
+lint:
+	cd frontend && npx eslint .
+
+fix:
+	cd frontend && npx eslint --fix .
