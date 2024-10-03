@@ -7,14 +7,14 @@ const AuthProvider = ({ children }) => {
 
   const logIn = () => setLoggedIn(true);
   const logOut = () => {
-    localStorage.removeItem('chat-token');
+    localStorage.clear();
     setLoggedIn(false);
   };
 
-  const authContextValue = useMemo(() => ({ loggedIn, logIn, logOut }), [loggedIn]);
+  const context = useMemo(() => ({ loggedIn, logIn, logOut }), [loggedIn]);
 
   return (
-    <AuthContext.Provider value={authContextValue}>
+    <AuthContext.Provider value={context}>
       {children}
     </AuthContext.Provider>
   );
