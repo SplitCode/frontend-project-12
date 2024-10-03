@@ -4,6 +4,7 @@ import LoginPage from '../pages/LoginPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import App from '../App';
 import PrivateRoute from './private-route';
+import AnonymousRoute from './anonymous-route';
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'login',
-        element: <LoginPage />,
+        element: <AnonymousRoute element={<LoginPage />} />,
       },
       {
         path: '*',
