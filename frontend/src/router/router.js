@@ -1,8 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Home from '../pages/Home';
-import Login from '../pages/Login';
-import NotFound from '../pages/NotFound';
+import ChatPage from '../pages/ChatPage';
+import LoginPage from '../pages/LoginPage';
+import NotFoundPage from '../pages/NotFoundPage';
 import App from '../App';
+import PrivateRoute from './private-route';
 
 const router = createBrowserRouter([
   {
@@ -11,15 +12,15 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <PrivateRoute element={<ChatPage />} />,
       },
       {
         path: 'login',
-        element: <Login />,
+        element: <LoginPage />,
       },
       {
         path: '*',
-        element: <NotFound />,
+        element: <NotFoundPage />,
       },
     ],
   },

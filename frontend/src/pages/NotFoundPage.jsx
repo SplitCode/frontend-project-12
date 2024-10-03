@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import notFoundImage from '../assets/images/notFound.jpg';
 
-const NotFound = () => (
+const NotFoundPage = () => (
   <div className="text-center">
     <img
       alt="Страница не найдена"
@@ -19,4 +19,4 @@ const NotFound = () => (
   </div>
 );
 
-export default NotFound;
+export default NotFoundPage;

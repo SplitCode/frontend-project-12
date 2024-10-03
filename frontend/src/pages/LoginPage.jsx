@@ -1,18 +1,21 @@
 import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useState, useRef, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import loginImage from '../assets/images/login.jpg';
 import apiPath from '../api/apiPath';
 import useAuth from '../store/hooks/useAuth';
+import { setToken } from '../store/slices/AuthSlice';
 
-const Login = () => {
+const LoginPage = () => {
   const auth = useAuth();
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
-  // const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     inputRef.current.focus();
@@ -29,18 +32,17 @@ const Login = () => {
       try {
         const response = await axios.post(apiPath.loginPath(), values);
         const { token } = response.data;
-        console.log(token);
         localStorage.setItem('chat-token', token);
-        auth.LogIn();
-        // const { from } = location.state || { from: { pathname: '/' } };
-        // navigate(from);
-        navigate('/');
+        dispatch(setToken(token));
+        auth.logIn();
+        // navigate('/');
+        const from = location.state?.from?.pathname || '/'; // Если нет предыдущего маршрута, редирект на '/'
+        navigate(from);
       } catch (error) {
         formik.setSubmitting(false);
         if (error.isAxiosError && error.response.status === 401) {
           setAuthFailed(true);
           inputRef.current.select();
-          return;
         }
         throw error;
       }
@@ -95,7 +97,9 @@ const Login = () => {
                     ref={inputRef}
                   />
                   <Form.Label htmlFor="password">Пароль</Form.Label>
-                  <Form.Control.Feedback type="invalid">Неверные имя пользователя или пароль</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">
+                    Неверные имя пользователя или пароль
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Button
                   type="submit"
@@ -120,4 +124,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;
