@@ -1,26 +1,48 @@
 import { useFormik } from 'formik';
-import Form from 'react-bootstrap/Form';
+import { Button, Form } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useState, useRef, useEffect } from 'react';
 import loginImage from '../assets/images/login.jpg';
 import apiPath from '../api/apiPath';
+import useAuth from '../hooks/useAuth';
 
 const Login = () => {
+  const auth = useAuth();
+  const [authFailed, setAuthFailed] = useState(false);
+  const inputRef = useRef();
+  // const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
-    onSubmit: async (values, { setSubmitting }) => {
+    onSubmit: async (values) => {
+      setAuthFailed(false);
+
       try {
         const response = await axios.post(apiPath.loginPath(), values);
         const { token } = response.data;
+        console.log(token);
         localStorage.setItem('chat-token', token);
+        auth.LogIn();
+        // const { from } = location.state || { from: { pathname: '/' } };
+        // navigate(from);
         navigate('/');
       } catch (error) {
-        setSubmitting(false);
+        formik.setSubmitting(false);
+        if (error.isAxiosError && error.response.status === 401) {
+          setAuthFailed(true);
+          inputRef.current.select();
+          return;
+        }
+        throw error;
       }
     },
   });
@@ -53,6 +75,8 @@ const Login = () => {
                     className="form-control"
                     onChange={formik.handleChange}
                     value={formik.values.username}
+                    isInvalid={authFailed}
+                    ref={inputRef}
                   />
                   <Form.Label htmlFor="username">Ваш ник</Form.Label>
                 </Form.Group>
@@ -67,15 +91,19 @@ const Login = () => {
                     className="form-control"
                     onChange={formik.handleChange}
                     value={formik.values.password}
+                    isInvalid={authFailed}
+                    ref={inputRef}
                   />
                   <Form.Label htmlFor="password">Пароль</Form.Label>
+                  <Form.Control.Feedback type="invalid">Неверные имя пользователя или пароль</Form.Control.Feedback>
                 </Form.Group>
-                <button
+                <Button
                   type="submit"
+                  variant="outline-primary"
                   className="w-100 mb-3 btn btn-outline-primary"
                 >
                   Войти
-                </button>
+                </Button>
               </Form>
             </div>
             <div className="card-footer p-4">
