@@ -114,7 +114,7 @@ const LoginPage = () => {
               <div className="text-center">
                 <span>Нет аккаунта?</span>
                 {' '}
-                <NavLink to="/register">Регистрация</NavLink>
+                <NavLink to="/signup">Регистрация</NavLink>
               </div>
             </div>
           </div>
