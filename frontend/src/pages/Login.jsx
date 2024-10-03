@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useState, useRef, useEffect } from 'react';
 import loginImage from '../assets/images/login.jpg';
 import apiPath from '../api/apiPath';
-import useAuth from '../hooks/useAuth';
+import useAuth from '../store/hooks/useAuth';
 
 const Login = () => {
   const auth = useAuth();
