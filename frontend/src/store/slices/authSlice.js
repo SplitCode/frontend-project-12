@@ -1,7 +1,8 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  token: localStorage.getItem('token') ?? null,
+  token: localStorage.getItem('chat-token') || null,
 };
 
 const authSlice = createSlice({
@@ -9,7 +10,8 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setToken(state, action) {
-      return { ...state, token: action.payload };
+      state.token = action.payload;
+      localStorage.setItem('chat-token', action.payload);
     },
   },
 });

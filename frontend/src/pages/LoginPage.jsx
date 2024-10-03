@@ -1,20 +1,19 @@
 import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
-import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import loginImage from '../assets/images/login.jpg';
 import apiPath from '../api/apiPath';
 import useAuth from '../store/hooks/useAuth';
-import { setToken } from '../store/slices/AuthSlice';
+import { setToken } from '../store/slices/authSlice';
 
 const LoginPage = () => {
   const auth = useAuth();
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
   const navigate = useNavigate();
-  const location = useLocation();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,12 +31,13 @@ const LoginPage = () => {
       try {
         const response = await axios.post(apiPath.loginPath(), values);
         const { token } = response.data;
-        localStorage.setItem('chat-token', token);
-        dispatch(setToken(token));
-        auth.logIn();
-        // navigate('/');
-        const from = location.state?.from?.pathname || '/'; // Если нет предыдущего маршрута, редирект на '/'
-        navigate(from);
+        if (token) {
+          setToken(token);
+          dispatch(setToken(token));
+          auth.logIn();
+          console.log('Navigating to home page');
+          navigate('/');
+        }
       } catch (error) {
         formik.setSubmitting(false);
         if (error.isAxiosError && error.response.status === 401) {
