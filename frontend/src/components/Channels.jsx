@@ -1,6 +1,4 @@
-import Nav from 'react-bootstrap/Nav';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
+import { Button, Nav, Col } from 'react-bootstrap';
 import { Plus } from 'react-bootstrap-icons';
 import { useGetChannelsQuery } from '../api/channelsApi';
 
