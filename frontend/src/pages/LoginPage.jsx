@@ -29,7 +29,7 @@ const LoginPage = () => {
       setAuthFailed(false);
 
       try {
-        const response = await axios.post(apiPath.loginPath(), values);
+        const response = await axios.post(apiPath.login(), values);
         const { token } = response.data;
         if (token) {
           setToken(token);
