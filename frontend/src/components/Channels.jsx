@@ -5,7 +5,7 @@ import { Plus } from 'react-bootstrap-icons';
 import { useGetChannelsQuery } from '../api/channelsApi';
 
 const Channels = () => {
-  const channels = useGetChannelsQuery;
+  const { data: channels = [] } = useGetChannelsQuery();
   console.log(channels);
 
   return (
@@ -15,40 +15,22 @@ const Channels = () => {
         <Button
           size="sm"
           variant="outline-primary"
-          onClick={console.log('+')}
         >
           <Plus />
         </Button>
       </div>
       <Nav className="flex-column nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-        <Nav.Item>
-          <Button
-            variant="secondary"
-            className="w-100 rounded-0 text-start"
-          >
-            <span className="me-1">#</span>
-            general
-          </Button>
-        </Nav.Item>
-
-        <Nav.Item>
-          <Button
-            variant="light"
-            className="w-100 rounded-0 text-start"
-          >
-            <span className="me-1">#</span>
-            random
-          </Button>
-        </Nav.Item>
-        <Nav.Item>
-          <Button
-            variant="light"
-            className="w-100 rounded-0 text-start"
-          >
-            <span className="me-1">#</span>
-            111
-          </Button>
-        </Nav.Item>
+        {channels.map((channel) => (
+          <Nav.Item key={channel.id}>
+            <Button
+              variant="light"
+              className="w-100 rounded-0 text-start"
+            >
+              <span className="me-1">#</span>
+              {channel.name}
+            </Button>
+          </Nav.Item>
+        ))}
       </Nav>
     </Col>
   );
