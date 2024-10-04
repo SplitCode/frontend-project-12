@@ -2,7 +2,7 @@ import Nav from 'react-bootstrap/Nav';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { Plus } from 'react-bootstrap-icons';
-import { useGetChannelsQuery } from '../api/getChannels';
+import { useGetChannelsQuery } from '../api/channelsApi';
 
 const Channels = () => {
   const channels = useGetChannelsQuery;
