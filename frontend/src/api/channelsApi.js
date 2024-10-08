@@ -4,14 +4,22 @@ import apiPath from './apiPath';
 
 export const channelsApi = createApi({
   reducerPath: 'channels',
-  baseQuery: fetchBaseQuery({ baseUrl: apiPath.channels(), prepareHeaders }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: apiPath.channels(),
+    prepareHeaders,
+    tagTypes: ['Channels'],
+  }),
   endpoints: (builder) => ({
     getChannels: builder.query({
       query: () => '',
     }),
+    addChannel: builder.mutation({
+      query: (channel) => ({
+        method: 'POST',
+        body: channel,
+      }),
+    }),
   }),
 });
 
-export const {
-  useGetChannelsQuery,
-} = channelsApi;
+export const { useGetChannelsQuery, useAddChannelMutation } = channelsApi;
