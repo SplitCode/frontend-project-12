@@ -1,12 +1,13 @@
-import { useFormik } from 'formik';
+import axios from 'axios';
 import { Button, Form } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { useFormik } from 'formik';
+import useAuth from '../store/hooks/useAuth';
 import loginImage from '../assets/images/login.jpg';
 import apiPath from '../api/apiPath';
-import useAuth from '../store/hooks/useAuth';
 import { setToken } from '../store/slices/authSlice';
 
 const LoginPage = () => {
@@ -15,6 +16,7 @@ const LoginPage = () => {
   const inputRef = useRef();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
     inputRef.current.focus();
@@ -35,7 +37,7 @@ const LoginPage = () => {
           setToken(token);
           dispatch(setToken(token));
           auth.logIn();
-          console.log('Navigating to home page');
+          // console.log('Navigating to home page');
           navigate('/');
         }
       } catch (error) {
@@ -59,12 +61,12 @@ const LoginPage = () => {
                 <img
                   src={loginImage}
                   className="rounded-circle"
-                  alt="Войти"
+                  alt={t('loginForm.login')}
                 />
               </div>
               <Form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={formik.handleSubmit}>
                 <h1 className="text-center mb-4">
-                  Войти
+                  {t('loginForm.login')}
                 </h1>
                 <Form.Group className="form-floating mb-3">
                   <Form.Control
@@ -73,14 +75,14 @@ const LoginPage = () => {
                     type="text"
                     autoComplete="username"
                     required
-                    placeholder="Ваш ник"
+                    placeholder={t('loginForm.username')}
                     className="form-control"
                     onChange={formik.handleChange}
                     value={formik.values.username}
                     isInvalid={authFailed}
                     ref={inputRef}
                   />
-                  <Form.Label htmlFor="username">Ваш ник</Form.Label>
+                  <Form.Label htmlFor="username">{t('loginForm.username')}</Form.Label>
                 </Form.Group>
                 <Form.Group className="form-floating mb-4">
                   <Form.Control
@@ -89,16 +91,19 @@ const LoginPage = () => {
                     type="password"
                     autoComplete="current-password"
                     required
-                    placeholder="Пароль"
+                    placeholder={t('loginForm.password')}
                     className="form-control"
                     onChange={formik.handleChange}
                     value={formik.values.password}
                     isInvalid={authFailed}
                     ref={inputRef}
                   />
-                  <Form.Label htmlFor="password">Пароль</Form.Label>
+                  <Form.Label htmlFor="password">
+                    {' '}
+                    {t('loginForm.password')}
+                  </Form.Label>
                   <Form.Control.Feedback type="invalid">
-                    Неверные имя пользователя или пароль
+                    {t('errors.invalidData')}
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Button
@@ -106,15 +111,18 @@ const LoginPage = () => {
                   variant="outline-primary"
                   className="w-100 mb-3 btn btn-outline-primary"
                 >
-                  Войти
+                  {t('loginForm.login')}
                 </Button>
               </Form>
             </div>
             <div className="card-footer p-4">
               <div className="text-center">
-                <span>Нет аккаунта?</span>
+                <span>{t('loginForm.footerText')}</span>
                 {' '}
-                <NavLink to="/signup">Регистрация</NavLink>
+                <NavLink to="/signup">
+                  {' '}
+                  {t('loginForm.signUp')}
+                </NavLink>
               </div>
             </div>
           </div>

@@ -1,14 +1,20 @@
 import i18n from 'i18next';
-// import { initReactI18next } from 'react-i18next';
-import resources from './locales/ru.js';
+import { initReactI18next } from 'react-i18next';
+import resources from './locales';
 // import io from 'socket.io-client';
 
-export default async () => {
+const init = async () => {
   const defaultLanguage = 'ru';
 
   const i18nInstance = i18n.createInstance();
-  await i18nInstance.init({
+  await i18nInstance.use(initReactI18next).init({
     lng: defaultLanguage,
     resources,
+    interpolation: {
+      escapeValue: false,
+    },
+    debug: true,
   });
 };
+
+export default init;

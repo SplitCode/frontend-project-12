@@ -1,22 +1,27 @@
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import notFoundImage from '../assets/images/notFound.jpg';
 
-const NotFoundPage = () => (
-  <div className="text-center">
-    <img
-      alt="Страница не найдена"
-      className="img-fluid h-25"
-      src={notFoundImage}
-      width="227"
-      height="227"
-    />
-    <h1 className="h4 text-muted">Страница не найдена</h1>
-    <p className="text-muted">
-      Но вы можете перейти
-      {' '}
-      <NavLink to="/">на главную страницу</NavLink>
-    </p>
-  </div>
-);
+const NotFoundPage = () => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="text-center">
+      <img
+        alt={t('notFoundPage.title')}
+        className="img-fluid h-25"
+        src={notFoundImage}
+        width="227"
+        height="227"
+      />
+      <h1 className="h4 text-muted">{t('notFoundPage.title')}</h1>
+      <p className="text-muted">
+        {t('notFoundPage.proposal')}
+        {' '}
+        <NavLink to="/">{t('notFoundPage.direct')}</NavLink>
+      </p>
+    </div>
+  );
+};
 
 export default NotFoundPage;

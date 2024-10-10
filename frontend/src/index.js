@@ -5,12 +5,16 @@ import { Provider } from 'react-redux';
 import router from './router/router';
 import store from './store/store';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import init from './init';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
-  </React.StrictMode>,
-);
+
+init().then(() => {
+  root.render(
+    <React.StrictMode>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </React.StrictMode>,
+  );
+});
