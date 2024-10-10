@@ -10,6 +10,13 @@ const translation = {
       footerText: 'Нет аккаунта?',
       signUp: 'Регистрация',
     },
+    signUpForm: {
+      signUp: 'Регистрация',
+      username: 'Имя пользователя',
+      password: 'Пароль',
+      confirmPassword: 'Подтвердите пароль',
+      signUpBtn: 'Зарегистрироваться',
+    },
     notFoundPage: {
       title: 'Страница не найдена',
       proposal: 'Но вы можете перейти',
@@ -18,6 +25,7 @@ const translation = {
     errors: {
       invalidData: 'Неверные имя пользователя или пароль',
     },
+    toasts: {},
   },
 };
 
