@@ -39,6 +39,7 @@ const LoginPage = () => {
           setToken(token);
           dispatch(setToken(token));
           auth.logIn();
+          notify();
           // console.log('Navigating to home page');
           navigate('/');
         }
@@ -115,7 +116,6 @@ const LoginPage = () => {
                 >
                   {t('loginForm.login')}
                 </Button>
-                <button type="button" onClick={notify}>Notify!</button>
               </Form>
             </div>
             <div className="card-footer p-4">
