@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios';
 import { Button, Form } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
@@ -8,8 +8,9 @@ import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import useAuth from '../store/hooks/useAuth';
 import loginImage from '../assets/images/login.jpg';
-import apiPath from '../api/apiPath';
+// import apiPath from '../api/apiPath';
 import { setToken } from '../store/slices/authSlice';
+import { useLoginMutation } from '../api/authApi';
 
 const LoginPage = () => {
   const auth = useAuth();
@@ -19,6 +20,7 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const notify = () => toast('Wow so easy!');
+  const [login] = useLoginMutation();
 
   useEffect(() => {
     inputRef.current.focus();
@@ -33,9 +35,10 @@ const LoginPage = () => {
       setAuthFailed(false);
 
       try {
-        const response = await axios.post(apiPath.login(), values);
-        const { token } = response.data;
-        if (token) {
+        const { data, error } = await login(values);
+
+        if (data) {
+          const { token } = data;
           setToken(token);
           dispatch(setToken(token));
           auth.logIn();
@@ -43,13 +46,17 @@ const LoginPage = () => {
           // console.log('Navigating to home page');
           navigate('/');
         }
-      } catch (error) {
-        formik.setSubmitting(false);
-        if (error.isAxiosError && error.response.status === 401) {
-          setAuthFailed(true);
-          inputRef.current.select();
+        if (error) {
+          formik.setSubmitting(false);
+          if (error.status === 401) {
+            setAuthFailed(true);
+            inputRef.current.select();
+          }
         }
-        throw error;
+      } catch (err) {
+        console.error('Login error', err);
+        formik.setSubmitting(false);
+        setAuthFailed(true);
       }
     },
   });
