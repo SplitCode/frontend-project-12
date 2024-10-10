@@ -3,7 +3,7 @@ import prepareHeaders from '../helpers/prepareHeaders';
 import apiPath from './apiPath';
 
 export const messagesApi = createApi({
-  reducerPath: 'messages',
+  reducerPath: 'messagesApi',
   baseQuery: fetchBaseQuery({
     baseUrl: apiPath.messages(),
     prepareHeaders,

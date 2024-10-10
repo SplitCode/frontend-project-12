@@ -3,7 +3,7 @@ import prepareHeaders from '../helpers/prepareHeaders';
 import apiPath from './apiPath';
 
 export const channelsApi = createApi({
-  reducerPath: 'channels',
+  reducerPath: 'channelsApi',
   baseQuery: fetchBaseQuery({
     baseUrl: apiPath.channels(),
     prepareHeaders,
