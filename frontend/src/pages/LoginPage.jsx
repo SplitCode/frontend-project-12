@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import useAuth from '../store/hooks/useAuth';
 import loginImage from '../assets/images/login.jpg';
 // import apiPath from '../api/apiPath';
@@ -19,7 +19,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const notify = () => toast('Wow so easy!');
+  // const notify = () => toast('Wow so easy!');
   const [login] = useLoginMutation();
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const LoginPage = () => {
           setToken(token);
           dispatch(setToken(token));
           auth.logIn();
-          notify();
+          // notify();
           // console.log('Navigating to home page');
           navigate('/');
         }
