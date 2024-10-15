@@ -25,8 +25,10 @@ const App = () => {
         draggable
       />
       <AuthProvider>
-        <Header />
-        <Outlet />
+        <div className="d-flex flex-column h-100">
+          <Header />
+          <Outlet />
+        </div>
       </AuthProvider>
     </>
   );
