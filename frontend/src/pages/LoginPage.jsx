@@ -31,6 +31,7 @@ const LoginPage = () => {
       setAuthFailed(false);
       try {
         const { data, error } = await login(values);
+
         if (data) {
           const { token } = data;
           dispatch(setToken(token));

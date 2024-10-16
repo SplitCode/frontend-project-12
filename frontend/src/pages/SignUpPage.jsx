@@ -18,12 +18,8 @@ const SignUpPage = () => {
 
   const SignupSchema = object().shape({
     username: string().min(3, t('errors.minMaxLength')).max(20, t('errors.minMaxLength')).required(t('errors.required')),
-    password: string()
-      .min(6, t('errors.minLength'))
-      .required(t('errors.required')),
-    confirmPassword: string()
-      .oneOf([ref('password')], t('errors.passwordMatch'))
-      .required(t('errors.required')),
+    password: string().min(6, t('errors.minLength')).required(t('errors.required')),
+    confirmPassword: string().oneOf([ref('password')], t('errors.passwordMatch')).required(t('errors.required')),
   });
 
   const formik = useFormik({
@@ -34,24 +30,19 @@ const SignUpPage = () => {
     },
     validationSchema: SignupSchema,
     onSubmit: async (values) => {
-      console.log('submit', values);
       try {
         const { data, error } = await signup(values);
 
         if (data) {
           const { token } = data;
-          setToken(token);
           dispatch(setToken(token));
           auth.logIn();
           navigate('/');
         }
-        if (error) {
-          if (error.status === 409) {
-            formik.setErrors({ username: t('errors.userExists') });
-          }
+        if (error ?? error.status === 409) {
+          formik.setErrors({ username: t('errors.userExists') });
         }
       } catch (err) {
-        console.error('Signup error', err);
         formik.setSubmitting(false);
       }
     },
