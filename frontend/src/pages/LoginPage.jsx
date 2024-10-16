@@ -1,4 +1,3 @@
-// import axios from 'axios';
 import { Button, Form } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
@@ -28,29 +27,23 @@ const LoginPage = () => {
       username: '',
       password: '',
     },
-    onSubmit: async (values) => {
+    onSubmit: async (values, { setSubmitting, setFieldError }) => {
       setAuthFailed(false);
-
       try {
         const { data, error } = await login(values);
-
         if (data) {
           const { token } = data;
-          setToken(token);
           dispatch(setToken(token));
           auth.logIn();
           navigate('/');
         }
-        if (error) {
-          formik.setSubmitting(false);
-          if (error.status === 401) {
-            setAuthFailed(true);
-            inputRef.current.select();
-          }
+        if (error && error.status === 401) {
+          setFieldError('username', t('errors.invalidData'));
+          setAuthFailed(true);
+          inputRef.current.select();
         }
       } catch (err) {
-        console.error('Login error', err);
-        formik.setSubmitting(false);
+        setSubmitting(false);
         setAuthFailed(true);
       }
     },
@@ -88,6 +81,11 @@ const LoginPage = () => {
                     ref={inputRef}
                   />
                   <Form.Label htmlFor="username">{t('loginForm.username')}</Form.Label>
+                  {formik.touched.username && formik.errors.username && (
+                    <Form.Control.Feedback tooltip type="invalid">
+                      {formik.errors.username}
+                    </Form.Control.Feedback>
+                  )}
                 </Form.Group>
                 <Form.Group className="form-floating mb-4">
                   <Form.Control
@@ -101,20 +99,21 @@ const LoginPage = () => {
                     onChange={formik.handleChange}
                     value={formik.values.password}
                     isInvalid={authFailed}
-                    ref={inputRef}
                   />
                   <Form.Label htmlFor="password">
-                    {' '}
+                    {/* {' '} */}
                     {t('loginForm.password')}
                   </Form.Label>
-                  <Form.Control.Feedback type="invalid">
-                    {t('errors.invalidData')}
-                  </Form.Control.Feedback>
+                  {formik.touched.password && formik.errors.password && (
+                    <Form.Control.Feedback tooltip type="invalid">
+                      {formik.errors.password}
+                    </Form.Control.Feedback>
+                  )}
                 </Form.Group>
                 <Button
                   type="submit"
                   variant="outline-primary"
-                  className="w-100 mb-3 btn btn-outline-primary"
+                  className="w-100 mb-3"
                 >
                   {t('loginForm.login')}
                 </Button>
