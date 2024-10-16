@@ -4,9 +4,11 @@ import { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import Header from './components/Header';
 import { AuthProvider } from './contexts/AuthContext';
-import socket from './socket';
+import { useSocket } from './contexts/SocketContext';
 
 const App = () => {
+  const socket = useSocket();
+
   useEffect(() => {
     socket.on('newMessage', (payload) => {
       console.log('connected');
@@ -16,7 +18,7 @@ const App = () => {
     return () => {
       socket.off('newMessage');
     };
-  }, []);
+  }, [socket]);
 
   return (
     <>

@@ -1,15 +1,15 @@
-import { io } from 'socket.io-client';
+// import { io } from 'socket.io-client';
 
-const SOCKET_URL = 'http://localhost:3000';
+// const SOCKET_URL = 'http://localhost:3000';
 
-const socket = io(SOCKET_URL);
+// const socket = io(SOCKET_URL);
 
-socket.on('connect', () => {
-  console.log('Connected to socket server');
-});
+// socket.on('connect', () => {
+//   console.log('Connected to socket server');
+// });
 
-socket.on('disconnect', () => {
-  console.log('Disconnected from socket server');
-});
+// socket.on('disconnect', () => {
+//   console.log('Disconnected from socket server');
+// });
 
-export default socket;
+// export default socket;

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { Provider as ReduxProvider } from 'react-redux';
+import { SocketProvider } from './contexts/SocketContext';
 import router from './router/router';
 import store from './store/store';
 import init from './init';
@@ -17,13 +18,15 @@ const rollbarConfig = {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-init().then(() => {
+init().then(({ socket }) => {
   root.render(
     <React.StrictMode>
       <RollbarProvider config={rollbarConfig}>
         <ErrorBoundary>
           <ReduxProvider store={store}>
-            <RouterProvider router={router} />
+            <SocketProvider socket={socket}>
+              <RouterProvider router={router} />
+            </SocketProvider>
           </ReduxProvider>
         </ErrorBoundary>
       </RollbarProvider>

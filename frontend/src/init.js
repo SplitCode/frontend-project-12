@@ -1,7 +1,9 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import io from 'socket.io-client';
 import resources from './locales';
-// import io from 'socket.io-client';
+
+const SOCKET_URL = 'http://localhost:3000';
 
 const init = async () => {
   const i18nInstance = i18n.createInstance();
@@ -13,6 +15,18 @@ const init = async () => {
     },
     debug: true,
   });
+
+  const socket = io(SOCKET_URL);
+
+  socket.on('connect', () => {
+    console.log('Connected to socket server');
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Disconnected from socket server');
+  });
+
+  return { i18nInstance, socket };
 };
 
 export default init;
