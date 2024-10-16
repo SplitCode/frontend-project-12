@@ -28,6 +28,7 @@ const translation = {
       required: 'Обязательное поле',
       minLength: 'Не менее 6 символов',
       passwordMatch: 'Пароли должны совпадать',
+      userExists: 'Такой пользователь уже существует',
     },
     toasts: {},
   },

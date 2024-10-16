@@ -5,10 +5,8 @@ import { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-// import { toast } from 'react-toastify';
 import useAuth from '../store/hooks/useAuth';
 import loginImage from '../assets/images/login.jpg';
-// import apiPath from '../api/apiPath';
 import { setToken } from '../store/slices/authSlice';
 import { useLoginMutation } from '../api/authApi';
 
@@ -19,7 +17,6 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  // const notify = () => toast('Wow so easy!');
   const [login] = useLoginMutation();
 
   useEffect(() => {

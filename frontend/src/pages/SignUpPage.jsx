@@ -1,17 +1,20 @@
 import { Button, Form } from 'react-bootstrap';
-// import { useDispatch } from 'react-redux';
-// import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-// import { toast } from 'react-toastify';
-// import * as yup from 'yup';
 import { object, string, ref } from 'yup';
 import signUpImage from '../assets/images/signUp.jpg';
+import { useSignupMutation } from '../api/authApi';
+import useAuth from '../store/hooks/useAuth';
+import { setToken } from '../store/slices/authSlice';
 
 const SignUpPage = () => {
-  // const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const auth = useAuth();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { t } = useTranslation();
+  const [signup] = useSignupMutation();
 
   const SignupSchema = object().shape({
     username: string().min(3, t('errors.minMaxLength')).max(20, t('errors.minMaxLength')).required(t('errors.required')),
@@ -32,23 +35,25 @@ const SignUpPage = () => {
     validationSchema: SignupSchema,
     onSubmit: async (values) => {
       console.log('submit', values);
-      // try {
-      //   const { data, error } = await signup(values);
+      try {
+        const { data, error } = await signup(values);
 
-      //   if (data) {
-      //     auth.logIn();
-      //     navigate('/');
-      //   }
-      //   if (error) {
-      //     formik.setSubmitting(false);
-      //     if (error.status === 409) {
-      //       notify();
-      //     }
-      //   }
-      // } catch (err) {
-      //   console.error('Login error', err);
-      //   formik.setSubmitting(false);
-      // }
+        if (data) {
+          const { token } = data;
+          setToken(token);
+          dispatch(setToken(token));
+          auth.logIn();
+          navigate('/');
+        }
+        if (error) {
+          if (error.status === 409) {
+            formik.setErrors({ username: t('errors.userExists') });
+          }
+        }
+      } catch (err) {
+        console.error('Signup error', err);
+        formik.setSubmitting(false);
+      }
     },
   });
 
