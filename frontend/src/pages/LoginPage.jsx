@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import useAuth from '../store/hooks/useAuth';
+import { useAuth } from '../store/hooks/hooks';
 import loginImage from '../assets/images/login.jpg';
 import { setToken } from '../store/slices/authSlice';
 import { useLoginMutation } from '../api/authApi';

@@ -1,6 +1,6 @@
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../store/hooks/useAuth';
+import { useAuth } from '../store/hooks/hooks';
 
 const LogoutButton = () => {
   const auth = useAuth();

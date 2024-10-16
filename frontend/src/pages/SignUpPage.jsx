@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import { object, string, ref } from 'yup';
 import signUpImage from '../assets/images/signUp.jpg';
 import { useSignupMutation } from '../api/authApi';
-import useAuth from '../store/hooks/useAuth';
+import { useAuth } from '../store/hooks/hooks';
 import { setToken } from '../store/slices/authSlice';
 
 const SignUpPage = () => {

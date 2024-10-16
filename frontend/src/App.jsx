@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import Header from './components/Header';
 import { AuthProvider } from './contexts/AuthContext';
-import { useSocket } from './contexts/SocketContext';
+import { useSocket } from './store/hooks/hooks';
 
 const App = () => {
   const socket = useSocket();
