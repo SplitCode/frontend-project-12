@@ -5,19 +5,50 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 // import { toast } from 'react-toastify';
 // import * as yup from 'yup';
+import { object, string, ref } from 'yup';
 import signUpImage from '../assets/images/signUp.jpg';
 
 const SignUpPage = () => {
   // const navigate = useNavigate();
   // const dispatch = useDispatch();
   const { t } = useTranslation();
-  // const notify = () => toast('Wow so easy!');
+
+  const SignupSchema = object().shape({
+    username: string().min(3, t('errors.minMaxLength')).max(20, t('errors.minMaxLength')).required(t('errors.required')),
+    password: string()
+      .min(6, t('errors.minLength'))
+      .required(t('errors.required')),
+    confirmPassword: string()
+      .oneOf([ref('password')], t('errors.passwordMatch'))
+      .required(t('errors.required')),
+  });
 
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
       confirmPassword: '',
+    },
+    validationSchema: SignupSchema,
+    onSubmit: async (values) => {
+      console.log('submit', values);
+      // try {
+      //   const { data, error } = await signup(values);
+
+      //   if (data) {
+      //     auth.logIn();
+      //     navigate('/');
+      //   }
+      //   if (error) {
+      //     formik.setSubmitting(false);
+      //     if (error.status === 409) {
+      //       notify();
+      //     }
+      //   }
+      // } catch (err) {
+      //   console.error('Login error', err);
+      //   formik.setSubmitting(false);
+      // }
     },
   });
 
@@ -54,7 +85,7 @@ const SignUpPage = () => {
                   />
                   <Form.Label htmlFor="username">{t('signUpForm.username')}</Form.Label>
                   <Form.Control.Feedback tooltip type="invalid">
-                    {t('errors.invalidData')}
+                    {formik.errors.username}
                   </Form.Control.Feedback>
                 </Form.Group>
 
@@ -76,8 +107,8 @@ const SignUpPage = () => {
                     {' '}
                     {t('signUpForm.password')}
                   </Form.Label>
-                  <Form.Control.Feedback type="invalid">
-                    {t('errors.invalidData')}
+                  <Form.Control.Feedback tooltip type="invalid">
+                    {formik.errors.password}
                   </Form.Control.Feedback>
                 </Form.Group>
 
@@ -95,12 +126,12 @@ const SignUpPage = () => {
                     isInvalid={formik.touched.confirmPassword
                       && formik.values.confirmPassword && formik.errors.confirmPassword}
                   />
-                  <Form.Label htmlFor="password">
+                  <Form.Label htmlFor="confirmPassword">
                     {' '}
                     {t('signUpForm.confirmPassword')}
                   </Form.Label>
-                  <Form.Control.Feedback type="invalid">
-                    {t('errors.invalidData')}
+                  <Form.Control.Feedback tooltip type="invalid">
+                    {formik.errors.confirmPassword}
                   </Form.Control.Feedback>
                 </Form.Group>
 

@@ -42,8 +42,6 @@ const LoginPage = () => {
           setToken(token);
           dispatch(setToken(token));
           auth.logIn();
-          // notify();
-          // console.log('Navigating to home page');
           navigate('/');
         }
         if (error) {

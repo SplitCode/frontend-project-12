@@ -24,6 +24,10 @@ const translation = {
     },
     errors: {
       invalidData: 'Неверные имя пользователя или пароль',
+      minMaxLength: 'От 3 до 20 символов',
+      required: 'Обязательное поле',
+      minLength: 'Не менее 6 символов',
+      passwordMatch: 'Пароли должны совпадать',
     },
     toasts: {},
   },
