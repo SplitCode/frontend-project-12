@@ -9,10 +9,11 @@ import { useSocket } from '../store/hooks/hooks';
 
 const Messages = () => {
   const { t } = useTranslation();
+  const { data: messages = [], refetch } = useGetMessagesQuery();
+
   const currentChannel = useSelector((state) => state.channel.currentChannel);
   const username = useSelector((state) => state.auth.username);
-
-  const { data: messages = [], refetch } = useGetMessagesQuery();
+  const channelMessages = messages.filter((message) => message.channelId === currentChannel.id);
   console.log(messages);
   const [addMessage] = useAddMessageMutation();
   const socket = useSocket();
@@ -61,10 +62,10 @@ const Messages = () => {
               {currentChannel.name}
             </b>
           </p>
-          <span className="text-muted">{`${t('chat.messages', { count: messages.length })}`}</span>
+          <span className="text-muted">{t('chat.messages', { count: channelMessages.length })}</span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
-          {messages.map((message) => (
+          {channelMessages.map((message) => (
             <div key={message.id} className="text-break mb-2">
               <b>
                 {message.username}
