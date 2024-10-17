@@ -2,11 +2,15 @@ import { Col, Form } from 'react-bootstrap';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { useGetMessagesQuery, useAddMessageMutation } from '../api/messagesApi';
 
 const Messages = () => {
   const { t } = useTranslation();
-  const { data: messages = [] } = useGetMessagesQuery();
+  const currentChannel = useSelector((state) => state.channel.currentChannel);
+  const username = useSelector((state) => state.auth.username);
+
+  const { data: messages = [] } = useGetMessagesQuery(currentChannel.id); // ????
   console.log(messages);
 
   const [addMessage] = useAddMessageMutation();
@@ -20,8 +24,8 @@ const Messages = () => {
         const { message } = values;
         const data = {
           message,
-          channelId: '1',
-          username: 'admin',
+          channelId: currentChannel.id,
+          username,
         };
         await addMessage(data);
         resetForm();
@@ -37,12 +41,25 @@ const Messages = () => {
       <div className="d-flex flex-column h-100">
         <div className="bg-light mb-4 p-3 shadow-sm small">
           <p className="m-0">
-            <b>#general</b>
+            <b>
+              &#35;
+              {' '}
+              {currentChannel.name}
+            </b>
           </p>
           <span className="text-muted">{`${t('chat.messages', { count: messages.length })}`}</span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
-          Сообщения
+          {messages.map((message) => (
+            <div key={message.id} className="text-break mb-2">
+              <b>
+                {message.username}
+                :
+              </b>
+              {' '}
+              {message}
+            </div>
+          ))}
         </div>
         <div className="mt-auto px-5 py-3">
           <Form
