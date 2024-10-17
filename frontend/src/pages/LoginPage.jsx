@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { useAuth } from '../store/hooks/hooks';
 import loginImage from '../assets/images/login.jpg';
-import { setToken } from '../store/slices/authSlice';
+import { setToken, setUsername } from '../store/slices/authSlice';
 import { useLoginMutation } from '../api/authApi';
 
 const LoginPage = () => {
@@ -33,8 +33,9 @@ const LoginPage = () => {
         const { data, error } = await login(values);
 
         if (data) {
-          const { token } = data;
+          const { token, username } = data;
           dispatch(setToken(token));
+          dispatch(setUsername(username));
           auth.logIn();
           navigate('/');
         }
