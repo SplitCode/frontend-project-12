@@ -7,8 +7,8 @@ export const channelsApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: apiPath.channels(),
     prepareHeaders,
-    tagTypes: ['Channels'],
   }),
+  tagTypes: ['Channels'],
   endpoints: (builder) => ({
     getChannels: builder.query({
       query: () => '',

@@ -7,14 +7,15 @@ export const messagesApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: apiPath.messages(),
     prepareHeaders,
-    tagTypes: ['Messages'],
   }),
+  tagTypes: ['Messages'],
+
   endpoints: (builder) => ({
     getMessages: builder.query({
       query: () => '',
     }),
+
     addMessage: builder.mutation({
-      // { body: 'new message', channelId: '1', username: 'admin };
       query: (message) => ({
         method: 'POST',
         body: message,

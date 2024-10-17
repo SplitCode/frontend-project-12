@@ -3,17 +3,30 @@ import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import { useGetMessagesQuery, useAddMessageMutation } from '../api/messagesApi';
+import { useSocket } from '../store/hooks/hooks';
 
 const Messages = () => {
   const { t } = useTranslation();
   const currentChannel = useSelector((state) => state.channel.currentChannel);
   const username = useSelector((state) => state.auth.username);
 
-  const { data: messages = [] } = useGetMessagesQuery(currentChannel.id); // ????
+  const { data: messages = [] } = useGetMessagesQuery();
   console.log(messages);
-
   const [addMessage] = useAddMessageMutation();
+  const socket = useSocket();
+
+  useEffect(() => {
+    socket.on('newMessage', (payload) => {
+      console.log('connected');
+      console.log(payload);
+    });
+
+    return () => {
+      socket.off('newMessage');
+    };
+  }, [socket]);
 
   const formik = useFormik({
     initialValues: {
@@ -57,7 +70,7 @@ const Messages = () => {
                 :
               </b>
               {' '}
-              {message}
+              {message.message}
             </div>
           ))}
         </div>
@@ -65,7 +78,7 @@ const Messages = () => {
           <Form
             noValidate
             className="py-1 border rounded-2"
-            onSubmit={formik.onSubmit}
+            onSubmit={formik.handleSubmit}
           >
             <Form.Group className="input-group has-validation">
               <Form.Control
