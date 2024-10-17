@@ -14,6 +14,7 @@ export const messagesApi = createApi({
       query: () => '',
     }),
     addMessage: builder.mutation({
+      // { body: 'new message', channelId: '1', username: 'admin };
       query: (message) => ({
         method: 'POST',
         body: message,

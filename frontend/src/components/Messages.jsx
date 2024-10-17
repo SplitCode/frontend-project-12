@@ -2,20 +2,37 @@ import { Col, Form } from 'react-bootstrap';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { useGetMessagesQuery } from '../api/messagesApi';
+import { useGetMessagesQuery, useAddMessageMutation } from '../api/messagesApi';
 
 const Messages = () => {
   const { t } = useTranslation();
   const { data: messages = [] } = useGetMessagesQuery();
   console.log(messages);
 
+  const [addMessage] = useAddMessageMutation();
+
   const formik = useFormik({
     initialValues: {
       message: '',
     },
-    onSubmit: async (values, { setSubmitting }) => {
-      console.log(values);
-      setSubmitting(true);
+    onSubmit: async (values, { setSubmitting, resetForm }) => {
+      try {
+        const { message } = values;
+        // const data = {
+        //   message,
+        //   channelId: '1',
+        //   username: 'admin',
+        // };
+        await addMessage({
+          message,
+          channelId: '1',
+          username: 'admin',
+        });
+        resetForm();
+      } catch (error) {
+        console.error(error);
+      }
+      setSubmitting(false);
     },
   });
 
@@ -26,7 +43,7 @@ const Messages = () => {
           <p className="m-0">
             <b>#general</b>
           </p>
-          <span className="text-muted">0 сообщений</span>
+          <span className="text-muted">{`${t('chat.messages', { count: messages.length })}`}</span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
           Сообщения

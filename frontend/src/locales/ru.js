@@ -23,6 +23,9 @@ const translation = {
       newMessage: 'Новое сообщение',
       enterMessage: 'Введите сообщение...',
       send: 'Отправить',
+      messages_one: '{{count}} сообщение',
+      messages_few: '{{count}} сообщения',
+      messages_many: '{{count}} сообщений',
     },
     notFoundPage: {
       title: 'Страница не найдена',
