@@ -18,6 +18,9 @@ const translation = {
       confirmPassword: 'Подтвердите пароль',
       signUpBtn: 'Зарегистрироваться',
     },
+    chat: {
+      channels: 'Каналы',
+    },
     notFoundPage: {
       title: 'Страница не найдена',
       proposal: 'Но вы можете перейти',
