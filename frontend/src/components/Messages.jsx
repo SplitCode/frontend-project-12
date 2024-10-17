@@ -20,7 +20,6 @@ const Messages = () => {
 
   useEffect(() => {
     socket.on('newMessage', (payload) => {
-      console.log('connected');
       console.log(payload);
       refetch();
     });
@@ -90,6 +89,7 @@ const Messages = () => {
                 className="border-0 p-0 ps-2"
                 value={formik.values.message}
                 onChange={formik.handleChange}
+                disabled={formik.isSubmitting}
               />
               <button type="submit" className="btn btn-group-vertical">
                 <ArrowRightSquare />
