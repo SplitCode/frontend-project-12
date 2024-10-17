@@ -41,6 +41,15 @@ const translation = {
       userExists: 'Такой пользователь уже существует',
     },
     toasts: {},
+    modals: {
+      addChannel: 'Добавить канал',
+      removeChannel: 'Удалить канал',
+      channelName: 'Имя канала',
+      cancel: 'Отменить',
+      send: 'Отправить',
+      remove: 'Удалить',
+      text: 'Уверены?',
+    },
   },
 };
 

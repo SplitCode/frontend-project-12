@@ -86,7 +86,7 @@ const Messages = () => {
                 name="message"
                 aria-label={t('chat.newMessage')}
                 placeholder={t('chat.enterMessage')}
-                className="border-0 p-0 ps-2"
+                className="border-0 p-0 ps-2 form-control"
                 value={formik.values.message}
                 onChange={formik.handleChange}
                 disabled={formik.isSubmitting}
