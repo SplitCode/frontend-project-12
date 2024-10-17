@@ -31,7 +31,7 @@ const Channels = () => {
         {channels.map((channel) => (
           <Nav.Item key={channel.id}>
             <Button
-              variant={currentChannel.id === channel.id ? 'primary' : 'light'}
+              variant={currentChannel.id === channel.id ? 'secondary' : 'light'}
               className="w-100 rounded-0 text-start"
               onClick={() => handleChannelClick(channel)}
             >
