@@ -1,15 +1,20 @@
 import { Button, Nav, Col } from 'react-bootstrap';
 import { Plus } from 'react-bootstrap-icons';
 import { useTranslation } from 'react-i18next';
-
+import { useSelector, useDispatch } from 'react-redux';
 import { useGetChannelsQuery } from '../api/channelsApi';
-
+import { setCurrentChannel } from '../store/slices/channelsSlice';
 
 const Channels = () => {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const { data: channels = [] } = useGetChannelsQuery();
   console.log(channels);
+  const currentChannel = useSelector((state) => state.channel.currentChannel);
 
+  const handleChannelClick = (channel) => {
+    dispatch(setCurrentChannel(channel));
+  };
 
   return (
     <Col xs="4" md="2" className="border-end px-0 bg-light flex-column h-100 d-flex">
@@ -26,8 +31,9 @@ const Channels = () => {
         {channels.map((channel) => (
           <Nav.Item key={channel.id}>
             <Button
-              variant="light"
+              variant={currentChannel.id === channel.id ? 'primary' : 'light'}
               className="w-100 rounded-0 text-start"
+              onClick={() => handleChannelClick(channel)}
             >
               <span className="me-1">&#35;</span>
               {channel.name}
