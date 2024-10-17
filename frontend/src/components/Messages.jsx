@@ -12,7 +12,7 @@ const Messages = () => {
   const currentChannel = useSelector((state) => state.channel.currentChannel);
   const username = useSelector((state) => state.auth.username);
 
-  const { data: messages = [] } = useGetMessagesQuery();
+  const { data: messages = [], refetch } = useGetMessagesQuery();
   console.log(messages);
   const [addMessage] = useAddMessageMutation();
   const socket = useSocket();
@@ -21,12 +21,13 @@ const Messages = () => {
     socket.on('newMessage', (payload) => {
       console.log('connected');
       console.log(payload);
+      refetch();
     });
 
     return () => {
       socket.off('newMessage');
     };
-  }, [socket]);
+  }, [socket, refetch]);
 
   const formik = useFormik({
     initialValues: {
