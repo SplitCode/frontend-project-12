@@ -20,6 +20,9 @@ const translation = {
     },
     chat: {
       channels: 'Каналы',
+      newMessage: 'Новое сообщение',
+      enterMessage: 'Введите сообщение...',
+      send: 'Отправить',
     },
     notFoundPage: {
       title: 'Страница не найдена',

@@ -1,10 +1,23 @@
-import { Button, Col, Form } from 'react-bootstrap';
+import { Col, Form } from 'react-bootstrap';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
+import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { useGetMessagesQuery } from '../api/messagesApi';
 
 const Messages = () => {
+  const { t } = useTranslation();
   const { data: messages = [] } = useGetMessagesQuery();
   console.log(messages);
+
+  const formik = useFormik({
+    initialValues: {
+      message: '',
+    },
+    onSubmit: async (values, { setSubmitting }) => {
+      console.log(values);
+      setSubmitting(true);
+    },
+  });
 
   return (
     <Col className="p-0 h-100">
@@ -22,19 +35,21 @@ const Messages = () => {
           <Form
             noValidate
             className="py-1 border rounded-2"
+            onSubmit={formik.onSubmit}
           >
-            <Form.Group className="input-group">
+            <Form.Group className="input-group has-validation">
               <Form.Control
-                name="messageBody"
-                autoComplete="off"
-                aria-label="Новое сообщение"
-                placeholder="Введите сообщение..."
+                name="message"
+                aria-label={t('chat.newMessage')}
+                placeholder={t('chat.enterMessage')}
                 className="border-0 p-0 ps-2"
+                value={formik.values.message}
+                onChange={formik.handleChange}
               />
-              <Button type="submit" variant="light" className="border-0">
-                <span className="visually-hidden">Отправить</span>
+              <button type="submit" className="btn btn-group-vertical">
                 <ArrowRightSquare />
-              </Button>
+                <span className="visually-hidden">{t('chat.send')}</span>
+              </button>
             </Form.Group>
           </Form>
         </div>
