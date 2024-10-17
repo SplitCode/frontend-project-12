@@ -1,12 +1,15 @@
 import { Button, Nav, Col } from 'react-bootstrap';
 import { Plus } from 'react-bootstrap-icons';
 import { useTranslation } from 'react-i18next';
+
 import { useGetChannelsQuery } from '../api/channelsApi';
+
 
 const Channels = () => {
   const { t } = useTranslation();
   const { data: channels = [] } = useGetChannelsQuery();
   console.log(channels);
+
 
   return (
     <Col xs="4" md="2" className="border-end px-0 bg-light flex-column h-100 d-flex">

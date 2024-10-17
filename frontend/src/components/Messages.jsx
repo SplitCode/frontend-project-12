@@ -18,16 +18,12 @@ const Messages = () => {
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
         const { message } = values;
-        // const data = {
-        //   message,
-        //   channelId: '1',
-        //   username: 'admin',
-        // };
-        await addMessage({
+        const data = {
           message,
           channelId: '1',
           username: 'admin',
-        });
+        };
+        await addMessage(data);
         resetForm();
       } catch (error) {
         console.error(error);
