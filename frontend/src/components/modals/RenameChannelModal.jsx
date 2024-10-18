@@ -7,10 +7,10 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-const AddChannelModal = (props) => {
+const RenameChannelModal = (props) => {
   const { t } = useTranslation();
-  const { onHide } = props;
   const inputRef = useRef();
+  const { onHide } = props;
 
   const formik = useFormik({
     initialValues: {
@@ -23,13 +23,13 @@ const AddChannelModal = (props) => {
   });
 
   useEffect(() => {
-    inputRef.current.focus();
+    inputRef.current.select();
   }, []);
 
   return (
     <Modal show onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>{t('modals.addChannel')}</Modal.Title>
+        <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
@@ -69,4 +69,4 @@ const AddChannelModal = (props) => {
   );
 };
 
-export default AddChannelModal;
+export default RenameChannelModal;

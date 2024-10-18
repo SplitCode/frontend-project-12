@@ -44,6 +44,7 @@ const translation = {
     modals: {
       addChannel: 'Добавить канал',
       removeChannel: 'Удалить канал',
+      renameChannel: 'Переименовать канал',
       channelName: 'Имя канала',
       cancel: 'Отменить',
       send: 'Отправить',
