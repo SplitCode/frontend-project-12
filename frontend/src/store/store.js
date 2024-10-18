@@ -5,11 +5,13 @@ import { authApi } from '../api/authApi';
 
 import authReducer from './slices/authSlice';
 import channelReducer from './slices/channelsSlice';
+import modalsReducer from './slices/modalsSlice';
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
     channel: channelReducer,
+    modals: modalsReducer,
     [authApi.reducerPath]: authApi.reducer,
     [channelsApi.reducerPath]: channelsApi.reducer,
     [messagesApi.reducerPath]: messagesApi.reducer,
