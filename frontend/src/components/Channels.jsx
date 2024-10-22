@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { PlusSquare } from 'react-bootstrap-icons';
 import { useGetChannelsQuery } from '../api/channelsApi';
 import { setCurrentChannel } from '../store/slices/channelsSlice';
+import { setShowModal } from '../store/slices/modalsSlice';
+import AddChannelModal from './modals/AddChannelModal';
 
 const Channels = () => {
   const dispatch = useDispatch();
@@ -12,8 +14,13 @@ const Channels = () => {
   console.log(channels);
   const currentChannel = useSelector((state) => state.channel.currentChannel);
 
-  const handleChannelClick = (channel) => {
+  const selectChannel = (channel) => {
     dispatch(setCurrentChannel(channel));
+  };
+
+  const addChannel = () => {
+    console.log('click');
+    dispatch(setShowModal({ showModal: true, modalType: 'adding' }));
   };
 
   return (
@@ -23,9 +30,11 @@ const Channels = () => {
         <button
           type="button"
           className="p-0 text-primary btn btn-group-vertical"
+          onClick={addChannel}
         >
           <PlusSquare className="fs-5" />
         </button>
+        <AddChannelModal />
       </div>
       <Nav className="flex-column nav-fill px-2 mb-3 overflow-auto h-100 d-block">
         {channels.map((channel) => (
@@ -33,7 +42,7 @@ const Channels = () => {
             <Button
               variant={currentChannel.id === channel.id ? 'secondary' : 'light'}
               className="w-100 rounded-0 text-start"
-              onClick={() => handleChannelClick(channel)}
+              onClick={() => selectChannel(channel)}
             >
               <span className="me-1">&#35;</span>
               {channel.name}

@@ -28,13 +28,13 @@ const RemoveChannelModal = (props) => {
               onClick={onHide}
               className="me-2"
             >
-              {t('channel.cancel')}
+              {t('modals.cancel')}
             </Button>
             <Button
               type="submit"
               variant="danger"
             >
-              {t('channel.remove')}
+              {t('modals.remove')}
             </Button>
           </div>
         </Form>

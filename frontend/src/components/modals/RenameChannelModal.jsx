@@ -54,13 +54,13 @@ const RenameChannelModal = (props) => {
               onClick={onHide}
               className="me-2"
             >
-              {t('channel.cancel')}
+              {t('modals.cancel')}
             </Button>
             <Button
               type="submit"
               variant="primary"
             >
-              {t('channel.send')}
+              {t('modals.send')}
             </Button>
           </div>
         </Form>
