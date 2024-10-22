@@ -52,6 +52,7 @@ const translation = {
       cancel: 'Отменить',
       send: 'Отправить',
       remove: 'Удалить',
+      rename: 'Переименовать',
       text: 'Уверены?',
     },
   },
