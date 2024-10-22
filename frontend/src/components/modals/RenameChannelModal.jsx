@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 const RenameChannelModal = (props) => {
   const { t } = useTranslation();
   const inputRef = useRef();
-  const { onHide } = props;
+  const { showModal, handleClose } = props;
 
   const formik = useFormik({
     initialValues: {
@@ -27,7 +27,7 @@ const RenameChannelModal = (props) => {
   }, []);
 
   return (
-    <Modal show onHide={onHide}>
+    <Modal show={showModal === 'renaming'} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
       </Modal.Header>
@@ -51,7 +51,7 @@ const RenameChannelModal = (props) => {
             <Button
               type="button"
               variant="secondary"
-              onClick={onHide}
+              onClick={handleClose}
               className="me-2"
             >
               {t('modals.cancel')}

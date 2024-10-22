@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { PlusSquare } from 'react-bootstrap-icons';
 import { useGetChannelsQuery } from '../api/channelsApi';
 import { setCurrentChannel } from '../store/slices/channelsSlice';
-import { setShowModal } from '../store/slices/modalsSlice';
+import { setChannelModal } from '../store/slices/modalsSlice';
 // import AddChannelModal from './modals/AddChannelModal';
 // import RemoveChannelModal from './modals/RemoveChannelModal';
 import ModalComponent from './modals';
@@ -24,13 +24,9 @@ const Channels = () => {
     dispatch(setCurrentChannel(channel));
   };
 
-  const handleShowModal = (modalName) => {
-    dispatch(setShowModal(modalName));
+  const handleShowModal = (modalName, channel = { id: '', name: '' }) => {
+    dispatch(setChannelModal({ id: channel.id, name: channel.name, modalName }));
   };
-
-  // const handleCloseModal = () => {
-  //   dispatch(setShowModal(''));
-  // };
 
   return (
     <Col xs="4" md="2" className="border-end px-0 bg-light flex-column h-100 d-flex">

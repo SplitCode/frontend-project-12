@@ -6,14 +6,19 @@ import { useRemoveChannelMutation } from '../../api/channelsApi';
 
 const RemoveChannelModal = (props) => {
   const { t } = useTranslation();
-  const { show, handleClose, handleSelectChannel } = props;
+  const {
+    showModal, handleClose, handleSelectChannel, channelId,
+  } = props;
   const [removeChannel] = useRemoveChannelMutation();
 
   const formik = useFormik({
-    onSubmit: async (id) => {
+    initialValues: {
+      id: channelId,
+    },
+    onSubmit: async (values) => {
       try {
         console.log('submit');
-        await removeChannel(id).unwrap();
+        await removeChannel(values.id).unwrap();
         handleClose();
         handleSelectChannel();
         toast.success(t('toasts.removeChannel'));
@@ -24,7 +29,7 @@ const RemoveChannelModal = (props) => {
   });
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={showModal === 'removing'} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.removeChannel')}</Modal.Title>
       </Modal.Header>

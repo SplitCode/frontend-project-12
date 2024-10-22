@@ -3,20 +3,21 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   showModal: '',
-  // modalType: null,
+  modalChannelId: '',
+  modalChanneName: '',
 };
 
 const modalsSlice = createSlice({
   name: 'modals',
   initialState,
   reducers: {
-    setShowModal: (state, action) => {
-      state.showModal = action.payload;
-      console.log(state.showModal);
-      // state.modalType = action.payload.modalType;
+    setChannelModal: (state, action) => {
+      state.showModal = action.payload.modalName;
+      state.modalChannelId = action.payload.id;
+      state.modalChannelName = action.payload.name;
     },
   },
 });
 
-export const { setShowModal } = modalsSlice.actions;
+export const { setChannelModal } = modalsSlice.actions;
 export default modalsSlice.reducer;
