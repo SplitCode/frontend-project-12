@@ -8,17 +8,26 @@ import {
 import { useTranslation } from 'react-i18next';
 import { object, string } from 'yup';
 import { toast } from 'react-toastify';
+import { useAddChannelMutation } from '../../api/channelsApi';
 
-const AddChannelModal = ({
-  show, handleClose, channelNames, addChannel, refetch, handleSelectChannel,
-}) => {
+const AddChannelModal = (props) => {
+  const {
+    showModal, handleClose, channelNames, refetch, handleSelectChannel,
+  } = props;
   const { t } = useTranslation();
   const inputRef = useRef();
+  const [addChannel] = useAddChannelMutation();
 
   const AddModalSchema = object().shape({
     name: string().notOneOf(channelNames, t('errors.channelExists')).min(3, t('errors.minMaxLength')).max(20, t('errors.minMaxLength'))
       .required(t('errors.required')),
   });
+
+  useEffect(() => {
+    if (showModal) {
+      inputRef.current.focus();
+    }
+  }, [showModal]);
 
   const formik = useFormik({
     initialValues: {
@@ -27,11 +36,11 @@ const AddChannelModal = ({
     validationSchema: AddModalSchema,
     onSubmit: async (values, { resetForm }) => {
       try {
-        console.log(values);
         const data = {
           name: values.name,
           removable: true,
         };
+
         const newChannel = await addChannel(data).unwrap();
         toast.success(t('toasts.addChannel'));
         refetch();
@@ -44,14 +53,8 @@ const AddChannelModal = ({
     },
   });
 
-  useEffect(() => {
-    if (show) {
-      inputRef.current.focus();
-    }
-  }, [show]);
-
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={showModal === 'adding'} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.addChannel')}</Modal.Title>
       </Modal.Header>

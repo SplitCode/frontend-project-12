@@ -43,6 +43,7 @@ const translation = {
     },
     toasts: {
       addChannel: 'Канал добавлен',
+      removeChannel: 'Канал удален',
     },
     modals: {
       addChannel: 'Добавить канал',

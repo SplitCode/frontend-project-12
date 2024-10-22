@@ -1,19 +1,30 @@
 import { useFormik } from 'formik';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { useRemoveChannelMutation } from '../../api/channelsApi';
 
 const RemoveChannelModal = (props) => {
   const { t } = useTranslation();
-  const { onHide } = props;
+  const { show, handleClose, handleSelectChannel } = props;
+  const [removeChannel] = useRemoveChannelMutation();
 
   const formik = useFormik({
-    onSubmit: () => {
-      console.log('submit');
+    onSubmit: async (id) => {
+      try {
+        console.log('submit');
+        await removeChannel(id).unwrap();
+        handleClose();
+        handleSelectChannel();
+        toast.success(t('toasts.removeChannel'));
+      } catch (err) {
+        console.log('Error removing channel', err);
+      }
     },
   });
 
   return (
-    <Modal show onHide={onHide}>
+    <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.removeChannel')}</Modal.Title>
       </Modal.Header>
@@ -25,7 +36,7 @@ const RemoveChannelModal = (props) => {
             <Button
               type="button"
               variant="secondary"
-              onClick={onHide}
+              onClick={handleClose}
               className="me-2"
             >
               {t('modals.cancel')}

@@ -4,34 +4,33 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { PlusSquare } from 'react-bootstrap-icons';
-import { useGetChannelsQuery, useAddChannelMutation } from '../api/channelsApi';
+import { useGetChannelsQuery } from '../api/channelsApi';
 import { setCurrentChannel } from '../store/slices/channelsSlice';
 import { setShowModal } from '../store/slices/modalsSlice';
-import AddChannelModal from './modals/AddChannelModal';
+// import AddChannelModal from './modals/AddChannelModal';
+// import RemoveChannelModal from './modals/RemoveChannelModal';
+import ModalComponent from './modals';
 
 const Channels = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { data: channels = [], refetch } = useGetChannelsQuery();
-  console.log(channels);
-  const showModal = useSelector((state) => state.modals.showModal);
+  const { data: channels = [] } = useGetChannelsQuery();
+  // console.log(channels);
+  // const showModal = useSelector((state) => state.modals.showModal);
   const currentChannel = useSelector((state) => state.channel.currentChannel);
-  const channelNames = channels.map((channel) => channel.name);
-  const [addChannel] = useAddChannelMutation();
+  // const channelNames = channels.map((channel) => channel.name);
 
   const handleSelectChannel = (channel) => {
     dispatch(setCurrentChannel(channel));
   };
 
-  const handleShowModal = () => {
-    console.log('click');
-    // dispatch(setShowModal({ showModal: true, modalType: 'adding' }));
-    dispatch(setShowModal(true));
+  const handleShowModal = (modalName) => {
+    dispatch(setShowModal(modalName));
   };
 
-  const handleCloseModal = () => {
-    dispatch(setShowModal(false));
-  };
+  // const handleCloseModal = () => {
+  //   dispatch(setShowModal(''));
+  // };
 
   return (
     <Col xs="4" md="2" className="border-end px-0 bg-light flex-column h-100 d-flex">
@@ -40,19 +39,13 @@ const Channels = () => {
         <button
           type="button"
           className="p-0 text-primary btn btn-group-vertical"
-          onClick={handleShowModal}
+          onClick={() => handleShowModal('adding')}
         >
           <PlusSquare className="fs-5" />
         </button>
       </div>
-      <AddChannelModal
-        show={showModal}
-        handleClose={handleCloseModal}
-        channelNames={channelNames}
-        addChannel={addChannel}
-        refetch={refetch}
-        handleSelectChannel={handleSelectChannel}
-      />
+
+      <ModalComponent />
 
       <Nav className="flex-column nav-fill px-2 mb-3 overflow-auto h-100 d-block">
         {channels.map((channel) => (
@@ -70,8 +63,8 @@ const Channels = () => {
                 </Button>
                 <Dropdown.Toggle className="text-end" split variant={currentChannel.id === channel.id ? 'secondary' : 'light'} id={`dropdown-split-button${channel.id}`} />
                 <Dropdown.Menu>
-                  <Dropdown.Item>{t('modals.remove')}</Dropdown.Item>
-                  <Dropdown.Item>{t('modals.rename')}</Dropdown.Item>
+                  <Dropdown.Item onClick={() => handleShowModal('removing', channel)}>{t('modals.remove')}</Dropdown.Item>
+                  <Dropdown.Item onClick={() => handleShowModal('renaming', channel)}>{t('modals.rename')}</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             ) : (
