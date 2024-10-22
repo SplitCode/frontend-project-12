@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   showModal: false,
-  modalType: null,
+  // modalType: null,
 };
 
 const modalsSlice = createSlice({
@@ -11,8 +11,9 @@ const modalsSlice = createSlice({
   initialState,
   reducers: {
     setShowModal: (state, action) => {
-      state.showModal = action.payload.showModal;
-      state.modalType = action.payload.modalType;
+      state.showModal = action.payload;
+      console.log(state.showModal);
+      // state.modalType = action.payload.modalType;
     },
   },
 });
