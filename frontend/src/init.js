@@ -8,8 +8,8 @@ const SOCKET_URL = 'http://localhost:3000';
 const init = async () => {
   const rollbarConfig = {
     accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
-    environment: 'testenv',
-    // environment: 'production',
+    // environment: 'testenv',
+    environment: 'production',
   };
 
   const i18nInstance = i18n.createInstance();

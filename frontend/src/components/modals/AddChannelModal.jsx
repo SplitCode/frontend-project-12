@@ -6,28 +6,52 @@ import {
   Button,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { object, string } from 'yup';
+import { toast } from 'react-toastify';
 
-const AddChannelModal = (props) => {
+const AddChannelModal = ({
+  show, handleClose, channelNames, addChannel, refetch, handleSelectChannel,
+}) => {
   const { t } = useTranslation();
-  const { onHide } = props;
   const inputRef = useRef();
+
+  const AddModalSchema = object().shape({
+    name: string().notOneOf(channelNames, t('errors.channelExists')).min(3, t('errors.minMaxLength')).max(20, t('errors.minMaxLength'))
+      .required(t('errors.required')),
+  });
 
   const formik = useFormik({
     initialValues: {
       name: '',
     },
-    // validationSchema: AddModalSchema,
-    onSubmit: async (values) => {
-      console.log(values);
+    validationSchema: AddModalSchema,
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        console.log(values);
+        const data = {
+          name: values.name,
+          removable: true,
+        };
+        const newChannel = await addChannel(data).unwrap();
+        toast.success(t('toasts.addChannel'));
+        refetch();
+        handleSelectChannel(newChannel);
+        handleClose();
+        resetForm();
+      } catch (err) {
+        console.log('Error adding channel', err);
+      }
     },
   });
 
   useEffect(() => {
-    inputRef.current.focus();
-  }, []);
+    if (show) {
+      inputRef.current.focus();
+    }
+  }, [show]);
 
   return (
-    <Modal show onHide={onHide}>
+    <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.addChannel')}</Modal.Title>
       </Modal.Header>
@@ -40,6 +64,7 @@ const AddChannelModal = (props) => {
               ref={inputRef}
               onChange={formik.handleChange}
               value={formik.values.name}
+              isInvalid={formik.touched.name && formik.errors.name}
               className="mb-2"
             />
             <FormLabel visuallyHidden htmlFor="name">{t('modals.channelName')}</FormLabel>
@@ -51,7 +76,7 @@ const AddChannelModal = (props) => {
             <Button
               type="button"
               variant="secondary"
-              onClick={onHide}
+              onClick={handleClose}
               className="me-2"
             >
               {t('modals.cancel')}
@@ -59,6 +84,7 @@ const AddChannelModal = (props) => {
             <Button
               type="submit"
               variant="primary"
+              disabled={formik.isSubmitting}
             >
               {t('modals.send')}
             </Button>
