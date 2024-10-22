@@ -41,7 +41,9 @@ const translation = {
       userExists: 'Такой пользователь уже существует',
       channelExists: 'Должно быть уникальным',
     },
-    toasts: {},
+    toasts: {
+      addChannel: 'Канал добавлен',
+    },
     modals: {
       addChannel: 'Добавить канал',
       removeChannel: 'Удалить канал',

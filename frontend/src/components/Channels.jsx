@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { PlusSquare } from 'react-bootstrap-icons';
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
+import { toast } from 'react-toastify';
 import { useGetChannelsQuery, useAddChannelMutation } from '../api/channelsApi';
 import { setCurrentChannel } from '../store/slices/channelsSlice';
 import { setShowModal } from '../store/slices/modalsSlice';
@@ -56,6 +57,7 @@ const Channels = () => {
           removable: true,
         };
         await addChannel(data);
+        toast.success(t('toasts.addChannel'));
         handleCloseModal();
         resetForm();
       } catch (err) {
