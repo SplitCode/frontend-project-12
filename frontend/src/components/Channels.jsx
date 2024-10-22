@@ -17,7 +17,7 @@ import { setShowModal } from '../store/slices/modalsSlice';
 const Channels = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { data: channels = [] } = useGetChannelsQuery();
+  const { data: channels = [], refetch } = useGetChannelsQuery();
   console.log(channels);
   const showModal = useSelector((state) => state.modals.showModal);
   const currentChannel = useSelector((state) => state.channel.currentChannel);
@@ -56,8 +56,10 @@ const Channels = () => {
           name: values.name,
           removable: true,
         };
-        await addChannel(data);
+        const newChannel = await addChannel(data).unwrap();
         toast.success(t('toasts.addChannel'));
+        refetch();
+        handleSelectChannel(newChannel);
         handleCloseModal();
         resetForm();
       } catch (err) {
