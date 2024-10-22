@@ -10,15 +10,9 @@ import init from './init';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-const rollbarConfig = {
-  accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
-  environment: 'testenv',
-  // environment: 'production',
-};
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-init().then(({ socket }) => {
+init().then(({ socket, rollbarConfig }) => {
   root.render(
     <React.StrictMode>
       <RollbarProvider config={rollbarConfig}>

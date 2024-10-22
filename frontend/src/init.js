@@ -6,6 +6,12 @@ import resources from './locales';
 const SOCKET_URL = 'http://localhost:3000';
 
 const init = async () => {
+  const rollbarConfig = {
+    accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
+    environment: 'testenv',
+    // environment: 'production',
+  };
+
   const i18nInstance = i18n.createInstance();
   await i18nInstance.use(initReactI18next).init({
     lng: 'ru',
@@ -26,7 +32,7 @@ const init = async () => {
     console.log('Disconnected from socket server');
   });
 
-  return { i18nInstance, socket };
+  return { i18nInstance, socket, rollbarConfig };
 };
 
 export default init;
