@@ -8,7 +8,8 @@ import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { PlusSquare } from 'react-bootstrap-icons';
 import { useFormik } from 'formik';
-import { useGetChannelsQuery } from '../api/channelsApi';
+import { object, string } from 'yup';
+import { useGetChannelsQuery, useAddChannelMutation } from '../api/channelsApi';
 import { setCurrentChannel } from '../store/slices/channelsSlice';
 import { setShowModal } from '../store/slices/modalsSlice';
 
@@ -19,8 +20,14 @@ const Channels = () => {
   console.log(channels);
   const showModal = useSelector((state) => state.modals.showModal);
   const currentChannel = useSelector((state) => state.channel.currentChannel);
-  // const [addChannel] = useAddChannelMutation();
+  const channelNames = channels.map((channel) => channel.name);
+  const [addChannel] = useAddChannelMutation();
   // const inputRef = useRef();
+
+  const AddModalSchema = object().shape({
+    name: string().notOneOf(channelNames, t('errors.channelExists')).min(3, t('errors.minMaxLength')).max(20, t('errors.minMaxLength'))
+      .required(t('errors.required')),
+  });
 
   const handleSelectChannel = (channel) => {
     dispatch(setCurrentChannel(channel));
@@ -40,9 +47,20 @@ const Channels = () => {
     initialValues: {
       name: '',
     },
-    // validationSchema: AddModalSchema,
-    onSubmit: async (values) => {
-      console.log(values);
+    validationSchema: AddModalSchema,
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        console.log(values);
+        const data = {
+          name: values.name,
+          removable: true,
+        };
+        await addChannel(data);
+        handleCloseModal();
+        resetForm();
+      } catch (err) {
+        console.log('Error adding channel', err);
+      }
     },
   });
 
@@ -75,6 +93,7 @@ const Channels = () => {
                   // ref={inputRef}
                   onChange={formik.handleChange}
                   value={formik.values.name}
+                  isInvalid={formik.touched.name && formik.errors.name}
                   className="mb-2"
                 />
                 <FormLabel visuallyHidden htmlFor="name">{t('modals.channelName')}</FormLabel>
@@ -94,6 +113,7 @@ const Channels = () => {
                 <Button
                   type="submit"
                   variant="primary"
+                  disabled={formik.isSubmitting}
                 >
                   {t('modals.send')}
                 </Button>

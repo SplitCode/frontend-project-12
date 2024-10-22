@@ -39,6 +39,7 @@ const translation = {
       minLength: 'Не менее 6 символов',
       passwordMatch: 'Пароли должны совпадать',
       userExists: 'Такой пользователь уже существует',
+      channelExists: 'Должно быть уникальным',
     },
     toasts: {},
     modals: {
