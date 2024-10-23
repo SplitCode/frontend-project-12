@@ -1,5 +1,5 @@
 import { Container, Row } from 'react-bootstrap';
-import Channels from '../components/Channels';
+import Channels from '../components/channels/Channels';
 import Messages from '../components/Messages';
 
 const ChatPage = () => (
