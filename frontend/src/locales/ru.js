@@ -42,8 +42,8 @@ const translation = {
       channelExists: 'Должно быть уникальным',
     },
     toasts: {
-      addChannel: 'Канал добавлен',
-      removeChannel: 'Канал удален',
+      addChannel: 'Канал создан',
+      removeChannel: 'Канал удалён',
       renameChannel: 'Канал переименован',
       connectionError: 'Ошибка соединения',
     },
