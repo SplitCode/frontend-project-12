@@ -1,32 +1,37 @@
-import { useFormik } from 'formik';
-import { Modal, Form, Button } from 'react-bootstrap';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector, useDispatch } from 'react-redux';
+import { Modal, Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import { useRemoveChannelMutation } from '../../api/channelsApi';
+import { useRemoveChannelMutation, useGetChannelsQuery } from '../../api/channelsApi';
+import { setCurrentChannel } from '../../store/slices/channelsSlice';
 
 const RemoveChannelModal = (props) => {
-  const { t } = useTranslation();
   const {
-    showModal, handleClose, handleSelectChannel, channelId,
+    showModal, handleClose,
   } = props;
-  const [removeChannel] = useRemoveChannelMutation();
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
 
-  const formik = useFormik({
-    initialValues: {
-      id: channelId,
-    },
-    onSubmit: async (values) => {
-      try {
-        console.log('submit');
-        await removeChannel(values.id).unwrap();
-        handleClose();
-        handleSelectChannel();
-        toast.success(t('toasts.removeChannel'));
-      } catch (err) {
-        console.log('Error removing channel', err);
+  const currentChannelId = useSelector((state) => state.channel.currentChannel.id);
+  const modalChannelId = useSelector((state) => state.modals.modalChannelId);
+  const defaultChannel = { id: '1', name: 'general', removable: false };
+  const [removeChannel] = useRemoveChannelMutation();
+  const { refetch } = useGetChannelsQuery();
+
+  const handleRemoveChannel = async (id) => {
+    try {
+      await removeChannel(id);
+      refetch();
+      handleClose();
+      if (id === currentChannelId) {
+        dispatch(setCurrentChannel(defaultChannel));
       }
-    },
-  });
+      toast.success(t('toasts.channelDeleted'));
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Modal show={showModal === 'removing'} onHide={handleClose}>
@@ -35,7 +40,7 @@ const RemoveChannelModal = (props) => {
       </Modal.Header>
 
       <Modal.Body>
-        <Form onSubmit={formik.handleSubmit}>
+        <Form>
           <p className="lead">{t('modals.text')}</p>
           <div className="d-flex justify-content-end">
             <Button
@@ -49,6 +54,7 @@ const RemoveChannelModal = (props) => {
             <Button
               type="submit"
               variant="danger"
+              onClick={() => handleRemoveChannel(modalChannelId)}
             >
               {t('modals.remove')}
             </Button>

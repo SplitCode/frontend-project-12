@@ -15,7 +15,7 @@ const modals = {
 const ModalComponent = () => {
   const dispatch = useDispatch();
   const showModal = useSelector((state) => state.modals.showModal);
-  const channelId = useSelector((state) => state.modals.channelId);
+  const channelId = useSelector((state) => state.modals.modalChannelId);
   console.log(channelId);
 
   const { data: channels = [], refetch } = useGetChannelsQuery();
