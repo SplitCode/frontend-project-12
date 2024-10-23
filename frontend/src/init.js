@@ -3,8 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import io from 'socket.io-client';
 import filter from 'leo-profanity';
 import resources from './locales';
-
-const SOCKET_URL = 'http://localhost:3000';
+import SOCKET_URL from './constants/socketUrl';
 
 const init = async () => {
   const rollbarConfig = {
