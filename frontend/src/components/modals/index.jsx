@@ -1,12 +1,12 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { object, string } from 'yup';
+import { useGetChannelsQuery } from '../../api/channelsApi';
 import { setChannelModal } from '../../store/slices/modalsSlice';
+import { setCurrentChannel } from '../../store/slices/channelsSlice';
 import AddChannelModal from './AddChannelModal';
 import RemoveChannelModal from './RemoveChannelModal';
 import RenameChannelModal from './RenameChannelModal';
-import { useGetChannelsQuery } from '../../api/channelsApi';
-import { setCurrentChannel } from '../../store/slices/channelsSlice';
 
 const modals = {
   adding: AddChannelModal,
@@ -17,12 +17,12 @@ const modals = {
 const ModalComponent = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+
   const showModal = useSelector((state) => state.modals.showModal);
-  const channelId = useSelector((state) => state.modals.modalChannelId);
-  console.log(channelId);
+  const modalChannelId = useSelector((state) => state.modals.modalChannelId);
+  const currentChannelId = useSelector((state) => state.channel.currentChannel.id);
 
   const { data: channels = [], refetch } = useGetChannelsQuery();
-  console.log(channels);
   const channelNames = channels.map((channel) => channel.name);
 
   const ModalSchema = object().shape({
@@ -44,10 +44,11 @@ const ModalComponent = () => {
     <Modal
       showModal={showModal}
       handleClose={handleCloseModal}
-      channelNames={channelNames}
       refetch={refetch}
       handleSelectChannel={handleSelectChannel}
-      channelId={channelId}
+      currentChannelId={currentChannelId}
+      modalChannelId={modalChannelId}
+      dispatch={dispatch}
       t={t}
       ModalSchema={ModalSchema}
     />

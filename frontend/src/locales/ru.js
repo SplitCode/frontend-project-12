@@ -44,7 +44,7 @@ const translation = {
     toasts: {
       addChannel: 'Канал добавлен',
       removeChannel: 'Канал удален',
-      renameChannel: 'канал переименован',
+      renameChannel: 'Канал переименован',
     },
     modals: {
       addChannel: 'Добавить канал',

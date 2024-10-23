@@ -7,18 +7,13 @@ import { PlusSquare } from 'react-bootstrap-icons';
 import { useGetChannelsQuery } from '../api/channelsApi';
 import { setCurrentChannel } from '../store/slices/channelsSlice';
 import { setChannelModal } from '../store/slices/modalsSlice';
-// import AddChannelModal from './modals/AddChannelModal';
-// import RemoveChannelModal from './modals/RemoveChannelModal';
 import ModalComponent from './modals';
 
 const Channels = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { data: channels = [] } = useGetChannelsQuery();
-  // console.log(channels);
-  // const showModal = useSelector((state) => state.modals.showModal);
   const currentChannel = useSelector((state) => state.channel.currentChannel);
-  // const channelNames = channels.map((channel) => channel.name);
 
   const handleSelectChannel = (channel) => {
     dispatch(setCurrentChannel(channel));
