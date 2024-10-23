@@ -1,30 +1,23 @@
-import React, { useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import {
   Modal, Form, FormGroup, FormControl, FormLabel, Button,
 } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import { useEditChannelMutation, useGetChannelsQuery } from '../../api/channelsApi';
-import { setCurrentChannel } from '../../store/slices/channelsSlice';
+import { useEditChannelMutation } from '../../api/channelsApi';
+import { RENAMING_MODAL } from '../../constants/modalTypes';
 
 const RenameChannelModal = (props) => {
   const {
-    showModal, handleClose, t, ModalSchema,
+    showModal, handleClose, refetch, handleSelectChannel, t, inputRef,
+    ModalSchema, modalChannelId, modalChannelName,
   } = props;
-  const inputRef = useRef();
-  const dispatch = useDispatch();
-  const modalChannelId = useSelector((state) => state.modals.modalChannelId);
-  const modalChannelName = useSelector((state) => state.modals.modalChannelName);
-  const [renameChannel] = useEditChannelMutation();
-  const { refetch } = useGetChannelsQuery();
 
-  const refInput = useRef(null);
+  const [renameChannel] = useEditChannelMutation();
+
   useEffect(() => {
-    if (refInput.current) {
-      refInput.current.focus();
-    }
-  }, []);
+    inputRef.current.focus();
+  }, [inputRef]);
 
   const formik = useFormik({
     initialValues: {
@@ -42,7 +35,7 @@ const RenameChannelModal = (props) => {
         await renameChannel(data);
         refetch();
         handleClose();
-        dispatch(setCurrentChannel(values));
+        handleSelectChannel(values);
         toast.success(t('toasts.renameChannel'));
       } catch (err) {
         console.error(err);
@@ -50,12 +43,8 @@ const RenameChannelModal = (props) => {
     },
   });
 
-  useEffect(() => {
-    inputRef.current.select();
-  }, []);
-
   return (
-    <Modal show={showModal === 'renaming'} onHide={handleClose}>
+    <Modal show={showModal === RENAMING_MODAL} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
       </Modal.Header>

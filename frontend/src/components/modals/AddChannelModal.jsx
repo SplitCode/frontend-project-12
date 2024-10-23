@@ -1,24 +1,22 @@
-import React, { useEffect, useRef } from 'react';
-import { useFormik } from 'formik';
+import React, { useEffect } from 'react';
 import {
   Modal, Form, FormGroup, FormControl, FormLabel, Button,
 } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import { useFormik } from 'formik';
 import { useAddChannelMutation } from '../../api/channelsApi';
+import { ADDING_MODAL } from '../../constants/modalTypes';
 
 const AddChannelModal = (props) => {
   const {
-    showModal, handleClose, refetch, handleSelectChannel, ModalSchema, t,
+    showModal, handleClose, refetch, handleSelectChannel, ModalSchema, t, inputRef,
   } = props;
-  const inputRef = useRef();
+
   const [addChannel] = useAddChannelMutation();
 
-  const refInput = useRef(null);
   useEffect(() => {
-    if (refInput.current) {
-      refInput.current.focus();
-    }
-  }, []);
+    inputRef.current.focus();
+  }, [inputRef]);
 
   const formik = useFormik({
     initialValues: {
@@ -45,7 +43,7 @@ const AddChannelModal = (props) => {
   });
 
   return (
-    <Modal show={showModal === 'adding'} onHide={handleClose}>
+    <Modal show={showModal === ADDING_MODAL} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.addChannel')}</Modal.Title>
       </Modal.Header>

@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { object, string } from 'yup';
@@ -16,10 +17,12 @@ const modals = {
 
 const ModalComponent = () => {
   const dispatch = useDispatch();
+  const inputRef = useRef(null);
   const { t } = useTranslation();
 
   const showModal = useSelector((state) => state.modals.showModal);
   const modalChannelId = useSelector((state) => state.modals.modalChannelId);
+  const modalChannelName = useSelector((state) => state.modals.modalChannelName);
   const currentChannelId = useSelector((state) => state.channel.currentChannel.id);
 
   const { data: channels = [], refetch } = useGetChannelsQuery();
@@ -45,12 +48,14 @@ const ModalComponent = () => {
       showModal={showModal}
       handleClose={handleCloseModal}
       refetch={refetch}
+      dispatch={dispatch}
+      inputRef={inputRef}
       handleSelectChannel={handleSelectChannel}
       currentChannelId={currentChannelId}
       modalChannelId={modalChannelId}
-      dispatch={dispatch}
-      t={t}
+      modalChannelName={modalChannelName}
       ModalSchema={ModalSchema}
+      t={t}
     />
   ) : null;
 };

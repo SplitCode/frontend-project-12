@@ -1,11 +1,11 @@
 import { Modal, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useRemoveChannelMutation } from '../../api/channelsApi';
-import { setCurrentChannel } from '../../store/slices/channelsSlice';
+import { REMOVING_MODAL } from '../../constants/modalTypes';
 
 const RemoveChannelModal = (props) => {
   const {
-    showModal, handleClose, dispatch, t, currentChannelId, modalChannelId, refetch,
+    showModal, handleClose, handleSelectChannel, t, currentChannelId, modalChannelId, refetch,
   } = props;
 
   const defaultChannel = { id: '1', name: 'general', removable: false };
@@ -17,9 +17,8 @@ const RemoveChannelModal = (props) => {
       refetch();
       handleClose();
       if (id === currentChannelId) {
-        dispatch(setCurrentChannel(defaultChannel));
+        handleSelectChannel(defaultChannel);
       }
-      console.log('Тост должен быть показан');
       toast.success(t('toasts.removeChannel'));
     } catch (error) {
       console.error(error);
@@ -27,7 +26,7 @@ const RemoveChannelModal = (props) => {
   };
 
   return (
-    <Modal show={showModal === 'removing'} onHide={handleClose}>
+    <Modal show={showModal === REMOVING_MODAL} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.removeChannel')}</Modal.Title>
       </Modal.Header>
