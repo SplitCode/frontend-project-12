@@ -45,6 +45,7 @@ const translation = {
       addChannel: 'Канал добавлен',
       removeChannel: 'Канал удален',
       renameChannel: 'Канал переименован',
+      connectionError: 'Ошибка соединения',
     },
     modals: {
       addChannel: 'Добавить канал',

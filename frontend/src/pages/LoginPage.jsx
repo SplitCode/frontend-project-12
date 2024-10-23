@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 import { useAuth } from '../store/hooks/hooks';
 import loginImage from '../assets/images/login.jpg';
 import { setToken, setUsername } from '../store/slices/authSlice';
@@ -45,6 +46,7 @@ const LoginPage = () => {
           inputRef.current.select();
         }
       } catch (err) {
+        toast.error(t('toasts.connectionError'));
         setSubmitting(false);
         setAuthFailed(true);
       }
