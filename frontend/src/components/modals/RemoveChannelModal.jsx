@@ -21,7 +21,7 @@ const RemoveChannelModal = (props) => {
 
   const handleRemoveChannel = async (id) => {
     try {
-      await removeChannel(id);
+      await removeChannel(id).unwrap();
       refetch();
       handleClose();
       if (id === currentChannelId) {
