@@ -100,7 +100,7 @@ const Messages = () => {
                 disabled={formik.isSubmitting}
                 ref={inputRef}
               />
-              <button type="submit" className="btn btn-group-vertical">
+              <button type="submit" className="btn btn-group-vertical" disabled={formik.isSubmitting || !formik.values.message.trim()}>
                 <ArrowRightSquare />
                 <span className="visually-hidden">{t('chat.send')}</span>
               </button>
