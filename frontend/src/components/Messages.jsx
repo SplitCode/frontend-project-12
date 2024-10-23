@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Col, Form } from 'react-bootstrap';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useFormik } from 'formik';
+import filter from 'leo-profanity';
 import { useSocket } from '../store/hooks/hooks';
 import { useGetMessagesQuery, useAddMessageMutation } from '../api/messagesApi';
 
@@ -39,7 +40,7 @@ const Messages = () => {
       try {
         const { message } = values;
         const data = {
-          message,
+          message: filter.clean(message),
           channelId: currentChannel.id,
           username,
         };

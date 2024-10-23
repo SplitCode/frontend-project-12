@@ -4,6 +4,7 @@ import {
 } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
+import filter from 'leo-profanity';
 import { useAddChannelMutation } from '../../api/channelsApi';
 import { ADDING_MODAL } from '../../constants/modalTypes';
 
@@ -26,7 +27,7 @@ const AddChannelModal = (props) => {
     onSubmit: async (values, { resetForm }) => {
       try {
         const data = {
-          name: values.name,
+          name: filter.clean(values.name),
           removable: true,
         };
 
