@@ -2,30 +2,22 @@ import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import {
-  Modal, Form, FormGroup, FormControl,
-  FormLabel,
-  Button,
+  Modal, Form, FormGroup, FormControl, FormLabel, Button,
 } from 'react-bootstrap';
-import { object, string } from 'yup';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 import { useEditChannelMutation, useGetChannelsQuery } from '../../api/channelsApi';
 import { setCurrentChannel } from '../../store/slices/channelsSlice';
 
 const RenameChannelModal = (props) => {
-  const { showModal, handleClose, channelNames } = props;
-  const { t } = useTranslation();
+  const {
+    showModal, handleClose, t, ModalSchema,
+  } = props;
   const inputRef = useRef();
   const dispatch = useDispatch();
   const modalChannelId = useSelector((state) => state.modals.modalChannelId);
   const modalChannelName = useSelector((state) => state.modals.modalChannelName);
   const [renameChannel] = useEditChannelMutation();
   const { refetch } = useGetChannelsQuery();
-
-  const ModalSchema = object().shape({
-    name: string().notOneOf(channelNames, t('errors.channelExists')).min(3, t('errors.minMaxLength')).max(20, t('errors.minMaxLength'))
-      .required(t('errors.required')),
-  });
 
   const refInput = useRef(null);
   useEffect(() => {
@@ -76,6 +68,8 @@ const RenameChannelModal = (props) => {
               ref={inputRef}
               onChange={formik.handleChange}
               value={formik.values.name}
+              disabled={formik.isSubmitting}
+              isInvalid={formik.touched.name && formik.errors.name}
               className="mb-2"
             />
             <FormLabel visuallyHidden htmlFor="name">{t('modals.channelName')}</FormLabel>

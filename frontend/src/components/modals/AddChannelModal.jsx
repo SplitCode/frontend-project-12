@@ -1,27 +1,17 @@
 import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import {
-  Modal, Form, FormGroup, FormControl,
-  FormLabel,
-  Button,
+  Modal, Form, FormGroup, FormControl, FormLabel, Button,
 } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
-import { object, string } from 'yup';
 import { toast } from 'react-toastify';
 import { useAddChannelMutation } from '../../api/channelsApi';
 
 const AddChannelModal = (props) => {
   const {
-    showModal, handleClose, channelNames, refetch, handleSelectChannel,
+    showModal, handleClose, refetch, handleSelectChannel, ModalSchema, t,
   } = props;
-  const { t } = useTranslation();
   const inputRef = useRef();
   const [addChannel] = useAddChannelMutation();
-
-  const ModalSchema = object().shape({
-    name: string().notOneOf(channelNames, t('errors.channelExists')).min(3, t('errors.minMaxLength')).max(20, t('errors.minMaxLength'))
-      .required(t('errors.required')),
-  });
 
   const refInput = useRef(null);
   useEffect(() => {
