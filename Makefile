@@ -5,10 +5,10 @@ build:
 	npm run build
 
 start:
-	make start-backend
+	npx start-server -s ./frontend/build
 
 start-backend:
-		npm run start
+	npx start-server
 
 start-frontend:
 	cd frontend && npm start
