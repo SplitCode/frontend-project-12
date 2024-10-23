@@ -11,6 +11,7 @@ import { useGetMessagesQuery, useAddMessageMutation } from '../api/messagesApi';
 const Messages = () => {
   const { t } = useTranslation();
   const inputRef = useRef(null);
+  const messageRef = useRef();
   const socket = useSocket();
 
   const { data: messages = [], refetch } = useGetMessagesQuery();
@@ -65,21 +66,18 @@ const Messages = () => {
         <div className="bg-light mb-4 p-3 shadow-sm small">
           <p className="m-0">
             <b>
-              &#35;
-              {' '}
-              {currentChannel.name}
+              {`# ${currentChannel.name}`}
             </b>
           </p>
-          <span className="text-muted">{t('chat.messages', { count: channelMessages.length })}</span>
+          <span className="text-muted">
+            {t('chat.message', { count: channelMessages.length })}
+          </span>
         </div>
-        <div id="messages-box" className="chat-messages overflow-auto px-5 ">
+        <div id="messages-box" className="chat-messages overflow-auto px-5" ref={messageRef}>
           {channelMessages.map((message) => (
             <div key={message.id} className="text-break mb-2">
-              <b>
-                {message.username}
-                :
-              </b>
-              {' '}
+              <b>{message.username}</b>
+              {': '}
               {message.message}
             </div>
           ))}
