@@ -2,47 +2,53 @@ import {
   Button, Nav, Dropdown, ButtonGroup,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCurrentChannel } from '../../store/slices/channelsSlice';
 
-const ChannelItem = ({
-  channel, currentChannel, handleSelectChannel, handleShowModal,
-}) => {
+const ChannelItem = ({ channelItem, handleShowModal }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const currentChannel = useSelector((state) => state.channel.currentChannel);
+
+  const handleSelectChannel = (channel) => {
+    dispatch(setCurrentChannel(channel));
+  };
 
   return (
-    <Nav.Item key={channel.id} className="w-100">
-      {channel.removable ? (
+    <Nav.Item key={channelItem.id} className="w-100">
+      {channelItem.removable ? (
         <Dropdown as={ButtonGroup} drop="down" className="w-100">
           <Button
-            onClick={() => handleSelectChannel(channel)}
+            onClick={() => handleSelectChannel(channelItem)}
             className="w-100 rounded-0 text-start text-truncate"
-            variant={currentChannel.id === channel.id ? 'secondary' : 'light'}
+            variant={currentChannel.id === channelItem.id ? 'secondary' : 'light'}
           >
             <span className="me-1">&#35;</span>
-            {channel.name}
+            {channelItem.name}
           </Button>
           <Dropdown.Toggle
             className="text-end"
             split
-            variant={currentChannel.id === channel.id ? 'secondary' : 'light'}
-            id={`dropdown-split-button${channel.id}`}
+            variant={currentChannel.id === channelItem.id ? 'secondary' : 'light'}
+            id={`dropdown-split-button${channelItem.id}`}
           />
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => handleShowModal('removing', channel)}>
+            <Dropdown.Item onClick={() => handleShowModal('removing', channelItem)}>
               {t('modals.remove')}
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleShowModal('renaming', channel)}>
+            <Dropdown.Item onClick={() => handleShowModal('renaming', channelItem)}>
               {t('modals.rename')}
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       ) : (
         <Button
-          variant={currentChannel.id === channel.id ? 'secondary' : 'light'}
+          variant={currentChannel.id === channelItem.id ? 'secondary' : 'light'}
           className="w-100 rounded-0 text-start"
-          onClick={() => handleSelectChannel(channel)}
+          onClick={() => handleSelectChannel(channelItem)}
         >
           <span className="me-1">&#35;</span>
-          {channel.name}
+          {channelItem.name}
         </Button>
       )}
     </Nav.Item>

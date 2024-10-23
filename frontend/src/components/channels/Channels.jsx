@@ -1,9 +1,8 @@
 import { Nav, Col } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { PlusSquare } from 'react-bootstrap-icons';
 import { useGetChannelsQuery } from '../../api/channelsApi';
-import { setCurrentChannel } from '../../store/slices/channelsSlice';
 import { setChannelModal } from '../../store/slices/modalsSlice';
 import ModalComponent from '../modals';
 import ChannelItem from './ChannelsItem';
@@ -12,11 +11,6 @@ const Channels = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { data: channels = [] } = useGetChannelsQuery();
-  const currentChannel = useSelector((state) => state.channel.currentChannel);
-
-  const handleSelectChannel = (channel) => {
-    dispatch(setCurrentChannel(channel));
-  };
 
   const handleShowModal = (modalName, channel = { id: '', name: '' }) => {
     dispatch(setChannelModal({ id: channel.id, name: channel.name, modalName }));
@@ -41,9 +35,7 @@ const Channels = () => {
         {channels.map((channel) => (
           <ChannelItem
             key={channel.id}
-            channel={channel}
-            currentChannel={currentChannel}
-            handleSelectChannel={handleSelectChannel}
+            channelItem={channel}
             handleShowModal={handleShowModal}
           />
         ))}
