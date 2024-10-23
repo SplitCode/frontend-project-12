@@ -1,22 +1,24 @@
+import { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Col, Form } from 'react-bootstrap';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useFormik } from 'formik';
-import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { useGetMessagesQuery, useAddMessageMutation } from '../api/messagesApi';
 import { useSocket } from '../store/hooks/hooks';
+import { useGetMessagesQuery, useAddMessageMutation } from '../api/messagesApi';
 
 const Messages = () => {
   const { t } = useTranslation();
+  const inputRef = useRef(null);
+  const socket = useSocket();
+
   const { data: messages = [], refetch } = useGetMessagesQuery();
 
-  const currentChannel = useSelector((state) => state.channel.currentChannel);
   const username = useSelector((state) => state.auth.username);
+  const currentChannel = useSelector((state) => state.channel.currentChannel);
   const channelMessages = messages.filter((message) => message.channelId === currentChannel.id);
-  console.log(messages);
+
   const [addMessage] = useAddMessageMutation();
-  const socket = useSocket();
 
   useEffect(() => {
     socket.on('newMessage', (payload) => {
@@ -49,6 +51,12 @@ const Messages = () => {
       setSubmitting(false);
     },
   });
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [formik.isSubmitting, currentChannel]);
 
   return (
     <Col className="p-0 h-100">
@@ -90,6 +98,7 @@ const Messages = () => {
                 value={formik.values.message}
                 onChange={formik.handleChange}
                 disabled={formik.isSubmitting}
+                ref={inputRef}
               />
               <button type="submit" className="btn btn-group-vertical">
                 <ArrowRightSquare />
