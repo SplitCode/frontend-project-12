@@ -103,7 +103,6 @@ const LoginPage = () => {
                     isInvalid={authFailed}
                   />
                   <Form.Label htmlFor="password">
-                    {/* {' '} */}
                     {t('loginForm.password')}
                   </Form.Label>
                   {formik.touched.password && formik.errors.password && (
