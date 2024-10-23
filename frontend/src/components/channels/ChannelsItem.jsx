@@ -4,6 +4,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentChannel } from '../../store/slices/channelsSlice';
+import { REMOVING_MODAL, RENAMING_MODAL } from '../../constants/modalTypes';
 
 const ChannelItem = ({ channelItem, handleShowModal }) => {
   const { t } = useTranslation();
@@ -15,7 +16,7 @@ const ChannelItem = ({ channelItem, handleShowModal }) => {
   };
 
   return (
-    <Nav.Item key={channelItem.id} className="w-100">
+    <Nav.Item>
       {channelItem.removable ? (
         <Dropdown as={ButtonGroup} drop="down" className="w-100">
           <Button
@@ -27,16 +28,17 @@ const ChannelItem = ({ channelItem, handleShowModal }) => {
             {channelItem.name}
           </Button>
           <Dropdown.Toggle
-            className="text-end"
             split
             variant={currentChannel.id === channelItem.id ? 'secondary' : 'light'}
             id={`dropdown-split-button${channelItem.id}`}
-          />
+          >
+            <span className="visually-hidden">{t('chat.manage')}</span>
+          </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => handleShowModal('removing', channelItem)}>
+            <Dropdown.Item onClick={() => handleShowModal(REMOVING_MODAL, channelItem)}>
               {t('modals.remove')}
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleShowModal('renaming', channelItem)}>
+            <Dropdown.Item onClick={() => handleShowModal(RENAMING_MODAL, channelItem)}>
               {t('modals.rename')}
             </Dropdown.Item>
           </Dropdown.Menu>

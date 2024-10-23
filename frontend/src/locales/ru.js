@@ -26,6 +26,8 @@ const translation = {
       messages_one: '{{count}} сообщение',
       messages_few: '{{count}} сообщения',
       messages_many: '{{count}} сообщений',
+      manage: 'Управление каналом',
+      plus: '+',
     },
     notFoundPage: {
       title: 'Страница не найдена',
