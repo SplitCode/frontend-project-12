@@ -18,22 +18,23 @@ const AddChannelModal = (props) => {
   const inputRef = useRef();
   const [addChannel] = useAddChannelMutation();
 
-  const AddModalSchema = object().shape({
+  const ModalSchema = object().shape({
     name: string().notOneOf(channelNames, t('errors.channelExists')).min(3, t('errors.minMaxLength')).max(20, t('errors.minMaxLength'))
       .required(t('errors.required')),
   });
 
+  const refInput = useRef(null);
   useEffect(() => {
-    if (showModal) {
-      inputRef.current.focus();
+    if (refInput.current) {
+      refInput.current.focus();
     }
-  }, [showModal]);
+  }, []);
 
   const formik = useFormik({
     initialValues: {
       name: '',
     },
-    validationSchema: AddModalSchema,
+    validationSchema: ModalSchema,
     onSubmit: async (values, { resetForm }) => {
       try {
         const data = {

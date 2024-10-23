@@ -27,7 +27,7 @@ export const channelsApi = createApi({
     }),
     editChannel: builder.mutation({
       query: (channel) => ({
-        method: 'POST',
+        method: 'PATCH',
         url: channel.id,
         body: channel,
       }),

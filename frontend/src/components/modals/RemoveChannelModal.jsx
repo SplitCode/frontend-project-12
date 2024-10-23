@@ -27,7 +27,7 @@ const RemoveChannelModal = (props) => {
       if (id === currentChannelId) {
         dispatch(setCurrentChannel(defaultChannel));
       }
-      toast.success(t('toasts.channelDeleted'));
+      toast.success(t('toasts.removeChannel'));
     } catch (error) {
       console.error(error);
     }

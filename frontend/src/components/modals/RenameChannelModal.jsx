@@ -1,24 +1,60 @@
 import React, { useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import {
   Modal, Form, FormGroup, FormControl,
   FormLabel,
   Button,
 } from 'react-bootstrap';
+import { object, string } from 'yup';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { useEditChannelMutation, useGetChannelsQuery } from '../../api/channelsApi';
+import { setCurrentChannel } from '../../store/slices/channelsSlice';
 
 const RenameChannelModal = (props) => {
+  const { showModal, handleClose, channelNames } = props;
   const { t } = useTranslation();
   const inputRef = useRef();
-  const { showModal, handleClose } = props;
+  const dispatch = useDispatch();
+  const modalChannelId = useSelector((state) => state.modals.modalChannelId);
+  const modalChannelName = useSelector((state) => state.modals.modalChannelName);
+  const [renameChannel] = useEditChannelMutation();
+  const { refetch } = useGetChannelsQuery();
+
+  const ModalSchema = object().shape({
+    name: string().notOneOf(channelNames, t('errors.channelExists')).min(3, t('errors.minMaxLength')).max(20, t('errors.minMaxLength'))
+      .required(t('errors.required')),
+  });
+
+  const refInput = useRef(null);
+  useEffect(() => {
+    if (refInput.current) {
+      refInput.current.focus();
+    }
+  }, []);
 
   const formik = useFormik({
     initialValues: {
-      name: '',
+      name: modalChannelName,
+      channelId: modalChannelId,
     },
-    // validationSchema: AddModalSchema,
+    validationSchema: ModalSchema,
     onSubmit: async (values) => {
-      console.log(values);
+      try {
+        const data = {
+          name: values.name,
+          id: values.channelId,
+          removable: true,
+        };
+        await renameChannel(data);
+        refetch();
+        handleClose();
+        dispatch(setCurrentChannel(values));
+        toast.success(t('toasts.renameChannel'));
+      } catch (err) {
+        console.error(err);
+      }
     },
   });
 
