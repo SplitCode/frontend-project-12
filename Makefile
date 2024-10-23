@@ -1,12 +1,8 @@
 install:
 	npm ci && make -C frontend install
 
-start-frontend:
-	cd frontend && npm start
-
 build:
-		rm -rf frontend/build
-		npm run build
+	npm run build
 
 start:
 	make start-backend
@@ -14,11 +10,14 @@ start:
 start-backend:
 		npm run start
 
+start-frontend:
+	cd frontend && npm start
+
 develop:
 	make start-backend & make start-frontend
 
 lint:
-	cd frontend && npx eslint .
+	make -C frontend lint
 
 fix:
-	cd frontend && npx eslint --fix .
+	make -C frontend fix
