@@ -29,8 +29,6 @@ const Channels = () => {
         </button>
       </div>
 
-      <ModalComponent />
-
       <Nav className="flex-column nav-fill px-2 mb-3 overflow-auto h-100 d-block">
         {channels.map((channel) => (
           <ChannelItem
@@ -40,6 +38,7 @@ const Channels = () => {
           />
         ))}
       </Nav>
+      <ModalComponent />
     </Col>
   );
 };

@@ -1,20 +1,21 @@
 import { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Col, Form } from 'react-bootstrap';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useFormik } from 'formik';
 import filter from 'leo-profanity';
 import { useSocket } from '../store/hooks/hooks';
-import { useGetMessagesQuery, useAddMessageMutation } from '../api/messagesApi';
+import { useGetMessagesQuery, useAddMessageMutation, messagesApi } from '../api/messagesApi';
 
 const Messages = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const inputRef = useRef(null);
   const messageRef = useRef();
   const socket = useSocket();
 
-  const { data: messages = [], refetch } = useGetMessagesQuery();
+  const { data: messages = [] } = useGetMessagesQuery();
 
   const username = useSelector((state) => state.auth.username);
   const currentChannel = useSelector((state) => state.channel.currentChannel);
@@ -23,15 +24,33 @@ const Messages = () => {
   const [addMessage] = useAddMessageMutation();
 
   useEffect(() => {
-    socket.on('newMessage', (payload) => {
-      console.log(payload);
-      refetch();
-    });
+    if (messageRef.current) {
+      messageRef.current.scrollTop = messageRef.current.scrollHeight;
+    }
+  }, [messages]);
 
+  useEffect(() => {
+    const handleNewMessage = (newMessage) => {
+      dispatch(messagesApi.util.updateQueryData('getMessages', undefined, (draft) => {
+        draft.push(newMessage);
+      }));
+    };
+    socket.on('newMessage', handleNewMessage);
     return () => {
       socket.off('newMessage');
     };
-  }, [socket, refetch]);
+  }, [dispatch, messageRef, socket]);
+
+  // useEffect(() => {
+  //   socket.on('newMessage', (payload) => {
+  //     console.log(payload);
+  //     refetch();
+  //   });
+
+  //   return () => {
+  //     socket.off('newMessage');
+  //   };
+  // }, [socket, refetch]);
 
   const formik = useFormik({
     initialValues: {

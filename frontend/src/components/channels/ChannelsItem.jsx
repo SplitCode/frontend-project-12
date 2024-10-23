@@ -46,7 +46,7 @@ const ChannelItem = ({ channelItem, handleShowModal }) => {
       ) : (
         <Button
           variant={currentChannel.id === channelItem.id ? 'secondary' : 'light'}
-          className="w-100 rounded-0 text-start"
+          className="w-100 rounded-0 text-start text-truncate"
           onClick={() => handleSelectChannel(channelItem)}
         >
           <span className="me-1">&#35;</span>
