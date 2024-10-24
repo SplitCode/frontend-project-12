@@ -42,17 +42,6 @@ const Messages = () => {
     };
   }, [dispatch, messageRef, socket]);
 
-  // useEffect(() => {
-  //   socket.on('newMessage', (payload) => {
-  //     console.log(payload);
-  //     refetch();
-  //   });
-
-  //   return () => {
-  //     socket.off('newMessage');
-  //   };
-  // }, [socket, refetch]);
-
   const formik = useFormik({
     initialValues: {
       message: '',
