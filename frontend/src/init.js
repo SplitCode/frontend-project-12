@@ -3,7 +3,6 @@ import { initReactI18next } from 'react-i18next';
 import io from 'socket.io-client';
 import filter from 'leo-profanity';
 import resources from './locales';
-// import SOCKET_URL from './constants/socketUrl';
 
 const init = async () => {
   const rollbarConfig = {
@@ -21,19 +20,10 @@ const init = async () => {
     interpolation: {
       escapeValue: false,
     },
-    debug: true,
+    debug: false,
   });
 
-  // const socket = io(SOCKET_URL);
   const socket = io();
-
-  socket.on('connect', () => {
-    console.log('Connected to socket server');
-  });
-
-  socket.on('disconnect', () => {
-    console.log('Disconnected from socket server');
-  });
 
   return { i18nInstance, socket, rollbarConfig };
 };
