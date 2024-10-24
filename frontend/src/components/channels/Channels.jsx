@@ -1,5 +1,6 @@
 import { Nav, Col } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { PlusSquare } from 'react-bootstrap-icons';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useGetChannelsQuery, channelsApi } from '../../api/channelsApi';
@@ -51,7 +52,8 @@ const Channels = () => {
           className="p-0 text-primary btn btn-group-vertical"
           onClick={() => handleShowModal(ADDING_MODAL)}
         >
-          {t('chat.plus')}
+          <PlusSquare className="fs-5" />
+          <span className="visually-hidden">{t('chat.plus')}</span>
         </button>
       </div>
 

@@ -38,7 +38,7 @@ const Messages = () => {
     return () => {
       socket.off('newMessage');
     };
-  }, [dispatch, messageRef, socket]);
+  }, [dispatch, socket]);
 
   const formik = useFormik({
     initialValues: {
