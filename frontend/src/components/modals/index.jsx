@@ -25,7 +25,7 @@ const ModalComponent = () => {
   const modalChannelName = useSelector((state) => state.modals.modalChannelName);
   const currentChannelId = useSelector((state) => state.channel.currentChannel.id);
 
-  const { data: channels = [], refetch } = useGetChannelsQuery();
+  const { data: channels = [] } = useGetChannelsQuery();
   const channelNames = channels.map((channel) => channel.name);
 
   const ModalSchema = object().shape({
@@ -47,7 +47,6 @@ const ModalComponent = () => {
     <Modal
       showModal={showModal}
       handleClose={handleCloseModal}
-      refetch={refetch}
       dispatch={dispatch}
       inputRef={inputRef}
       handleSelectChannel={handleSelectChannel}

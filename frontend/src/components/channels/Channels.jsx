@@ -27,14 +27,25 @@ const Channels = () => {
     };
 
     const handleRemoveChannel = ({ id }) => {
-      dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => draft.filter((curChannels) => curChannels.id !== id)));
+      dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => draft.filter((currentChannels) => currentChannels.id !== id)));
+    };
+
+    const handleRenameChannel = ({ id, name }) => {
+      dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => {
+        const updateChannel = draft.find((channel) => channel.id === id);
+        if (updateChannel) {
+          updateChannel.name = name;
+        }
+      }));
     };
 
     socket.on('newChannel', handleNewChannel);
     socket.on('removeChannel', handleRemoveChannel);
+    socket.on('renameChannel', handleRenameChannel);
     return () => {
       socket.off('newChannel');
       socket.off('removeChannel');
+      socket.off('renameChannel');
     };
   }, [dispatch, socket]);
 

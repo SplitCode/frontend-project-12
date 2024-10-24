@@ -33,7 +33,6 @@ const AddChannelModal = (props) => {
 
         const newChannel = await addChannel(data).unwrap();
         toast.success(t('toasts.addChannel'));
-        // refetch();
         handleSelectChannel(newChannel);
         handleClose();
         resetForm();

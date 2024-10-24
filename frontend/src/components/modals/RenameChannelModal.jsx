@@ -9,7 +9,7 @@ import { RENAMING_MODAL } from '../../constants/modalTypes';
 
 const RenameChannelModal = (props) => {
   const {
-    showModal, handleClose, refetch, handleSelectChannel, t, inputRef,
+    showModal, handleClose, handleSelectChannel, t, inputRef,
     ModalSchema, modalChannelId, modalChannelName,
   } = props;
 
@@ -33,7 +33,6 @@ const RenameChannelModal = (props) => {
           removable: true,
         };
         await renameChannel(data);
-        refetch();
         handleClose();
         handleSelectChannel(values);
         toast.success(t('toasts.renameChannel'));
