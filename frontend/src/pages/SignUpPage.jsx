@@ -66,7 +66,6 @@ const SignUpPage = () => {
                   {t('signUpForm.signUp')}
                 </h1>
                 <Form.Group className="form-floating mb-3">
-                  <Form.Label htmlFor="username">{t('signUpForm.username')}</Form.Label>
                   <Form.Control
                     id="username"
                     name="username"
@@ -80,13 +79,13 @@ const SignUpPage = () => {
                     value={formik.values.username}
                     isInvalid={formik.touched.username && formik.errors.username}
                   />
+                  <Form.Label htmlFor="username">{t('signUpForm.username')}</Form.Label>
                   <Form.Control.Feedback tooltip type="invalid">
                     {formik.errors.username}
                   </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="form-floating mb-3">
-                  <Form.Label htmlFor="password">{t('signUpForm.password')}</Form.Label>
                   <Form.Control
                     id="password"
                     name="password"
@@ -100,14 +99,13 @@ const SignUpPage = () => {
                     value={formik.values.password}
                     isInvalid={formik.touched.password && formik.errors.password}
                   />
-
+                  <Form.Label htmlFor="password">{t('signUpForm.password')}</Form.Label>
                   <Form.Control.Feedback tooltip type="invalid">
                     {formik.errors.password}
                   </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="form-floating mb-4">
-                  <Form.Label htmlFor="confirmPassword">{t('signUpForm.confirmPassword')}</Form.Label>
                   <Form.Control
                     id="confirmPassword"
                     name="confirmPassword"
@@ -121,7 +119,7 @@ const SignUpPage = () => {
                     isInvalid={formik.touched.confirmPassword
                       && formik.values.confirmPassword && formik.errors.confirmPassword}
                   />
-
+                  <Form.Label htmlFor="confirmPassword">{t('signUpForm.confirmPassword')}</Form.Label>
                   <Form.Control.Feedback tooltip type="invalid">
                     {formik.errors.confirmPassword}
                   </Form.Control.Feedback>
