@@ -1,19 +1,19 @@
 import { useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Col, Form } from 'react-bootstrap';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useFormik } from 'formik';
 import filter from 'leo-profanity';
-import { useSocket } from '../store/hooks/hooks';
-import { useGetMessagesQuery, useAddMessageMutation, messagesApi } from '../api/messagesApi';
+// import { useSocket } from '../store/hooks/hooks';
+import { useGetMessagesQuery, useAddMessageMutation } from '../api/messagesApi';
 
 const Messages = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const inputRef = useRef(null);
   const messageRef = useRef();
-  const socket = useSocket();
+  // const socket = useSocket();
 
   const { data: messages = [] } = useGetMessagesQuery();
 
@@ -29,16 +29,16 @@ const Messages = () => {
     }
   }, [messages]);
 
-  useEffect(() => {
-    const handleNewMessage = () => {
-      dispatch(messagesApi.util.invalidateTags([{ type: 'Messages', id: 'LIST' }]));
-    };
+  // useEffect(() => {
+  //   const handleNewMessage = () => {
+  //     dispatch(messagesApi.util.invalidateTags([{ type: 'Messages', id: 'LIST' }]));
+  //   };
 
-    socket.on('newMessage', handleNewMessage);
-    return () => {
-      socket.off('newMessage');
-    };
-  }, [dispatch, socket]);
+  //   socket.on('newMessage', handleNewMessage);
+  //   return () => {
+  //     socket.off('newMessage');
+  //   };
+  // }, [dispatch, socket]);
 
   const formik = useFormik({
     initialValues: {
