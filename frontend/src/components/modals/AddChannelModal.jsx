@@ -10,7 +10,7 @@ import { ADDING_MODAL } from '../../constants/modalTypes';
 
 const AddChannelModal = (props) => {
   const {
-    showModal, handleClose, refetch, handleSelectChannel, ModalSchema, t, inputRef,
+    showModal, handleClose, handleSelectChannel, ModalSchema, t, inputRef,
   } = props;
 
   const [addChannel] = useAddChannelMutation();
@@ -33,7 +33,7 @@ const AddChannelModal = (props) => {
 
         const newChannel = await addChannel(data).unwrap();
         toast.success(t('toasts.addChannel'));
-        refetch();
+        // refetch();
         handleSelectChannel(newChannel);
         handleClose();
         resetForm();
