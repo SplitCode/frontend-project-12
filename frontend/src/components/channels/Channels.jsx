@@ -20,23 +20,16 @@ const Channels = () => {
   };
 
   useEffect(() => {
-    const handleNewChannel = (channel) => {
-      dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => {
-        draft.push(channel);
-      }));
+    const handleNewChannel = () => {
+      dispatch(channelsApi.util.invalidateTags([{ type: 'Channels', id: 'LIST' }]));
     };
 
-    const handleRemoveChannel = ({ id }) => {
-      dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => draft.filter((currentChannels) => currentChannels.id !== id)));
+    const handleRemoveChannel = () => {
+      dispatch(channelsApi.util.invalidateTags([{ type: 'Channels', id: 'LIST' }]));
     };
 
-    const handleRenameChannel = ({ id, name }) => {
-      dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => {
-        const updateChannel = draft.find((channel) => channel.id === id);
-        if (updateChannel) {
-          updateChannel.name = name;
-        }
-      }));
+    const handleRenameChannel = ({ id }) => {
+      dispatch(channelsApi.util.invalidateTags([{ type: 'Channels', id }]));
     };
 
     socket.on('newChannel', handleNewChannel);

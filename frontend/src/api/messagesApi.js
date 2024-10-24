@@ -9,10 +9,13 @@ export const messagesApi = createApi({
     prepareHeaders,
   }),
   tagTypes: ['Messages'],
-
   endpoints: (builder) => ({
+
     getMessages: builder.query({
       query: () => '',
+      providesTags: (result) => (result
+        ? [...result.map(({ id }) => ({ type: 'Messages', id })), { type: 'Messages', id: 'LIST' }]
+        : [{ type: 'Messages', id: 'LIST' }]),
     }),
 
     addMessage: builder.mutation({
@@ -20,12 +23,15 @@ export const messagesApi = createApi({
         method: 'POST',
         body: message,
       }),
+      invalidatesTags: [{ type: 'Messages', id: 'LIST' }],
     }),
+
     removeMessage: builder.mutation({
       query: (id) => ({
         method: 'DELETE',
         url: id,
       }),
+      invalidatesTags: [{ type: 'Messages', id: 'LIST' }],
     }),
   }),
 });

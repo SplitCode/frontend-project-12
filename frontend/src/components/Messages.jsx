@@ -30,12 +30,10 @@ const Messages = () => {
   }, [messages]);
 
   useEffect(() => {
-    const handleNewMessage = (newMessage) => {
-      console.log('Новое сообщение', newMessage);
-      dispatch(messagesApi.util.updateQueryData('getMessages', undefined, (draft) => {
-        draft.push(newMessage);
-      }));
+    const handleNewMessage = () => {
+      dispatch(messagesApi.util.invalidateTags([{ type: 'Messages', id: 'LIST' }]));
     };
+
     socket.on('newMessage', handleNewMessage);
     return () => {
       socket.off('newMessage');
