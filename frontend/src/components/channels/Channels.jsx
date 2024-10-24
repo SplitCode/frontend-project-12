@@ -1,47 +1,21 @@
 import { Nav, Col } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { PlusSquare } from 'react-bootstrap-icons';
-// import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useGetChannelsQuery } from '../../api/channelsApi';
 import { setChannelModal } from '../../store/slices/modalsSlice';
 import { ADDING_MODAL } from '../../constants/modalTypes';
-// import { useSocket } from '../../store/hooks/hooks';
 import ModalComponent from '../modals';
 import ChannelItem from './ChannelsItem';
 
 const Channels = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  // const socket = useSocket();
   const { data: channels = [] } = useGetChannelsQuery();
 
   const handleShowModal = (modalName, channel = { id: '', name: '' }) => {
     dispatch(setChannelModal({ id: channel.id, name: channel.name, modalName }));
   };
-
-  // useEffect(() => {
-  //   const handleNewChannel = () => {
-  //     dispatch(channelsApi.util.invalidateTags([{ type: 'Channels', id: 'LIST' }]));
-  //   };
-
-  //   const handleRemoveChannel = () => {
-  //     dispatch(channelsApi.util.invalidateTags([{ type: 'Channels', id: 'LIST' }]));
-  //   };
-
-  //   const handleRenameChannel = ({ id }) => {
-  //     dispatch(channelsApi.util.invalidateTags([{ type: 'Channels', id }]));
-  //   };
-
-  //   socket.on('newChannel', handleNewChannel);
-  //   socket.on('removeChannel', handleRemoveChannel);
-  //   socket.on('renameChannel', handleRenameChannel);
-  //   return () => {
-  //     socket.off('newChannel');
-  //     socket.off('removeChannel');
-  //     socket.off('renameChannel');
-  //   };
-  // }, [dispatch, socket]);
 
   return (
     <Col xs="4" md="2" className="border-end px-0 bg-light flex-column h-100 d-flex">

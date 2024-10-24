@@ -5,15 +5,12 @@ import { Col, Form } from 'react-bootstrap';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useFormik } from 'formik';
 import filter from 'leo-profanity';
-// import { useSocket } from '../store/hooks/hooks';
 import { useGetMessagesQuery, useAddMessageMutation } from '../api/messagesApi';
 
 const Messages = () => {
   const { t } = useTranslation();
-  // const dispatch = useDispatch();
   const inputRef = useRef(null);
   const messageRef = useRef();
-  // const socket = useSocket();
 
   const { data: messages = [] } = useGetMessagesQuery();
 
@@ -28,17 +25,6 @@ const Messages = () => {
       messageRef.current.scrollTop = messageRef.current.scrollHeight;
     }
   }, [messages]);
-
-  // useEffect(() => {
-  //   const handleNewMessage = () => {
-  //     dispatch(messagesApi.util.invalidateTags([{ type: 'Messages', id: 'LIST' }]));
-  //   };
-
-  //   socket.on('newMessage', handleNewMessage);
-  //   return () => {
-  //     socket.off('newMessage');
-  //   };
-  // }, [dispatch, socket]);
 
   const formik = useFormik({
     initialValues: {
