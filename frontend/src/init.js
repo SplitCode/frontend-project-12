@@ -24,7 +24,8 @@ const init = async () => {
     debug: true,
   });
 
-  const socket = io(SOCKET_URL);
+  // const socket = io(SOCKET_URL);
+  const socket = io();
 
   socket.on('connect', () => {
     console.log('Connected to socket server');

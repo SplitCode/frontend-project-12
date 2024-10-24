@@ -31,6 +31,7 @@ const Messages = () => {
 
   useEffect(() => {
     const handleNewMessage = (newMessage) => {
+      console.log('Новое сообщение', newMessage);
       dispatch(messagesApi.util.updateQueryData('getMessages', undefined, (draft) => {
         draft.push(newMessage);
       }));
