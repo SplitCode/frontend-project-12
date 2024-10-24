@@ -32,9 +32,9 @@ const RenameChannelModal = (props) => {
           id: values.channelId,
           removable: true,
         };
-        await renameChannel(data);
+        const updatedChannel = await renameChannel(data).unwrap();
         handleClose();
-        handleSelectChannel(values);
+        handleSelectChannel(updatedChannel);
         toast.success(t('toasts.renameChannel'));
       } catch (err) {
         console.error(err);
