@@ -21,14 +21,20 @@ const Channels = () => {
 
   useEffect(() => {
     const handleNewChannel = (channel) => {
-      console.log('Канал', channel);
       dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => {
         draft.push(channel);
       }));
     };
+
+    const handleRemoveChannel = ({ id }) => {
+      dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => draft.filter((curChannels) => curChannels.id !== id)));
+    };
+
     socket.on('newChannel', handleNewChannel);
+    socket.on('removeChannel', handleRemoveChannel);
     return () => {
       socket.off('newChannel');
+      socket.off('removeChannel');
     };
   }, [dispatch, socket]);
 
