@@ -55,7 +55,6 @@ const AddChannelModal = (props) => {
               name="name"
               ref={inputRef}
               onChange={formik.handleChange}
-              // onBlur={formik.handleBlur}
               value={formik.values.name}
               isInvalid={formik.touched.name && formik.errors.name}
               className="mb-2"
