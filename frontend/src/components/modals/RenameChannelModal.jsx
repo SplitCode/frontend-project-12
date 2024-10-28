@@ -16,7 +16,7 @@ const RenameChannelModal = (props) => {
   const [renameChannel] = useEditChannelMutation();
 
   useEffect(() => {
-    inputRef.current.focus();
+    inputRef.current.select();
   }, [inputRef]);
 
   const formik = useFormik({
@@ -55,6 +55,7 @@ const RenameChannelModal = (props) => {
               name="name"
               ref={inputRef}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               value={formik.values.name}
               disabled={formik.isSubmitting}
               isInvalid={formik.touched.name && formik.errors.name}
