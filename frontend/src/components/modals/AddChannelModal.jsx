@@ -27,7 +27,7 @@ const AddChannelModal = (props) => {
     onSubmit: async (values, { resetForm }) => {
       try {
         const data = {
-          name: filter.clean(values.name),
+          name: filter.clean(values.name.trim()),
           removable: true,
         };
 
@@ -55,6 +55,7 @@ const AddChannelModal = (props) => {
               name="name"
               ref={inputRef}
               onChange={formik.handleChange}
+              // onBlur={formik.handleBlur}
               value={formik.values.name}
               isInvalid={formik.touched.name && formik.errors.name}
               className="mb-2"

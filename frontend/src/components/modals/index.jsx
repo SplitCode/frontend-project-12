@@ -29,7 +29,11 @@ const ModalComponent = () => {
   const channelNames = channels.map((channel) => channel.name);
 
   const ModalSchema = object().shape({
-    name: string().notOneOf(channelNames, t('errors.channelExists')).min(3, t('errors.minMaxLength')).max(20, t('errors.minMaxLength'))
+    name: string()
+      .transform((value) => value.trim())
+      .notOneOf(channelNames, t('errors.channelExists'))
+      .min(3, t('errors.minMaxLength'))
+      .max(20, t('errors.minMaxLength'))
       .required(t('errors.required')),
   });
 
