@@ -3,13 +3,13 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCurrentChannel } from '../../store/slices/channelsSlice';
+import { setCurrentChannel, selectCurrentChannel } from '../../store/slices/channelsSlice';
 import { REMOVING_MODAL, RENAMING_MODAL } from '../../constants/modalTypes';
 
 const ChannelItem = ({ channelItem, handleShowModal }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const currentChannel = useSelector((state) => state.channel.currentChannel);
+  const currentChannel = useSelector(selectCurrentChannel);
 
   const handleSelectChannel = (channel) => {
     dispatch(setCurrentChannel(channel));

@@ -6,6 +6,8 @@ import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useFormik } from 'formik';
 import filter from 'leo-profanity';
 import { useGetMessagesQuery, useAddMessageMutation } from '../api/messagesApi';
+import { selectUsername } from '../store/slices/authSlice';
+import { selectCurrentChannel } from '../store/slices/channelsSlice';
 
 const Messages = () => {
   const { t } = useTranslation();
@@ -14,8 +16,8 @@ const Messages = () => {
 
   const { data: messages = [] } = useGetMessagesQuery();
 
-  const username = useSelector((state) => state.auth.username);
-  const currentChannel = useSelector((state) => state.channel.currentChannel);
+  const username = useSelector(selectUsername);
+  const currentChannel = useSelector(selectCurrentChannel);
   const channelMessages = messages.filter((message) => message.channelId === currentChannel.id);
 
   const [addMessage] = useAddMessageMutation();

@@ -3,8 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { object, string } from 'yup';
 import { useGetChannelsQuery } from '../../api/channelsApi';
-import { setChannelModal } from '../../store/slices/modalsSlice';
-import { setCurrentChannel } from '../../store/slices/channelsSlice';
+import {
+  setChannelModal, selectModal, selectModalChannelId, selectModalChannelName,
+} from '../../store/slices/modalsSlice';
+import { setCurrentChannel, selectCurrentChannelId } from '../../store/slices/channelsSlice';
 import AddChannelModal from './AddChannelModal';
 import RemoveChannelModal from './RemoveChannelModal';
 import RenameChannelModal from './RenameChannelModal';
@@ -20,10 +22,10 @@ const ModalComponent = () => {
   const inputRef = useRef(null);
   const { t } = useTranslation();
 
-  const showModal = useSelector((state) => state.modals.showModal);
-  const modalChannelId = useSelector((state) => state.modals.modalChannelId);
-  const modalChannelName = useSelector((state) => state.modals.modalChannelName);
-  const currentChannelId = useSelector((state) => state.channel.currentChannel.id);
+  const showModal = useSelector(selectModal);
+  const modalChannelId = useSelector(selectModalChannelId);
+  const modalChannelName = useSelector(selectModalChannelName);
+  const currentChannelId = useSelector(selectCurrentChannelId);
 
   const { data: channels = [] } = useGetChannelsQuery();
   const channelNames = channels.map((channel) => channel.name);
