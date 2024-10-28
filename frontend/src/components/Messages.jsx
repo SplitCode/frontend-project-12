@@ -24,7 +24,7 @@ const Messages = () => {
     if (messageRef.current) {
       messageRef.current.scrollTop = messageRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, currentChannel]);
 
   const formik = useFormik({
     initialValues: {
