@@ -4,6 +4,7 @@ import {
   Modal, Form, FormGroup, FormControl, FormLabel, Button,
 } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import filter from 'leo-profanity';
 import { useEditChannelMutation } from '../../api/channelsApi';
 import { RENAMING_MODAL } from '../../constants/modalTypes';
 
@@ -28,7 +29,7 @@ const RenameChannelModal = (props) => {
     onSubmit: async (values) => {
       try {
         const data = {
-          name: values.name,
+          name: filter.clean(values.name.trim()),
           id: values.channelId,
           removable: true,
         };
