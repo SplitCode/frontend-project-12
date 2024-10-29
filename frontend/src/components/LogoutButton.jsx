@@ -2,6 +2,7 @@ import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../store/hooks/hooks';
+import getRoutesPath from '../constants/routesPath';
 
 const LogoutButton = () => {
   const auth = useAuth();
@@ -13,7 +14,7 @@ const LogoutButton = () => {
       ? (
         <Button onClick={() => {
           auth.logOut();
-          navigate('/login');
+          navigate(getRoutesPath('LOGIN'));
         }}
         >
           {t('header.logout')}

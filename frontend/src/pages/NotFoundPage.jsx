@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import notFoundImage from '../assets/images/notFound.svg';
+import getRoutesPath from '../constants/routesPath';
 
 const NotFoundPage = () => {
   const { t } = useTranslation();
@@ -16,7 +17,7 @@ const NotFoundPage = () => {
       <p className="text-muted">
         {t('notFoundPage.proposal')}
         {' '}
-        <NavLink to="/">{t('notFoundPage.direct')}</NavLink>
+        <NavLink to={getRoutesPath('ROOT')}>{t('notFoundPage.direct')}</NavLink>
       </p>
     </div>
   );

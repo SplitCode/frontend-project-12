@@ -9,6 +9,7 @@ import { useAuth } from '../store/hooks/hooks';
 import loginImage from '../assets/images/login.jpg';
 import { setUserData } from '../store/slices/authSlice';
 import { useLoginMutation } from '../api/authApi';
+import getRoutesPath from '../constants/routesPath';
 
 const LoginPage = () => {
   const auth = useAuth();
@@ -34,7 +35,7 @@ const LoginPage = () => {
         const data = await login(values).unwrap();
         dispatch(setUserData(data));
         auth.logIn();
-        navigate('/');
+        navigate(getRoutesPath('ROOT'));
       } catch (err) {
         if (err.status === 401) {
           setFieldError('username', t('errors.invalidData'));

@@ -9,6 +9,7 @@ import signUpImage from '../assets/images/signUp.jpg';
 import { useSignupMutation } from '../api/authApi';
 import { useAuth } from '../store/hooks/hooks';
 import { setUserData } from '../store/slices/authSlice';
+import getRoutesPath from '../constants/routesPath';
 
 const SignUpPage = () => {
   const auth = useAuth();
@@ -35,7 +36,7 @@ const SignUpPage = () => {
         const data = await signup(values).unwrap();
         dispatch(setUserData(data));
         auth.logIn();
-        navigate('/');
+        navigate(getRoutesPath('ROOT'));
       } catch (err) {
         if (err.status === 409) {
           formik.setErrors({ username: t('errors.userExists') });

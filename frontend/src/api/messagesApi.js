@@ -1,17 +1,17 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import prepareHeaders from '../helpers/prepareHeaders';
-import { getApiPath } from './apiPath';
+import getApiPath from '../constants/apiPath';
 
 export const messagesApi = createApi({
   reducerPath: 'messagesApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: getApiPath('BASE'),
+    baseUrl: getApiPath('MESSAGES'),
     prepareHeaders,
   }),
   tagTypes: ['Messages'],
   endpoints: (builder) => ({
     getMessages: builder.query({
-      query: () => getApiPath('MESSAGES'),
+      query: () => '',
       providesTags: (result) => (result
         ? [...result.map(({ id }) => ({ type: 'Messages', id })), { type: 'Messages', id: 'LIST' }]
         : [{ type: 'Messages', id: 'LIST' }]),
@@ -20,7 +20,6 @@ export const messagesApi = createApi({
     addMessage: builder.mutation({
       query: (message) => ({
         method: 'POST',
-        url: getApiPath('MESSAGES'),
         body: message,
       }),
       invalidatesTags: [{ type: 'Messages', id: 'LIST' }],
@@ -29,7 +28,7 @@ export const messagesApi = createApi({
     removeMessage: builder.mutation({
       query: (id) => ({
         method: 'DELETE',
-        url: `${getApiPath('MESSAGES')}/${id}`,
+        url: id,
       }),
       invalidatesTags: [{ type: 'Messages', id: 'LIST' }],
     }),

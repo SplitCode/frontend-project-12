@@ -1,17 +1,17 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import prepareHeaders from '../helpers/prepareHeaders';
-import { getApiPath } from './apiPath';
+import getApiPath from '../constants/apiPath';
 
 export const channelsApi = createApi({
   reducerPath: 'channelsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: getApiPath('BASE'),
+    baseUrl: getApiPath('CHANNELS'),
     prepareHeaders,
   }),
   tagTypes: ['Channels'],
   endpoints: (builder) => ({
     getChannels: builder.query({
-      query: () => getApiPath('CHANNELS'),
+      query: () => '',
       providesTags: (result) => (result
         ? [...result.map(({ id }) => ({ type: 'Channels', id })), { type: 'Channels', id: 'LIST' }]
         : [{ type: 'Channels', id: 'LIST' }]),
@@ -20,7 +20,6 @@ export const channelsApi = createApi({
     addChannel: builder.mutation({
       query: (channel) => ({
         method: 'POST',
-        url: getApiPath('CHANNELS'),
         body: channel,
       }),
       invalidatesTags: [{ type: 'Channels', id: 'LIST' }],
@@ -29,7 +28,7 @@ export const channelsApi = createApi({
     removeChannel: builder.mutation({
       query: (id) => ({
         method: 'DELETE',
-        url: `${getApiPath('CHANNELS')}/${id}`,
+        url: id,
       }),
       invalidatesTags: (id) => [{ type: 'Channels', id }],
     }),
@@ -37,7 +36,7 @@ export const channelsApi = createApi({
     editChannel: builder.mutation({
       query: (channel) => ({
         method: 'PATCH',
-        url: `${getApiPath('CHANNELS')}/${channel.id}`,
+        url: channel.id,
         body: channel,
       }),
       invalidatesTags: ({ id }) => [{ type: 'Channels', id }],

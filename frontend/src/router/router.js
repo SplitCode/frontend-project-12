@@ -5,10 +5,11 @@ import NotFoundPage from '../pages/NotFoundPage';
 import App from '../App';
 import PrivateRoute from './private-route';
 import SignUpPage from '../pages/SignUpPage';
+import getRoutesPath from '../constants/routesPath';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: getRoutesPath('ROOT'),
     element: <App />,
     children: [
       {
@@ -16,15 +17,15 @@ const router = createBrowserRouter([
         element: <PrivateRoute element={<ChatPage />} />,
       },
       {
-        path: 'login',
+        path: getRoutesPath('LOGIN'),
         element: <LoginPage />,
       },
       {
-        path: 'signup',
+        path: getRoutesPath('SIGNUP'),
         element: <SignUpPage />,
       },
       {
-        path: '*',
+        path: getRoutesPath('NOT_FOUND'),
         element: <NotFoundPage />,
       },
     ],
