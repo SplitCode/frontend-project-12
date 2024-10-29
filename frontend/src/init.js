@@ -1,10 +1,15 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import io from 'socket.io-client';
 import filter from 'leo-profanity';
+import { RouterProvider } from 'react-router-dom';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
+import { Provider as ReduxProvider } from 'react-redux';
 import resources from './locales';
+import { SocketProvider } from './contexts/SocketContext';
+import router from './router/router';
+import createStore from './store/store';
 
-const init = async () => {
+const init = async (socket) => {
   const rollbarConfig = {
     accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
     environment: 'production',
@@ -23,9 +28,19 @@ const init = async () => {
     debug: false,
   });
 
-  const socket = io();
+  const store = createStore(socket);
 
-  return { i18nInstance, socket, rollbarConfig };
+  return (
+    <RollbarProvider config={rollbarConfig}>
+      <ErrorBoundary>
+        <ReduxProvider store={store}>
+          <SocketProvider socket={socket}>
+            <RouterProvider router={router} />
+          </SocketProvider>
+        </ReduxProvider>
+      </ErrorBoundary>
+    </RollbarProvider>
+  );
 };
 
 export default init;
