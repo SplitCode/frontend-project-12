@@ -22,7 +22,6 @@ export const channelsApi = createApi({
         method: 'POST',
         body: channel,
       }),
-      invalidatesTags: [{ type: 'Channels', id: 'LIST' }],
     }),
 
     removeChannel: builder.mutation({
