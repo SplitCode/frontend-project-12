@@ -1,9 +1,5 @@
-const apiPath = '/api/v1';
+import { PATHS } from '../constants/paths';
 
-export default {
-  default: () => apiPath,
-  login: () => [apiPath, 'login'].join('/'),
-  signup: () => [apiPath, 'signup'.join('/')],
-  channels: () => [apiPath, 'channels'].join('/'),
-  messages: () => [apiPath, 'messages'].join('/'),
-};
+export const getApiPath = (path) => PATHS[path]();
+
+export default getApiPath;
