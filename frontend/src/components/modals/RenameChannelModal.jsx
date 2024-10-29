@@ -39,6 +39,7 @@ const RenameChannelModal = (props) => {
         toast.success(t('toasts.renameChannel'));
       } catch (err) {
         console.error(err);
+        toast.error(t('toasts.connectionError'));
       }
     },
   });

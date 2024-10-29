@@ -37,7 +37,8 @@ const AddChannelModal = (props) => {
         handleClose();
         resetForm();
       } catch (err) {
-        console.log('Error adding channel', err);
+        console.error(err);
+        toast.error(t('toasts.connectionError'));
       }
     },
   });

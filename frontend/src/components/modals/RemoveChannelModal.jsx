@@ -19,8 +19,9 @@ const RemoveChannelModal = (props) => {
         handleSelectChannel(DEFAULT_CHANNEL);
       }
       toast.success(t('toasts.removeChannel'));
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
+      toast.error(t('toasts.connectionError'));
     }
   };
 
