@@ -2,8 +2,10 @@ import { channelsApi } from '../../api/channelsApi';
 import { messagesApi } from '../../api/messagesApi';
 
 const socketMiddleware = (socket) => (store) => {
-  socket.on('newChannel', () => {
-    store.dispatch(channelsApi.util.invalidateTags([{ type: 'Channels', id: 'LIST' }]));
+  socket.on('newChannel', (newChannel) => {
+    store.dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => {
+      draft.push(newChannel);
+    }));
   });
 
   socket.on('removeChannel', () => {
