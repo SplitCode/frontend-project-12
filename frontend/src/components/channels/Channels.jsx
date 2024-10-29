@@ -1,4 +1,4 @@
-import { Nav, Col } from 'react-bootstrap';
+import { Nav, Col, Spinner } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { PlusSquare } from 'react-bootstrap-icons';
 import { useDispatch } from 'react-redux';
@@ -11,7 +11,7 @@ import ChannelItem from './ChannelsItem';
 const Channels = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { data: channels = [] } = useGetChannelsQuery();
+  const { data: channels = [], isLoading } = useGetChannelsQuery();
 
   const handleShowModal = (modalName, channel = { id: '', name: '' }) => {
     dispatch(setChannelModal({ id: channel.id, name: channel.name, modalName }));
@@ -32,13 +32,21 @@ const Channels = () => {
       </div>
 
       <Nav className="flex-column nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-        {channels.map((channel) => (
-          <ChannelItem
-            key={channel.id}
-            channelItem={channel}
-            handleShowModal={handleShowModal}
-          />
-        ))}
+        {isLoading ? (
+          <div className="d-flex justify-content-center align-items-center h-100">
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">{t('loading')}</span>
+            </Spinner>
+          </div>
+        ) : (
+          channels.map((channel) => (
+            <ChannelItem
+              key={channel.id}
+              channelItem={channel}
+              handleShowModal={handleShowModal}
+            />
+          ))
+        )}
       </Nav>
       <ModalComponent />
     </Col>

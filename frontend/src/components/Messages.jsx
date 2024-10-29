@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Col, Form } from 'react-bootstrap';
+import { Col, Form, Spinner } from 'react-bootstrap';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useFormik } from 'formik';
 import filter from 'leo-profanity';
@@ -14,7 +14,7 @@ const Messages = () => {
   const inputRef = useRef(null);
   const messageRef = useRef();
 
-  const { data: messages = [] } = useGetMessagesQuery();
+  const { data: messages = [], isLoading } = useGetMessagesQuery();
 
   const username = useSelector(selectUsername);
   const currentChannel = useSelector(selectCurrentChannel);
@@ -69,13 +69,21 @@ const Messages = () => {
           </span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5" ref={messageRef}>
-          {channelMessages.map((message) => (
-            <div key={message.id} className="text-break mb-2">
-              <b>{message.username}</b>
-              {': '}
-              {message.message}
+          {isLoading ? (
+            <div className="d-flex justify-content-center align-items-center h-100">
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">{t('loading')}</span>
+              </Spinner>
             </div>
-          ))}
+          ) : (
+            channelMessages.map((message) => (
+              <div key={message.id} className="text-break mb-2">
+                <b>{message.username}</b>
+                {': '}
+                {message.message}
+              </div>
+            ))
+          )}
         </div>
         <div className="mt-auto px-5 py-3">
           <Form
