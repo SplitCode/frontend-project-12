@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
+import { useRef } from 'react';
 import { object, string, ref } from 'yup';
 import { toast } from 'react-toastify';
 import signUpImage from '../assets/images/signUp.jpg';
@@ -15,6 +16,7 @@ const SignUpPage = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const inputRef = useRef();
   const { t } = useTranslation();
   const [signup] = useSignupMutation();
 
@@ -40,6 +42,7 @@ const SignUpPage = () => {
       } catch (err) {
         if (err.status === 409) {
           formik.setErrors({ username: t('errors.userExists') });
+          inputRef.current.select();
         } else {
           toast.error(t('toasts.connectionError'));
         }
@@ -78,6 +81,7 @@ const SignUpPage = () => {
                     className="form-control"
                     onChange={formik.handleChange}
                     value={formik.values.username}
+                    ref={inputRef}
                     isInvalid={formik.touched.username && formik.errors.username}
                   />
                   <Form.Label htmlFor="username">{t('signUpForm.username')}</Form.Label>
