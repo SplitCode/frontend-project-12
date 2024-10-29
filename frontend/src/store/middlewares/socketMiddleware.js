@@ -14,8 +14,10 @@ const socketMiddleware = (socket) => (store) => {
     store.dispatch(channelsApi.util.invalidateTags([{ type: 'Channels', id }]));
   });
 
-  socket.on('newMessage', () => {
-    store.dispatch(messagesApi.util.invalidateTags([{ type: 'Messages', id: 'LIST' }]));
+  socket.on('newMessage', (message) => {
+    store.dispatch(messagesApi.util.updateQueryData('getMessages', undefined, (draft) => {
+      draft.push(message);
+    }));
   });
 
   return (next) => (action) => next(action);
