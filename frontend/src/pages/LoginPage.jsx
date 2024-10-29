@@ -7,7 +7,7 @@ import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import { useAuth } from '../store/hooks/hooks';
 import loginImage from '../assets/images/login.jpg';
-import { setToken, setUsername } from '../store/slices/authSlice';
+import { setUserData } from '../store/slices/authSlice';
 import { useLoginMutation } from '../api/authApi';
 
 const LoginPage = () => {
@@ -31,24 +31,20 @@ const LoginPage = () => {
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
       setAuthFailed(false);
       try {
-        const { data, error } = await login(values);
-
-        if (data) {
-          const { token, username } = data;
-          dispatch(setToken(token));
-          dispatch(setUsername(username));
-          auth.logIn();
-          navigate('/');
-        }
-        if (error && error.status === 401) {
+        const data = await login(values).unwrap();
+        dispatch(setUserData(data));
+        auth.logIn();
+        navigate('/');
+      } catch (err) {
+        if (err.status === 401) {
           setFieldError('username', t('errors.invalidData'));
           setAuthFailed(true);
           inputRef.current.select();
+        } else {
+          toast.error(t('toasts.connectionError'));
         }
-      } catch (err) {
-        toast.error(t('toasts.connectionError'));
+      } finally {
         setSubmitting(false);
-        setAuthFailed(true);
       }
     },
   });

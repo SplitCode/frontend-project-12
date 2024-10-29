@@ -4,10 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { object, string, ref } from 'yup';
+import { toast } from 'react-toastify';
 import signUpImage from '../assets/images/signUp.jpg';
 import { useSignupMutation } from '../api/authApi';
 import { useAuth } from '../store/hooks/hooks';
-import { setToken } from '../store/slices/authSlice';
+import { setUserData } from '../store/slices/authSlice';
 
 const SignUpPage = () => {
   const auth = useAuth();
@@ -31,18 +32,17 @@ const SignUpPage = () => {
     validationSchema: SignupSchema,
     onSubmit: async (values) => {
       try {
-        const { data, error } = await signup(values);
-
-        if (data) {
-          const { token } = data;
-          dispatch(setToken(token));
-          auth.logIn();
-          navigate('/');
-        }
-        if (error ?? error.status === 409) {
-          formik.setErrors({ username: t('errors.userExists') });
-        }
+        const data = await signup(values).unwrap();
+        dispatch(setUserData(data));
+        auth.logIn();
+        navigate('/');
       } catch (err) {
+        if (err.status === 409) {
+          formik.setErrors({ username: t('errors.userExists') });
+        } else {
+          toast.error(t('toasts.connectionError'));
+        }
+      } finally {
         formik.setSubmitting(false);
       }
     },

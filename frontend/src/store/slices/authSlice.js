@@ -10,13 +10,12 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setToken(state, action) {
-      state.token = action.payload;
-      localStorage.setItem('chat-token', action.payload);
-    },
-    setUsername(state, action) {
-      state.username = action.payload;
-      localStorage.setItem('chat-username', action.payload);
+    setUserData(state, action) {
+      const { token, username } = action.payload;
+      localStorage.setItem('chat-token', token);
+      localStorage.setItem('chat-username', username);
+      state.token = token;
+      state.username = username;
     },
   },
 });
@@ -24,5 +23,5 @@ const authSlice = createSlice({
 export const selectToken = (state) => state.auth.token;
 export const selectUsername = (state) => state.auth.username;
 
-export const { setToken, setUsername } = authSlice.actions;
+export const { setUserData } = authSlice.actions;
 export default authSlice.reducer;
