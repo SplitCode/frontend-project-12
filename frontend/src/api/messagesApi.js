@@ -22,7 +22,6 @@ export const messagesApi = createApi({
         method: 'POST',
         body: message,
       }),
-      invalidatesTags: [{ type: 'Messages', id: 'LIST' }],
     }),
 
     removeMessage: builder.mutation({
