@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useGetChannelsQuery } from '../../api/channelsApi';
 import { openModal } from '../../store/slices/modalsSlice';
 import { ADDING_MODAL } from '../../constants/modalTypes';
-import ModalComponent from '../modals';
+import ModalComponent from '../modals/ModalComponent';
 import ChannelItem from './ChannelsItem';
 
 const Channels = () => {

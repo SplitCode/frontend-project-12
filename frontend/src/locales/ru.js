@@ -50,9 +50,9 @@ const translation = {
       connectionError: 'Ошибка соединения',
     },
     modals: {
-      addChannel: 'Добавить канал',
-      removeChannel: 'Удалить канал',
-      renameChannel: 'Переименовать канал',
+      addingChannelTitle: 'Добавить канал',
+      removingChannelTitle: 'Удалить канал',
+      renamingChannelTitle: 'Переименовать канал',
       channelName: 'Имя канала',
       cancel: 'Отменить',
       send: 'Отправить',
