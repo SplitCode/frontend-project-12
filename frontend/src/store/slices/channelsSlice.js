@@ -10,8 +10,8 @@ const channelSlice = createSlice({
   name: 'channel',
   initialState,
   reducers: {
-    setCurrentChannel: (state, action) => {
-      state.currentChannel = action.payload;
+    setCurrentChannel: (state, { payload }) => {
+      state.currentChannel = payload;
     },
   },
 });
