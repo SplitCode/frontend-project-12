@@ -46,9 +46,7 @@ const ModalComponent = () => {
       </Modal.Header>
       <Modal.Body>
         <ModalContent
-          // showModal={modalType}
           handleClose={handleCloseModal}
-          // dispatch={dispatch}
           inputRef={inputRef}
           handleSelectChannel={handleSelectChannel}
           currentChannelId={currentChannelId}
