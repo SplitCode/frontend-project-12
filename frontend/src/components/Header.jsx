@@ -1,18 +1,25 @@
-import Navbar from 'react-bootstrap/Navbar';
-import Container from 'react-bootstrap/Container';
-import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import LogoutButton from './LogoutButton';
+import { Navbar, Container, Button } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
+import { selectIsAuth, clearUserData } from '../store/slices/authSlice';
+// import LogoutButton from './LogoutButton';
 import { ROOT_PATH, getRoutesPath } from '../router/routesPath';
 
 const Header = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const isAuth = useSelector(selectIsAuth);
+
+  const handleLogout = () => {
+    dispatch(clearUserData());
+  };
 
   return (
-    <Navbar expand="lg" className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
+    <Navbar expand="lg" className="shadow-sm navbar-light bg-white">
       <Container>
         <Navbar.Brand as={NavLink} to={getRoutesPath(ROOT_PATH)}>{t('header.title')}</Navbar.Brand>
-        <LogoutButton />
+        {isAuth && <Button onClick={handleLogout}>{t('header.logout')}</Button>}
       </Container>
     </Navbar>
   );

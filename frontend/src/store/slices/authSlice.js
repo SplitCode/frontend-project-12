@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createSelector } from '@reduxjs/toolkit';
 import { TOKEN, USERNAME } from './constants';
 
 const initialState = {
@@ -18,11 +18,22 @@ const authSlice = createSlice({
       state.token = token;
       state.username = username;
     },
+    clearUserData(state) {
+      localStorage.clear();
+      state.token = null;
+      state.username = null;
+    },
   },
 });
 
 export const selectToken = (state) => state.auth.token;
 export const selectUsername = (state) => state.auth.username;
 
-export const { setUserData } = authSlice.actions;
+export const selectIsAuth = createSelector(
+  selectToken,
+  selectUsername,
+  (token, username) => Boolean(token) && Boolean(username),
+);
+
+export const { setUserData, clearUserData } = authSlice.actions;
 export default authSlice.reducer;
