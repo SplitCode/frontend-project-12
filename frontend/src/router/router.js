@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import ChatPage from '../pages/ChatPage';
-import LoginPage from '../pages/LoginPage';
+import LoginPage from '../pages/LoginPage/LoginPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import App from '../App';
 import PrivateRoute from './private-route';

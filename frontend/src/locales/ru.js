@@ -8,7 +8,7 @@ const translation = {
       login: 'Войти',
       username: 'Ваш ник',
       password: 'Пароль',
-      footerText: 'Нет аккаунта?',
+      footerText: 'Нет аккаунта? ',
       signUp: 'Регистрация',
     },
     signUpForm: {
