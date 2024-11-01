@@ -30,7 +30,7 @@ const ModalComponent = () => {
   const { data: channels = [] } = useGetChannelsQuery();
   const channelNames = channels.map((channel) => channel.name);
 
-  const ModalSchema = object().shape({
+  const channelNameSchema = object().shape({
     name: string()
       .transform((value) => value.trim())
       .notOneOf(channelNames, t('errors.channelExists'))
@@ -59,7 +59,7 @@ const ModalComponent = () => {
       currentChannelId={currentChannelId}
       modalChannelId={modalChannelId}
       modalChannelName={modalChannelName}
-      ModalSchema={ModalSchema}
+      channelNameSchema={channelNameSchema}
       t={t}
     />
   ) : null;

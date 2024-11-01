@@ -10,7 +10,7 @@ import { ADDING_MODAL } from '../../constants/modalTypes';
 
 const AddChannelModal = (props) => {
   const {
-    showModal, handleClose, handleSelectChannel, ModalSchema, t, inputRef,
+    showModal, handleClose, handleSelectChannel, channelNameSchema, t, inputRef,
   } = props;
 
   const [addChannel] = useAddChannelMutation();
@@ -23,7 +23,7 @@ const AddChannelModal = (props) => {
     initialValues: {
       name: '',
     },
-    validationSchema: ModalSchema,
+    validationSchema: channelNameSchema,
     onSubmit: async (values, { resetForm }) => {
       try {
         const data = {
