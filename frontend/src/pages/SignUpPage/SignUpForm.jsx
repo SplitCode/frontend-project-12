@@ -56,7 +56,7 @@ const SignUpForm = () => {
       <h1 className="text-center mb-4">
         {t('signUpForm.signUp')}
       </h1>
-      <Form.Group className="form-floating mb-3">
+      <Form.Floating className="mb-3">
         <Form.Control
           id="username"
           name="username"
@@ -75,9 +75,9 @@ const SignUpForm = () => {
         <Form.Control.Feedback tooltip type="invalid">
           {formik.errors.username}
         </Form.Control.Feedback>
-      </Form.Group>
+      </Form.Floating>
 
-      <Form.Group className="form-floating mb-3">
+      <Form.Floating className="mb-3">
         <Form.Control
           id="password"
           name="password"
@@ -95,9 +95,9 @@ const SignUpForm = () => {
         <Form.Control.Feedback tooltip type="invalid">
           {formik.errors.password}
         </Form.Control.Feedback>
-      </Form.Group>
+      </Form.Floating>
 
-      <Form.Group className="form-floating mb-4">
+      <Form.Floating className="mb-4">
         <Form.Control
           id="confirmPassword"
           name="confirmPassword"
@@ -115,7 +115,7 @@ const SignUpForm = () => {
         <Form.Control.Feedback tooltip type="invalid">
           {formik.errors.confirmPassword}
         </Form.Control.Feedback>
-      </Form.Group>
+      </Form.Floating>
 
       <Button
         type="submit"
