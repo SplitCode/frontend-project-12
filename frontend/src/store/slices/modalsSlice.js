@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   showModal: '',
-  modalChannelId: '',
-  modalChanneName: '',
+  channelId: '',
+  channeName: '',
 };
 
 const modalsSlice = createSlice({
@@ -13,15 +13,15 @@ const modalsSlice = createSlice({
   reducers: {
     setChannelModal: (state, { payload }) => {
       state.showModal = payload.modalName;
-      state.modalChannelId = payload.id;
-      state.modalChannelName = payload.name;
+      state.channelId = payload.id;
+      state.channelName = payload.name;
     },
   },
 });
 
 export const selectModal = (state) => state.modals.showModal;
-export const selectModalChannelId = (state) => state.modals.modalChannelId;
-export const selectModalChannelName = (state) => state.modals.modalChannelName;
+export const selectChannelId = (state) => state.modals.channelId;
+export const selectChannelName = (state) => state.modals.channelName;
 
 export const { setChannelModal } = modalsSlice.actions;
 export default modalsSlice.reducer;

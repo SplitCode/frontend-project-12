@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { object, string } from 'yup';
 import { useGetChannelsQuery } from '../../api/channelsApi';
 import {
-  setChannelModal, selectModal, selectModalChannelId, selectModalChannelName,
+  setChannelModal, selectModal, selectChannelId, selectChannelName,
 } from '../../store/slices/modalsSlice';
 import { setCurrentChannel, selectCurrentChannelId } from '../../store/slices/channelsSlice';
 import AddChannelModal from './AddChannelModal';
@@ -23,8 +23,8 @@ const ModalComponent = () => {
   const { t } = useTranslation();
 
   const showModal = useSelector(selectModal);
-  const modalChannelId = useSelector(selectModalChannelId);
-  const modalChannelName = useSelector(selectModalChannelName);
+  const channelId = useSelector(selectChannelId);
+  const channelName = useSelector(selectChannelName);
   const currentChannelId = useSelector(selectCurrentChannelId);
 
   const { data: channels = [] } = useGetChannelsQuery();
@@ -57,8 +57,8 @@ const ModalComponent = () => {
       inputRef={inputRef}
       handleSelectChannel={handleSelectChannel}
       currentChannelId={currentChannelId}
-      modalChannelId={modalChannelId}
-      modalChannelName={modalChannelName}
+      channelId={channelId}
+      channelName={channelName}
       channelNameSchema={channelNameSchema}
       t={t}
     />

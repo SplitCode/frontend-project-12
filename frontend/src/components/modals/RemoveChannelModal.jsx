@@ -6,7 +6,7 @@ import DEFAULT_CHANNEL from '../../constants/defaultChannel';
 
 const RemoveChannelModal = (props) => {
   const {
-    showModal, handleClose, handleSelectChannel, t, currentChannelId, modalChannelId,
+    showModal, handleClose, handleSelectChannel, t, currentChannelId, channelId,
   } = props;
 
   const [removeChannel] = useRemoveChannelMutation();
@@ -45,7 +45,7 @@ const RemoveChannelModal = (props) => {
           <Button
             type="submit"
             variant="danger"
-            onClick={() => handleRemoveChannel(modalChannelId)}
+            onClick={() => handleRemoveChannel(channelId)}
           >
             {t('modals.remove')}
           </Button>

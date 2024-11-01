@@ -11,7 +11,7 @@ import { RENAMING_MODAL } from '../../constants/modalTypes';
 const RenameChannelModal = (props) => {
   const {
     showModal, handleClose, handleSelectChannel, t, inputRef,
-    channelNameSchema, modalChannelId, modalChannelName,
+    channelNameSchema, channelId, channelName,
   } = props;
 
   const [renameChannel] = useEditChannelMutation();
@@ -22,8 +22,8 @@ const RenameChannelModal = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      name: modalChannelName,
-      channelId: modalChannelId,
+      name: channelName,
+      channelId,
     },
     validationSchema: channelNameSchema,
     onSubmit: async (values) => {
