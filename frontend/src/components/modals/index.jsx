@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { object, string } from 'yup';
 import { useGetChannelsQuery } from '../../api/channelsApi';
 import {
-  setChannelModal, selectModal, selectChannelId, selectChannelName,
+  closeModal, selectModal, selectChannelId, selectChannelName,
 } from '../../store/slices/modalsSlice';
 import { setCurrentChannel, selectCurrentChannelId } from '../../store/slices/channelsSlice';
 import AddChannelModal from './AddChannelModal';
@@ -41,7 +41,7 @@ const ModalComponent = () => {
   });
 
   const handleCloseModal = () => {
-    dispatch(setChannelModal({ id: '', name: '', modalName: '' }));
+    dispatch(closeModal());
   };
 
   const handleSelectChannel = (channel) => {

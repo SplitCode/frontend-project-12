@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { PlusSquare } from 'react-bootstrap-icons';
 import { useDispatch } from 'react-redux';
 import { useGetChannelsQuery } from '../../api/channelsApi';
-import { setChannelModal } from '../../store/slices/modalsSlice';
+import { openModal } from '../../store/slices/modalsSlice';
 import { ADDING_MODAL } from '../../constants/modalTypes';
 import ModalComponent from '../modals';
 import ChannelItem from './ChannelsItem';
@@ -14,7 +14,7 @@ const Channels = () => {
   const { data: channels = [], isLoading } = useGetChannelsQuery();
 
   const handleShowModal = (modalName, channel = { id: '', name: '' }) => {
-    dispatch(setChannelModal({ id: channel.id, name: channel.name, modalName }));
+    dispatch(openModal({ id: channel.id, name: channel.name, modalName }));
   };
 
   return (
