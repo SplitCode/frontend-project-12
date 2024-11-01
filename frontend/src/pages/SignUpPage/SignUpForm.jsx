@@ -7,12 +7,10 @@ import { useRef } from 'react';
 import { object, string, ref } from 'yup';
 import { toast } from 'react-toastify';
 import { useSignupMutation } from '../../api/authApi';
-import { useAuth } from '../../store/hooks/hooks';
 import { setUserData } from '../../store/slices/authSlice';
 import { ROOT_PATH, getRoutesPath } from '../../router/routesPath';
 
 const SignUpForm = () => {
-  const auth = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const inputRef = useRef();
@@ -36,7 +34,6 @@ const SignUpForm = () => {
       try {
         const data = await signup(values).unwrap();
         dispatch(setUserData(data));
-        auth.logIn();
         navigate(getRoutesPath(ROOT_PATH));
       } catch (err) {
         if (err.status === 409) {

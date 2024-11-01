@@ -5,13 +5,11 @@ import { Button, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
-import { useAuth } from '../../store/hooks/hooks';
 import { setUserData } from '../../store/slices/authSlice';
 import { useLoginMutation } from '../../api/authApi';
 import { ROOT_PATH, getRoutesPath } from '../../router/routesPath';
 
 const LoginForm = () => {
-  const auth = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [authFailed, setAuthFailed] = useState(false);
@@ -33,7 +31,6 @@ const LoginForm = () => {
       try {
         const data = await login(values).unwrap();
         dispatch(setUserData(data));
-        auth.logIn();
         navigate(getRoutesPath(ROOT_PATH));
       } catch (err) {
         if (err.status === 401) {
