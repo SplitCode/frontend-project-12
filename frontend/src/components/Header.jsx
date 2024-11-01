@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { Navbar, Container, Button } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { selectIsAuth, clearUserData } from '../store/slices/authSlice';
-// import LogoutButton from './LogoutButton';
 import { ROOT_PATH, getRoutesPath } from '../router/routesPath';
 
 const Header = () => {
