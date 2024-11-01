@@ -5,7 +5,6 @@ import { RouterProvider } from 'react-router-dom';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { Provider as ReduxProvider } from 'react-redux';
 import resources from './locales';
-import { SocketProvider } from './contexts/SocketContext';
 import router from './router/router';
 import createStore from './store/store';
 
@@ -34,9 +33,7 @@ const init = async (socket) => {
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
         <ReduxProvider store={store}>
-          <SocketProvider socket={socket}>
-            <RouterProvider router={router} />
-          </SocketProvider>
+          <RouterProvider router={router} />
         </ReduxProvider>
       </ErrorBoundary>
     </RollbarProvider>
