@@ -10,6 +10,6 @@ export const API_PATHS = {
   BASE: () => API_V1,
 };
 
-const getApiPath = (path) => API_PATHS[path]();
+const getApiPath = (path) => API_PATHS[path]() || '';
 
 export default getApiPath;
