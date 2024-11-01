@@ -1,8 +1,6 @@
 import { useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { object, string } from 'yup';
-import { useGetChannelsQuery } from '../../api/channelsApi';
 import {
   closeModal, selectModal, selectChannelId, selectChannelName,
 } from '../../store/slices/modalsSlice';
@@ -28,18 +26,6 @@ const ModalComponent = () => {
   const channelName = useSelector(selectChannelName);
   const currentChannelId = useSelector(selectCurrentChannelId);
 
-  const { data: channels = [] } = useGetChannelsQuery();
-  const channelNames = channels.map((channel) => channel.name);
-
-  const channelNameSchema = object().shape({
-    name: string()
-      .transform((value) => value.trim())
-      .notOneOf(channelNames, t('errors.channelExists'))
-      .min(3, t('errors.minMaxLength'))
-      .max(20, t('errors.minMaxLength'))
-      .required(t('errors.required')),
-  });
-
   const handleCloseModal = () => {
     dispatch(closeModal());
   };
@@ -60,7 +46,6 @@ const ModalComponent = () => {
       currentChannelId={currentChannelId}
       channelId={channelId}
       channelName={channelName}
-      channelNameSchema={channelNameSchema}
       t={t}
     />
   ) : null;

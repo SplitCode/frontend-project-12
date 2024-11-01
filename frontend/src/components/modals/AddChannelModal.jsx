@@ -5,19 +5,31 @@ import {
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import filter from 'leo-profanity';
-import { useAddChannelMutation } from '../../api/channelsApi';
+import { object, string } from 'yup';
+import { useAddChannelMutation, useGetChannelsQuery } from '../../api/channelsApi';
 import { ADDING_MODAL } from '../../constants/modalTypes';
 
 const AddChannelModal = (props) => {
   const {
-    showModal, handleClose, handleSelectChannel, channelNameSchema, t, inputRef,
+    showModal, handleClose, handleSelectChannel, t, inputRef,
   } = props;
 
+  const { data: channels = [] } = useGetChannelsQuery();
+  const channelNames = channels.map((channel) => channel.name);
   const [addChannel] = useAddChannelMutation();
 
   useEffect(() => {
     inputRef.current.focus();
   }, [inputRef]);
+
+  const channelNameSchema = object().shape({
+    name: string()
+      .transform((value) => value.trim())
+      .notOneOf(channelNames, t('errors.channelExists'))
+      .min(3, t('errors.minMaxLength'))
+      .max(20, t('errors.minMaxLength'))
+      .required(t('errors.required')),
+  });
 
   const formik = useFormik({
     initialValues: {
