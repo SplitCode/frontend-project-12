@@ -1,7 +1,7 @@
 import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useRemoveChannelMutation } from '../../api/channelsApi';
-import DEFAULT_CHANNEL from '../../constants/defaultChannel';
+import { DEFAULT_CHANNEL } from '../../store/slices/constants';
 
 const RemoveChannelModal = (props) => {
   const {

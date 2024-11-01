@@ -101,7 +101,6 @@ const LoginForm = () => {
         type="submit"
         variant="outline-primary"
         className="w-100 mb-3"
-        isLoading={isLoading}
         disabled={isLoading}
       >
         {t('loginForm.login')}

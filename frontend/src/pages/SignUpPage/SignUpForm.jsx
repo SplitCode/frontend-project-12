@@ -121,7 +121,6 @@ const SignUpForm = () => {
         type="submit"
         variant="outline-primary"
         className="w-100 btn btn-outline-primary"
-        isLoading={isLoading}
         disabled={isLoading}
       >
         {t('signUpForm.signUpBtn')}

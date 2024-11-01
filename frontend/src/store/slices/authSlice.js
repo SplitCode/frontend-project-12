@@ -1,8 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-
-const TOKEN = 'chat-token';
-const USERNAME = 'chat-username';
+import { TOKEN, USERNAME } from './constants';
 
 const initialState = {
   token: localStorage.getItem(TOKEN) || null,
