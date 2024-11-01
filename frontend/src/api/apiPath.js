@@ -11,7 +11,7 @@ const API_PATHS = {
   [SIGNUP_PATH]: `${API_V1}/signup`,
   [CHANNELS_PATH]: `${API_V1}/channels`,
   [MESSAGES_PATH]: `${API_V1}/messages`,
-  [BASE_PATH]: API_V1,
+  [BASE_PATH]: '.',
   EMPTY_PATH: '',
 };
 
