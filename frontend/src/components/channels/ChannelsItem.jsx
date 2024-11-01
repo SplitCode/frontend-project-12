@@ -4,7 +4,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentChannel, selectCurrentChannel } from '../../store/slices/channelsSlice';
-import { REMOVING_MODAL, RENAMING_MODAL } from '../../constants/modalTypes';
+import { REMOVING_MODAL, RENAMING_MODAL } from '../modals/constants';
 
 const ChannelItem = ({ channelItem, handleShowModal }) => {
   const { t } = useTranslation();

@@ -9,7 +9,7 @@ import { setCurrentChannel, selectCurrentChannelId } from '../../store/slices/ch
 import AddChannelModal from './AddChannelModal';
 import RemoveChannelModal from './RemoveChannelModal';
 import RenameChannelModal from './RenameChannelModal';
-import { ADDING_MODAL, REMOVING_MODAL, RENAMING_MODAL } from '../../constants/modalTypes';
+import { ADDING_MODAL, REMOVING_MODAL, RENAMING_MODAL } from './constants';
 
 const modals = {
   [ADDING_MODAL]: AddChannelModal,

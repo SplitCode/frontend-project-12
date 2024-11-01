@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { useAuth } from '../../store/hooks/hooks';
 import { setUserData } from '../../store/slices/authSlice';
 import { useLoginMutation } from '../../api/authApi';
-import getRoutesPath from '../../constants/routesPath';
+import { ROOT_PATH, getRoutesPath } from '../../router/routesPath';
 
 const LoginForm = () => {
   const auth = useAuth();
@@ -34,7 +34,7 @@ const LoginForm = () => {
         const data = await login(values).unwrap();
         dispatch(setUserData(data));
         auth.logIn();
-        navigate(getRoutesPath('ROOT'));
+        navigate(getRoutesPath(ROOT_PATH));
       } catch (err) {
         if (err.status === 401) {
           setFieldError('username', t('errors.invalidData'));

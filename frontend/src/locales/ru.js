@@ -31,7 +31,7 @@ const translation = {
     },
     notFoundPage: {
       title: 'Страница не найдена',
-      proposal: 'Но вы можете перейти',
+      proposal: 'Но вы можете перейти ',
       direct: 'на главную страницу',
     },
     errors: {

@@ -5,6 +5,7 @@ import {
 } from 'react-bootstrap';
 import LoginForm from './LoginForm';
 import loginImage from '../../assets/images/login.jpg';
+import { SIGNUP_PATH, getRoutesPath } from '../../router/routesPath';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -27,7 +28,7 @@ const LoginPage = () => {
             <Card.Footer className="p-4">
               <Container className="text-center">
                 <span>{t('loginForm.footerText')}</span>
-                <NavLink to="/signup">
+                <NavLink to={getRoutesPath(SIGNUP_PATH)}>
                   {t('loginForm.signUp')}
                 </NavLink>
               </Container>
