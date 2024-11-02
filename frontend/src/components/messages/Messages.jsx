@@ -37,9 +37,7 @@ const Messages = () => {
         <div id="messages-box" className="chat-messages overflow-auto px-5" ref={messageRef}>
           {isLoading ? (
             <div className="d-flex justify-content-center align-items-center h-100">
-              <Spinner animation="border" role="status">
-                <span className="visually-hidden">{t('loading')}</span>
-              </Spinner>
+              <Spinner animation="border" role="status" />
             </div>
           ) : (
             channelMessages.map((message) => (

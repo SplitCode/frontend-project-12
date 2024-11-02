@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
-import { Form } from 'react-bootstrap';
+import { Form, InputGroup, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import filter from 'leo-profanity';
 import { selectUsername } from '../../store/slices/authSlice';
@@ -12,7 +12,7 @@ const MessageForm = ({ currentChannel }) => {
   const { t } = useTranslation();
   const inputRef = useRef(null);
   const username = useSelector(selectUsername);
-  const [addMessage] = useAddMessageMutation();
+  const [addMessage, { isLoading }] = useAddMessageMutation();
 
   const formik = useFormik({
     initialValues: {
@@ -47,7 +47,7 @@ const MessageForm = ({ currentChannel }) => {
       className="py-1 border rounded-2"
       onSubmit={formik.handleSubmit}
     >
-      <Form.Group className="input-group has-validation">
+      <InputGroup hasValidation={!formik.dirty || !formik.isValid}>
         <Form.Control
           name="message"
           aria-label={t('chat.newMessage')}
@@ -58,11 +58,15 @@ const MessageForm = ({ currentChannel }) => {
           disabled={formik.isSubmitting}
           ref={inputRef}
         />
-        <button type="submit" className="btn btn-group-vertical" disabled={formik.isSubmitting || !formik.values.message.trim()}>
+        <Button
+          type="submit"
+          variant="group-vertical"
+          disabled={!formik.dirty || !formik.isValid || isLoading}
+        >
           <ArrowRightSquare />
           <span className="visually-hidden">{t('chat.send')}</span>
-        </button>
-      </Form.Group>
+        </Button>
+      </InputGroup>
     </Form>
   );
 };

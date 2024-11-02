@@ -34,9 +34,7 @@ const Channels = () => {
       <Nav className="flex-column nav-fill px-2 mb-3 overflow-auto h-100 d-block">
         {isLoading ? (
           <div className="d-flex justify-content-center align-items-center h-100">
-            <Spinner animation="border" role="status">
-              <span className="visually-hidden">{t('loading')}</span>
-            </Spinner>
+            <Spinner animation="border" role="status" />
           </div>
         ) : (
           channels.map((channel) => (
