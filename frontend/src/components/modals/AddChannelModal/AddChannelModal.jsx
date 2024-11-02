@@ -5,9 +5,9 @@ import {
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import filter from 'leo-profanity';
-import { object, string } from 'yup';
-import { useAddChannelMutation, useGetChannelsQuery } from '../../api/channelsApi';
-import LoadingSpinner from '../LoadingSpinner';
+import { useAddChannelMutation, useGetChannelsQuery } from '../../../api/channelsApi';
+import LoadingSpinner from '../../LoadingSpinner';
+import getChannelNameSchema from './ValidationSchema';
 
 const AddChannelModal = (props) => {
   const {
@@ -16,20 +16,13 @@ const AddChannelModal = (props) => {
 
   const { data: channels = [] } = useGetChannelsQuery();
   const channelNames = channels.map((channel) => channel.name);
+  const channelNameSchema = getChannelNameSchema(t, channelNames);
+
   const [addChannel, { isLoading }] = useAddChannelMutation();
 
   useEffect(() => {
     inputRef.current.focus();
   }, [inputRef]);
-
-  const channelNameSchema = object().shape({
-    name: string()
-      .transform((value) => value.trim())
-      .notOneOf(channelNames, t('errors.channelExists'))
-      .min(3, t('errors.minMaxLength'))
-      .max(20, t('errors.minMaxLength'))
-      .required(t('errors.required')),
-  });
 
   const formik = useFormik({
     initialValues: {

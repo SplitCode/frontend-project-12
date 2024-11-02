@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { useRef } from 'react';
-import { object, string, ref } from 'yup';
 import { toast } from 'react-toastify';
 import { useSignupMutation } from '../../../api/authApi';
 import { setUserData } from '../../../store/slices/authSlice';
 import { ROOT_PATH, getRoutesPath } from '../../../router/routesPath';
 import LoadingSpinner from '../../../components/LoadingSpinner';
+import getSignupSchema from './ValidationSchema';
 
 const SignUpForm = () => {
   const navigate = useNavigate();
@@ -18,18 +18,10 @@ const SignUpForm = () => {
   const { t } = useTranslation();
   const [signup, { isLoading }] = useSignupMutation();
 
-  const SignupSchema = object().shape({
-    username: string().min(3, t('errors.minMaxLength')).max(20, t('errors.minMaxLength')).required(t('errors.required')),
-    password: string().min(6, t('errors.minLength')).required(t('errors.required')),
-    confirmPassword: string().oneOf([ref('password')], t('errors.passwordMatch')).required(t('errors.required')),
-  });
+  const SignupSchema = getSignupSchema(t);
 
   const formik = useFormik({
-    initialValues: {
-      username: '',
-      password: '',
-      confirmPassword: '',
-    },
+    initialValues: { username: '', password: '', confirmPassword: '' },
     validationSchema: SignupSchema,
     onSubmit: async (values) => {
       try {

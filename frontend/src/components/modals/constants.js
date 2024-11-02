@@ -1,6 +1,6 @@
-import AddChannelModal from './AddChannelModal';
+import AddChannelModal from './AddChannelModal/AddChannelModal';
 import RemoveChannelModal from './RemoveChannelModal';
-import RenameChannelModal from './RenameChannelModal';
+import RenameChannelModal from './RenameChannelModal/RenameChannelModal';
 
 export const MODAL_TYPES = {
   ADD: 'adding',

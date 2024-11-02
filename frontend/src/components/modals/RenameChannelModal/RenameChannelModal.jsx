@@ -5,32 +5,24 @@ import {
 } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import filter from 'leo-profanity';
-import { object, string } from 'yup';
-import { useEditChannelMutation, useGetChannelsQuery } from '../../api/channelsApi';
-import LoadingSpinner from '../LoadingSpinner';
+import { useEditChannelMutation, useGetChannelsQuery } from '../../../api/channelsApi';
+import LoadingSpinner from '../../LoadingSpinner';
+import getChannelNameSchema from './ValidationSchema';
 
 const RenameChannelModal = (props) => {
   const {
     handleClose, handleSelectChannel, t, inputRef, channelId, channelName,
   } = props;
 
+  const { data: channels = [] } = useGetChannelsQuery();
+  const channelNames = channels.map((channel) => channel.name);
+  const channelNameSchema = getChannelNameSchema(t, channelNames);
+
   const [renameChannel, { isLoading }] = useEditChannelMutation();
 
   useEffect(() => {
     inputRef.current.select();
   }, [inputRef]);
-
-  const { data: channels = [] } = useGetChannelsQuery();
-  const channelNames = channels.map((channel) => channel.name);
-
-  const channelNameSchema = object().shape({
-    name: string()
-      .transform((value) => value.trim())
-      .notOneOf(channelNames, t('errors.channelExists'))
-      .min(3, t('errors.minMaxLength'))
-      .max(20, t('errors.minMaxLength'))
-      .required(t('errors.required')),
-  });
 
   const formik = useFormik({
     initialValues: {
