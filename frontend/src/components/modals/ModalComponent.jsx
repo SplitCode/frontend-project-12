@@ -6,16 +6,7 @@ import {
   closeModal, selectModal, selectChannelId, selectChannelName,
 } from '../../store/slices/modalsSlice';
 import { setCurrentChannel, selectCurrentChannelId } from '../../store/slices/channelsSlice';
-import AddChannelModal from './AddChannelModal';
-import RemoveChannelModal from './RemoveChannelModal';
-import RenameChannelModal from './RenameChannelModal';
-import { ADDING_MODAL, REMOVING_MODAL, RENAMING_MODAL } from './constants';
-
-const modals = {
-  [ADDING_MODAL]: AddChannelModal,
-  [REMOVING_MODAL]: RemoveChannelModal,
-  [RENAMING_MODAL]: RenameChannelModal,
-};
+import { MODALS } from './constants';
 
 const ModalComponent = () => {
   const dispatch = useDispatch();
@@ -35,7 +26,7 @@ const ModalComponent = () => {
     dispatch(setCurrentChannel(channel));
   };
 
-  const ModalContent = modals[modalType];
+  const ModalContent = MODALS[modalType];
 
   return ModalContent ? (
     <Modal show={modalType} onHide={handleCloseModal} centered>

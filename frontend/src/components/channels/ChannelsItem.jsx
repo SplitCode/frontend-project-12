@@ -4,7 +4,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentChannel, selectCurrentChannel } from '../../store/slices/channelsSlice';
-import { REMOVING_MODAL, RENAMING_MODAL } from '../modals/constants';
+import { MODAL_TYPES } from '../modals/constants';
 
 const ChannelItem = ({ channelItem, handleShowModal }) => {
   const { t } = useTranslation();
@@ -36,10 +36,10 @@ const ChannelItem = ({ channelItem, handleShowModal }) => {
             <span className="visually-hidden">{t('chat.manage')}</span>
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => handleShowModal(REMOVING_MODAL, channelItem)}>
+            <Dropdown.Item onClick={() => handleShowModal(MODAL_TYPES.REMOVE, channelItem)}>
               {t('modals.remove')}
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleShowModal(RENAMING_MODAL, channelItem)}>
+            <Dropdown.Item onClick={() => handleShowModal(MODAL_TYPES.RENAME, channelItem)}>
               {t('modals.rename')}
             </Dropdown.Item>
           </Dropdown.Menu>

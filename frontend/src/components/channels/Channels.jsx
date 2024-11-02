@@ -4,7 +4,7 @@ import { PlusSquare } from 'react-bootstrap-icons';
 import { useDispatch } from 'react-redux';
 import { useGetChannelsQuery } from '../../api/channelsApi';
 import { openModal } from '../../store/slices/modalsSlice';
-import { ADDING_MODAL } from '../modals/constants';
+import { MODAL_TYPES } from '../modals/constants';
 import ModalComponent from '../modals/ModalComponent';
 import ChannelItem from './ChannelsItem';
 
@@ -24,7 +24,7 @@ const Channels = () => {
         <button
           type="button"
           className="p-0 text-primary btn btn-group-vertical"
-          onClick={() => handleShowModal(ADDING_MODAL)}
+          onClick={() => handleShowModal(MODAL_TYPES.ADD)}
         >
           <PlusSquare className="fs-5" />
           <span className="visually-hidden">{t('chat.plus')}</span>
