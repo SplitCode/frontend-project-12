@@ -10,6 +10,7 @@ const ChannelItem = ({ channelItem, handleShowModal }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const currentChannel = useSelector(selectCurrentChannel);
+  const buttonVariant = currentChannel.id === channelItem.id ? 'secondary' : 'light';
 
   const handleSelectChannel = (channel) => {
     dispatch(setCurrentChannel(channel));
@@ -22,14 +23,14 @@ const ChannelItem = ({ channelItem, handleShowModal }) => {
           <Button
             onClick={() => handleSelectChannel(channelItem)}
             className="w-100 rounded-0 text-start text-truncate"
-            variant={currentChannel.id === channelItem.id ? 'secondary' : 'light'}
+            variant={buttonVariant}
           >
             <span className="me-1">&#35;</span>
             {channelItem.name}
           </Button>
           <Dropdown.Toggle
             split
-            variant={currentChannel.id === channelItem.id ? 'secondary' : 'light'}
+            variant={buttonVariant}
             id={`dropdown-split-button${channelItem.id}`}
           >
             <span className="visually-hidden">{t('chat.manage')}</span>
@@ -45,7 +46,7 @@ const ChannelItem = ({ channelItem, handleShowModal }) => {
         </Dropdown>
       ) : (
         <Button
-          variant={currentChannel.id === channelItem.id ? 'secondary' : 'light'}
+          variant={buttonVariant}
           className="w-100 rounded-0 text-start text-truncate"
           onClick={() => handleSelectChannel(channelItem)}
         >
