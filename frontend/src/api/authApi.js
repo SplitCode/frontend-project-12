@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import prepareHeaders from './helpers';
 import {
   BASE_PATH, LOGIN_PATH, SIGNUP_PATH, getApiPath,
 } from './apiPath';
@@ -8,8 +7,6 @@ export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
     baseUrl: getApiPath(BASE_PATH),
-    prepareHeaders,
-    tagTypes: ['Auth'],
   }),
   endpoints: (builder) => ({
     login: builder.mutation({
