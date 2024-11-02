@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { useSignupMutation } from '../../../api/authApi';
 import { setUserData } from '../../../store/slices/authSlice';
 import { ROOT_PATH, getRoutesPath } from '../../../router/routesPath';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const SignUpForm = () => {
   const navigate = useNavigate();
@@ -67,6 +68,7 @@ const SignUpForm = () => {
           value={formik.values.username}
           ref={inputRef}
           isInvalid={formik.touched.username && formik.errors.username}
+          disabled={formik.isSubmitting}
         />
         <Form.Label htmlFor="username">{t('signUpForm.username')}</Form.Label>
         <Form.Control.Feedback tooltip type="invalid">
@@ -87,6 +89,7 @@ const SignUpForm = () => {
           onChange={formik.handleChange}
           value={formik.values.password}
           isInvalid={formik.touched.password && formik.errors.password}
+          disabled={formik.isSubmitting}
         />
         <Form.Label htmlFor="password">{t('signUpForm.password')}</Form.Label>
         <Form.Control.Feedback tooltip type="invalid">
@@ -107,6 +110,7 @@ const SignUpForm = () => {
           value={formik.values.confirmPassword}
           isInvalid={formik.touched.confirmPassword
                       && formik.values.confirmPassword && formik.errors.confirmPassword}
+          disabled={formik.isSubmitting}
         />
         <Form.Label htmlFor="confirmPassword">{t('signUpForm.confirmPassword')}</Form.Label>
         <Form.Control.Feedback tooltip type="invalid">
@@ -120,7 +124,14 @@ const SignUpForm = () => {
         className="w-100 btn btn-outline-primary"
         disabled={isLoading}
       >
-        {t('signUpForm.signUpBtn')}
+        {isLoading ? (
+          <>
+            <LoadingSpinner />
+            <span>{t('signUpForm.signUpBtn')}</span>
+          </>
+        ) : (
+          t('signUpForm.signUpBtn')
+        )}
       </Button>
     </Form>
   );

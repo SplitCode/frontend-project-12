@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { setUserData } from '../../../store/slices/authSlice';
 import { useLoginMutation } from '../../../api/authApi';
 import { ROOT_PATH, getRoutesPath } from '../../../router/routesPath';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -64,6 +65,7 @@ const LoginForm = () => {
           value={formik.values.username}
           isInvalid={authFailed}
           ref={inputRef}
+          disabled={formik.isSubmitting}
         />
         <Form.Label htmlFor="username">{t('loginForm.username')}</Form.Label>
         {formik.touched.username && formik.errors.username && (
@@ -84,6 +86,7 @@ const LoginForm = () => {
           onChange={formik.handleChange}
           value={formik.values.password}
           isInvalid={authFailed}
+          disabled={formik.isSubmitting}
         />
         <Form.Label htmlFor="password">
           {t('loginForm.password')}
@@ -100,7 +103,14 @@ const LoginForm = () => {
         className="w-100 mb-3"
         disabled={isLoading}
       >
-        {t('loginForm.login')}
+        {isLoading ? (
+          <>
+            <LoadingSpinner />
+            <span>{t('loginForm.login')}</span>
+          </>
+        ) : (
+          t('loginForm.login')
+        )}
       </Button>
     </Form>
   );
