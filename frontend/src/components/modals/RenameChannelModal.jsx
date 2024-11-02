@@ -7,13 +7,14 @@ import { toast } from 'react-toastify';
 import filter from 'leo-profanity';
 import { object, string } from 'yup';
 import { useEditChannelMutation, useGetChannelsQuery } from '../../api/channelsApi';
+import LoadingSpinner from '../LoadingSpinner';
 
 const RenameChannelModal = (props) => {
   const {
     handleClose, handleSelectChannel, t, inputRef, channelId, channelName,
   } = props;
 
-  const [renameChannel] = useEditChannelMutation();
+  const [renameChannel, { isLoading }] = useEditChannelMutation();
 
   useEffect(() => {
     inputRef.current.select();
@@ -45,13 +46,12 @@ const RenameChannelModal = (props) => {
           removable: true,
         };
         const updatedChannel = await renameChannel(data).unwrap();
-        handleClose();
         handleSelectChannel(updatedChannel);
         toast.success(t('toasts.renameChannel'));
       } catch (err) {
-        console.error(err);
         toast.error(t('toasts.connectionError'));
       }
+      handleClose();
     },
   });
 
@@ -78,16 +78,25 @@ const RenameChannelModal = (props) => {
         <Button
           type="button"
           variant="secondary"
-          onClick={handleClose}
           className="me-2"
+          onClick={handleClose}
+          disabled={formik.isSubmitting}
         >
           {t('modals.cancel')}
         </Button>
         <Button
           type="submit"
           variant="primary"
+          disabled={!formik.dirty || formik.isSubmitting}
         >
-          {t('modals.send')}
+          {isLoading ? (
+            <>
+              <LoadingSpinner />
+              <span>{t('modals.send')}</span>
+            </>
+          ) : (
+            t('modals.send')
+          )}
         </Button>
       </div>
     </Form>

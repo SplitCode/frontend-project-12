@@ -7,6 +7,7 @@ import { useFormik } from 'formik';
 import filter from 'leo-profanity';
 import { object, string } from 'yup';
 import { useAddChannelMutation, useGetChannelsQuery } from '../../api/channelsApi';
+import LoadingSpinner from '../LoadingSpinner';
 
 const AddChannelModal = (props) => {
   const {
@@ -15,7 +16,7 @@ const AddChannelModal = (props) => {
 
   const { data: channels = [] } = useGetChannelsQuery();
   const channelNames = channels.map((channel) => channel.name);
-  const [addChannel] = useAddChannelMutation();
+  const [addChannel, { isLoading }] = useAddChannelMutation();
 
   useEffect(() => {
     inputRef.current.focus();
@@ -45,12 +46,11 @@ const AddChannelModal = (props) => {
         const newChannel = await addChannel(data).unwrap();
         toast.success(t('toasts.addChannel'));
         handleSelectChannel(newChannel);
-        handleClose();
         resetForm();
       } catch (err) {
-        console.error(err);
         toast.error(t('toasts.connectionError'));
       }
+      handleClose();
     },
   });
 
@@ -60,11 +60,12 @@ const AddChannelModal = (props) => {
         <FormControl
           id="name"
           name="name"
+          className="mb-2"
           ref={inputRef}
           onChange={formik.handleChange}
           value={formik.values.name}
           isInvalid={formik.touched.name && formik.errors.name}
-          className="mb-2"
+          disabled={formik.isSubmitting}
         />
         <FormLabel visuallyHidden htmlFor="name">{t('modals.channelName')}</FormLabel>
         <Form.Control.Feedback type="invalid">
@@ -75,17 +76,25 @@ const AddChannelModal = (props) => {
         <Button
           type="button"
           variant="secondary"
-          onClick={handleClose}
           className="me-2"
+          onClick={handleClose}
+          disabled={formik.isSubmitting}
         >
           {t('modals.cancel')}
         </Button>
         <Button
           type="submit"
           variant="primary"
-          disabled={formik.isSubmitting}
+          disabled={!formik.dirty || formik.isSubmitting}
         >
-          {t('modals.send')}
+          {isLoading ? (
+            <>
+              <LoadingSpinner />
+              <span>{t('modals.send')}</span>
+            </>
+          ) : (
+            t('modals.send')
+          )}
         </Button>
       </div>
     </Form>

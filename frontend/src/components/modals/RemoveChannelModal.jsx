@@ -2,26 +2,26 @@ import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useRemoveChannelMutation } from '../../api/channelsApi';
 import { DEFAULT_CHANNEL } from '../../store/slices/constants';
+import LoadingSpinner from '../LoadingSpinner';
 
 const RemoveChannelModal = (props) => {
   const {
     handleClose, handleSelectChannel, t, currentChannelId, channelId,
   } = props;
 
-  const [removeChannel] = useRemoveChannelMutation();
+  const [removeChannel, { isLoading }] = useRemoveChannelMutation();
 
   const handleRemoveChannel = async (id) => {
     try {
       await removeChannel(id).unwrap();
-      handleClose();
+      toast.success(t('toasts.removeChannel'));
       if (id === currentChannelId) {
         handleSelectChannel(DEFAULT_CHANNEL);
       }
-      toast.success(t('toasts.removeChannel'));
     } catch (err) {
-      console.error(err);
       toast.error(t('toasts.connectionError'));
     }
+    handleClose();
   };
 
   return (
@@ -31,8 +31,8 @@ const RemoveChannelModal = (props) => {
         <Button
           type="button"
           variant="secondary"
-          onClick={handleClose}
           className="me-2"
+          onClick={handleClose}
         >
           {t('modals.cancel')}
         </Button>
@@ -40,8 +40,16 @@ const RemoveChannelModal = (props) => {
           type="submit"
           variant="danger"
           onClick={() => handleRemoveChannel(channelId)}
+          disabled={isLoading}
         >
-          {t('modals.remove')}
+          {isLoading ? (
+            <>
+              <LoadingSpinner />
+              <span>{t('modals.remove')}</span>
+            </>
+          ) : (
+            t('modals.remove')
+          )}
         </Button>
       </div>
     </>
