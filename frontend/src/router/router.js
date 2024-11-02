@@ -2,9 +2,9 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import PrivateRoute from './private-route';
 import ChatPage from '../pages/ChatPage';
-import LoginPage from '../pages/LoginPage/LoginPage';
+import LoginPage from '../pages/AuthPages/LoginPage/LoginPage';
 import NotFoundPage from '../pages/NotFoundPage';
-import SignUpPage from '../pages/SignUpPage/SignUpPage';
+import SignUpPage from '../pages/AuthPages/SignUpPage/SignUpPage';
 import {
   ROOT_PATH, LOGIN_PATH, SIGNUP_PATH, NOT_FOUND_PATH, getRoutesPath,
 } from './routesPath';

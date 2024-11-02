@@ -6,9 +6,9 @@ import { useFormik } from 'formik';
 import { useRef } from 'react';
 import { object, string, ref } from 'yup';
 import { toast } from 'react-toastify';
-import { useSignupMutation } from '../../api/authApi';
-import { setUserData } from '../../store/slices/authSlice';
-import { ROOT_PATH, getRoutesPath } from '../../router/routesPath';
+import { useSignupMutation } from '../../../api/authApi';
+import { setUserData } from '../../../store/slices/authSlice';
+import { ROOT_PATH, getRoutesPath } from '../../../router/routesPath';
 
 const SignUpForm = () => {
   const navigate = useNavigate();

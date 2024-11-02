@@ -5,9 +5,9 @@ import { Button, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
-import { setUserData } from '../../store/slices/authSlice';
-import { useLoginMutation } from '../../api/authApi';
-import { ROOT_PATH, getRoutesPath } from '../../router/routesPath';
+import { setUserData } from '../../../store/slices/authSlice';
+import { useLoginMutation } from '../../../api/authApi';
+import { ROOT_PATH, getRoutesPath } from '../../../router/routesPath';
 
 const LoginForm = () => {
   const navigate = useNavigate();
