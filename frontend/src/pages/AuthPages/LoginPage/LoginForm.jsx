@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Button, Form } from 'react-bootstrap';
@@ -13,7 +13,6 @@ import LoadingSpinner from '../../../components/LoadingSpinner';
 const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
   const [login, { isLoading }] = useLoginMutation();
   const { t } = useTranslation();
@@ -28,7 +27,6 @@ const LoginForm = () => {
       password: '',
     },
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
-      setAuthFailed(false);
       try {
         const data = await login(values).unwrap();
         dispatch(setUserData(data));
@@ -36,7 +34,6 @@ const LoginForm = () => {
       } catch (err) {
         if (err.status === 401) {
           setFieldError('username', t('errors.invalidData'));
-          setAuthFailed(true);
           inputRef.current.select();
         } else {
           toast.error(t('toasts.connectionError'));
@@ -63,7 +60,7 @@ const LoginForm = () => {
           className="form-control"
           onChange={formik.handleChange}
           value={formik.values.username}
-          isInvalid={authFailed}
+          isInvalid={formik.touched.username && !!formik.errors.username}
           ref={inputRef}
           disabled={formik.isSubmitting}
         />
@@ -85,7 +82,7 @@ const LoginForm = () => {
           className="form-control"
           onChange={formik.handleChange}
           value={formik.values.password}
-          isInvalid={authFailed}
+          isInvalid={formik.touched.password && !!formik.errors.password}
           disabled={formik.isSubmitting}
         />
         <Form.Label htmlFor="password">
