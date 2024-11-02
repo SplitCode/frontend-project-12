@@ -8,12 +8,21 @@ const socketMiddleware = (socket) => (store) => {
     }));
   });
 
-  socket.on('removeChannel', () => {
-    store.dispatch(channelsApi.util.invalidateTags([{ type: 'Channels', id: 'LIST' }]));
+  socket.on('removeChannel', ({ id }) => {
+    store.dispatch(
+      channelsApi.util.updateQueryData('getChannels', undefined, (draft) => draft.filter((channel) => channel.id !== id)),
+    );
   });
 
-  socket.on('renameChannel', ({ id }) => {
-    store.dispatch(channelsApi.util.invalidateTags([{ type: 'Channels', id }]));
+  socket.on('renameChannel', (updatedChannel) => {
+    store.dispatch(
+      channelsApi.util.updateQueryData('getChannels', undefined, (draft) => {
+        const channel = draft.find((item) => item.id === updatedChannel.id);
+        if (channel) {
+          channel.name = updatedChannel.name;
+        }
+      }),
+    );
   });
 
   socket.on('newMessage', (message) => {
