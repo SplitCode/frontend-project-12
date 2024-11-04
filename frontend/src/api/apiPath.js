@@ -1,18 +1,18 @@
 const API_V1 = 'api/v1';
 
-export const LOGIN_PATH = 'LOGIN';
-export const SIGNUP_PATH = 'SIGNUP';
-export const CHANNELS_PATH = 'CHANNELS';
-export const MESSAGES_PATH = 'MESSAGES';
-export const BASE_PATH = 'BASE';
+export const API_LOGIN = 'LOGIN';
+export const API_SIGNUP = 'SIGNUP';
+export const API_CHANNELS = 'CHANNELS';
+export const API_MESSAGES = 'MESSAGES';
+export const API_BASE = 'BASE';
 
-const API_PATHS = {
-  [LOGIN_PATH]: `${API_V1}/login`,
-  [SIGNUP_PATH]: `${API_V1}/signup`,
-  [CHANNELS_PATH]: `${API_V1}/channels`,
-  [MESSAGES_PATH]: `${API_V1}/messages`,
-  [BASE_PATH]: '.',
+const API_ROUTES = {
+  [API_LOGIN]: `${API_V1}/login`,
+  [API_SIGNUP]: `${API_V1}/signup`,
+  [API_CHANNELS]: `${API_V1}/channels`,
+  [API_MESSAGES]: `${API_V1}/messages`,
+  [API_BASE]: '.',
   EMPTY_PATH: '',
 };
 
-export const getApiPath = (path) => API_PATHS[path] || API_PATHS.EMPTY_PATH;
+export const getApiRoute = (api) => API_ROUTES[api] || API_ROUTES.EMPTY_PATH;

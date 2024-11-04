@@ -7,7 +7,7 @@ import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import { setUserData } from '../../../store/slices/authSlice';
 import { useLoginMutation } from '../../../api/authApi';
-import { ROOT_PATH, getRoutesPath } from '../../../router/routesPath';
+import { PAGE_ROOT, getPageRoute } from '../../../router/routesPath';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const LoginForm = () => {
@@ -30,7 +30,7 @@ const LoginForm = () => {
       try {
         const data = await login(values).unwrap();
         dispatch(setUserData(data));
-        navigate(getRoutesPath(ROOT_PATH));
+        navigate(getPageRoute(PAGE_ROOT));
       } catch (err) {
         if (err.status === 401) {
           setFieldError('username', t('errors.invalidData'));

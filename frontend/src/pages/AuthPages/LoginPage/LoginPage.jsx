@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import LoginForm from './LoginForm';
 import AuthPageContainer from '../AuthPagesContainer';
 import loginImage from '../../../assets/images/login.jpg';
-import { SIGNUP_PATH, getRoutesPath } from '../../../router/routesPath';
+import { PAGE_SIGNUP, getPageRoute } from '../../../router/routesPath';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -15,7 +15,7 @@ const LoginPage = () => {
       footer
       footerText={t('loginForm.footerText')}
       footerLink={(
-        <NavLink to={getRoutesPath(SIGNUP_PATH)}>
+        <NavLink to={getPageRoute(PAGE_SIGNUP)}>
           {t('loginForm.signUp')}
         </NavLink>
 )}

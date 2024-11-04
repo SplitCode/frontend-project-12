@@ -1,14 +1,14 @@
-export const LOGIN_PATH = 'LOGIN';
-export const SIGNUP_PATH = 'SIGNUP';
-export const ROOT_PATH = 'ROOT';
-export const NOT_FOUND_PATH = 'NOT_FOUND';
+export const PAGE_LOGIN = 'LOGIN';
+export const PAGE_SIGNUP = 'SIGNUP';
+export const PAGE_ROOT = 'ROOT';
+export const PAGE_NOT_FOUND = 'NOT_FOUND';
 
-const ROUTES_PATHS = {
-  [LOGIN_PATH]: '/login',
-  [SIGNUP_PATH]: '/signup',
-  [ROOT_PATH]: '/',
-  [NOT_FOUND_PATH]: '*',
+const PAGE_ROUTES = {
+  [PAGE_LOGIN]: '/login',
+  [PAGE_SIGNUP]: '/signup',
+  [PAGE_ROOT]: '/',
+  [PAGE_NOT_FOUND]: '*',
   EMPTY_PATH: '',
 };
 
-export const getRoutesPath = (path) => ROUTES_PATHS[path] || ROUTES_PATHS.EMPTY_PATH;
+export const getPageRoute = (page) => PAGE_ROUTES[page] || PAGE_ROUTES.EMPTY_PATH;

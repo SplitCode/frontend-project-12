@@ -7,7 +7,7 @@ import { useRef } from 'react';
 import { toast } from 'react-toastify';
 import { useSignupMutation } from '../../../api/authApi';
 import { setUserData } from '../../../store/slices/authSlice';
-import { ROOT_PATH, getRoutesPath } from '../../../router/routesPath';
+import { PAGE_ROOT, getPageRoute } from '../../../router/routesPath';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import getSignupSchema from './ValidationSchema';
 
@@ -27,7 +27,7 @@ const SignUpForm = () => {
       try {
         const data = await signup(values).unwrap();
         dispatch(setUserData(data));
-        navigate(getRoutesPath(ROOT_PATH));
+        navigate(getPageRoute(PAGE_ROOT));
       } catch (err) {
         if (err.status === 409) {
           formik.setErrors({ username: t('errors.userExists') });

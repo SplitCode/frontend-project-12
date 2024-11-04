@@ -6,12 +6,12 @@ import LoginPage from '../pages/AuthPages/LoginPage/LoginPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import SignUpPage from '../pages/AuthPages/SignUpPage/SignUpPage';
 import {
-  ROOT_PATH, LOGIN_PATH, SIGNUP_PATH, NOT_FOUND_PATH, getRoutesPath,
+  PAGE_ROOT, PAGE_LOGIN, PAGE_SIGNUP, PAGE_NOT_FOUND, getPageRoute,
 } from './routesPath';
 
 const router = createBrowserRouter([
   {
-    path: getRoutesPath(ROOT_PATH),
+    path: getPageRoute(PAGE_ROOT),
     element: <App />,
     children: [
       {
@@ -19,15 +19,15 @@ const router = createBrowserRouter([
         element: <PrivateRoute element={<ChatPage />} />,
       },
       {
-        path: getRoutesPath(LOGIN_PATH),
+        path: getPageRoute(PAGE_LOGIN),
         element: <LoginPage />,
       },
       {
-        path: getRoutesPath(SIGNUP_PATH),
+        path: getPageRoute(PAGE_SIGNUP),
         element: <SignUpPage />,
       },
       {
-        path: getRoutesPath(NOT_FOUND_PATH),
+        path: getPageRoute(PAGE_NOT_FOUND),
         element: <NotFoundPage />,
       },
     ],
