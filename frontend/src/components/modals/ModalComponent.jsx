@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal as BootstrapModal } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { selectIsOpen, closeModal, selectType } from '../../store/slices/modalsSlice';
 import { MODALS } from './constants';
 
@@ -7,6 +8,7 @@ const Modal = () => {
   const dispatch = useDispatch();
   const isOpen = useSelector(selectIsOpen);
   const type = useSelector(selectType);
+  const { t } = useTranslation();
 
   const handleClose = () => {
     dispatch(closeModal());
@@ -16,30 +18,16 @@ const Modal = () => {
 
   return (
     <BootstrapModal show={isOpen} onHide={handleClose} centered>
-      {Component && <Component handleClose={handleClose} />}
+      <BootstrapModal.Header closeButton>
+        <BootstrapModal.Title>
+          {t(`modals.${type}ChannelTitle`)}
+        </BootstrapModal.Title>
+      </BootstrapModal.Header>
+      <BootstrapModal.Body>
+        {Component && <Component handleClose={handleClose} />}
+      </BootstrapModal.Body>
     </BootstrapModal>
   );
 };
 
 export default Modal;
-
-// return ModalContent ? (
-//   <Modal show={isOpened} onHide={handleClose} centered>
-//     <Modal.Header closeButton>
-//       <Modal.Title>
-//         {t(`modals.${modalType}ChannelTitle`)}
-//       </Modal.Title>
-//     </Modal.Header>
-//     <Modal.Body>
-//       <ModalContent
-//         handleClose={handleCloseModal}
-//         inputRef={inputRef}
-//         handleSelectChannel={handleSelectChannel}
-//         currentChannelId={currentChannelId}
-//         channelId={channelId}
-//         channelName={channelName}
-//         t={t}
-//       />
-//     </Modal.Body>
-//   </Modal>
-// ) : null;
