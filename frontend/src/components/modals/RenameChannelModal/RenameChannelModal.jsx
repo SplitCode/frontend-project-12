@@ -16,11 +16,13 @@ import getChannelNameSchema from './ValidationSchema';
 const RenameChannelModal = ({ handleClose }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const inputRef = useRef();
+  const inputRef = useRef(null);
 
-  const { data: channels = [] } = useGetChannelsQuery();
+  const { data: channels = [] } = useGetChannelsQuery('');
+
   const channelNames = channels.map((channel) => channel.name);
   const channelNameSchema = getChannelNameSchema(t, channelNames);
+
   const channelId = useSelector(selectChannelId);
   const currentChannelId = useSelector(selectCurrentChannelId);
   const channelName = useSelector(selectChannelName);
@@ -29,7 +31,7 @@ const RenameChannelModal = ({ handleClose }) => {
 
   useEffect(() => {
     inputRef.current.select();
-  }, [inputRef]);
+  }, []);
 
   const formik = useFormik({
     initialValues: {

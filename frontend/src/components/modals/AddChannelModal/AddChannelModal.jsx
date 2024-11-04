@@ -24,7 +24,7 @@ const AddChannelModal = ({ handleClose }) => {
 
   useEffect(() => {
     inputRef.current.focus();
-  }, [inputRef]);
+  }, []);
 
   const formik = useFormik({
     initialValues: {

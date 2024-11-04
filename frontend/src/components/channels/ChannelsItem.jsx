@@ -19,12 +19,20 @@ const ChannelItem = ({ channelItem }) => {
   };
 
   const handleRemoveChannel = () => {
-    dispatch(openModal({ type: MODAL_TYPES.REMOVE }));
+    dispatch(openModal({
+      type: MODAL_TYPES.REMOVE,
+      id: channelItem.id,
+      name: channelItem.name,
+    }));
     console.log('Modal type being dispatched:', MODAL_TYPES.REMOVE);
   };
 
   const handleRenameChannel = () => {
-    dispatch(openModal({ type: MODAL_TYPES.RENAME }));
+    dispatch(openModal({
+      type: MODAL_TYPES.RENAME,
+      id: channelItem.id,
+      name: channelItem.name,
+    }));
     console.log('Modal type being dispatched:', MODAL_TYPES.RENAME);
   };
 

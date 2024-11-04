@@ -12,11 +12,6 @@ const modalsSlice = createSlice({
   name: 'modals',
   initialState,
   reducers: {
-    // openModal: (state, { payload }) => {
-    //   state.showModal = payload.modalName;
-    //   state.channelId = payload.id;
-    //   state.channelName = payload.name;
-    // },
     openModal: (state, { payload }) => {
       state.isOpen = true;
       state.type = payload.type;
