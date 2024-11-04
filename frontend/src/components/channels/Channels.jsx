@@ -13,8 +13,9 @@ const Channels = () => {
   const { t } = useTranslation();
   const { data: channels = [], isLoading } = useGetChannelsQuery();
 
-  const handleShowModal = (modalName, channel = { id: '', name: '' }) => {
-    dispatch(openModal({ id: channel.id, name: channel.name, modalName }));
+  const handleOpenModal = () => {
+    dispatch(openModal({ type: MODAL_TYPES.ADD }));
+    console.log('Modal type being dispatched:', MODAL_TYPES.ADD);
   };
 
   return (
@@ -24,7 +25,7 @@ const Channels = () => {
         <button
           type="button"
           className="p-0 text-primary btn btn-group-vertical"
-          onClick={() => handleShowModal(MODAL_TYPES.ADD)}
+          onClick={handleOpenModal}
         >
           <PlusSquare className="fs-5" />
           <span className="visually-hidden">{t('chat.plus')}</span>
@@ -41,7 +42,6 @@ const Channels = () => {
             <ChannelItem
               key={channel.id}
               channelItem={channel}
-              handleShowModal={handleShowModal}
             />
           ))
         )}

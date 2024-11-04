@@ -1,19 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Form, FormGroup, FormControl, FormLabel, Button,
 } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 import { useAddChannelMutation, useGetChannelsQuery } from '../../../api/channelsApi';
 import LoadingSpinner from '../../LoadingSpinner';
 import getChannelNameSchema from './ValidationSchema';
+import { setCurrentChannel } from '../../../store/slices/channelsSlice';
 
-const AddChannelModal = (props) => {
-  const {
-    handleClose, handleSelectChannel, t, inputRef,
-  } = props;
-
+const AddChannelModal = ({ handleClose }) => {
+  const { t } = useTranslation();
+  const inputRef = useRef(null);
+  const dispatch = useDispatch();
   const { data: channels = [] } = useGetChannelsQuery();
   const channelNames = channels.map((channel) => channel.name);
   const channelNameSchema = getChannelNameSchema(t, channelNames);
@@ -38,7 +40,7 @@ const AddChannelModal = (props) => {
 
         const newChannel = await addChannel(data).unwrap();
         toast.success(t('toasts.addChannel'));
-        handleSelectChannel(newChannel);
+        dispatch(setCurrentChannel(newChannel));
         resetForm();
       } catch (err) {
         toast.error(t('toasts.connectionError'));

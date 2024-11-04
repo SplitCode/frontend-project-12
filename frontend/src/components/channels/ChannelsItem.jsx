@@ -3,17 +3,29 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCurrentChannel, selectCurrentChannel } from '../../store/slices/channelsSlice';
+import { openModal } from '../../store/slices/modalsSlice';
+import { setCurrentChannel, selectCurrentChannelId } from '../../store/slices/channelsSlice';
 import { MODAL_TYPES } from '../modals/constants';
 
-const ChannelItem = ({ channelItem, handleShowModal }) => {
+const ChannelItem = ({ channelItem }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const currentChannel = useSelector(selectCurrentChannel);
-  const buttonVariant = currentChannel.id === channelItem.id ? 'secondary' : 'light';
+  const currentChannelId = useSelector(selectCurrentChannelId);
+
+  const buttonVariant = currentChannelId === channelItem.id ? 'secondary' : 'light';
 
   const handleSelectChannel = (channel) => {
     dispatch(setCurrentChannel(channel));
+  };
+
+  const handleRemoveChannel = () => {
+    dispatch(openModal({ type: MODAL_TYPES.REMOVE }));
+    console.log('Modal type being dispatched:', MODAL_TYPES.REMOVE);
+  };
+
+  const handleRenameChannel = () => {
+    dispatch(openModal({ type: MODAL_TYPES.RENAME }));
+    console.log('Modal type being dispatched:', MODAL_TYPES.RENAME);
   };
 
   return (
@@ -36,10 +48,10 @@ const ChannelItem = ({ channelItem, handleShowModal }) => {
             <span className="visually-hidden">{t('chat.manage')}</span>
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => handleShowModal(MODAL_TYPES.REMOVE, channelItem)}>
+            <Dropdown.Item onClick={handleRemoveChannel}>
               {t('modals.remove')}
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleShowModal(MODAL_TYPES.RENAME, channelItem)}>
+            <Dropdown.Item onClick={handleRenameChannel}>
               {t('modals.rename')}
             </Dropdown.Item>
           </Dropdown.Menu>

@@ -1,22 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import {
   Form, FormGroup, FormControl, FormLabel, Button,
 } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import filter from 'leo-profanity';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { useEditChannelMutation, useGetChannelsQuery } from '../../../api/channelsApi';
+import { setCurrentChannel, selectCurrentChannelId } from '../../../store/slices/channelsSlice';
+import { selectChannelId, selectChannelName } from '../../../store/slices/modalsSlice';
 import LoadingSpinner from '../../LoadingSpinner';
 import getChannelNameSchema from './ValidationSchema';
 
-const RenameChannelModal = (props) => {
-  const {
-    handleClose, handleSelectChannel, t, inputRef, channelId, channelName,
-  } = props;
+const RenameChannelModal = ({ handleClose }) => {
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
+  const inputRef = useRef();
 
   const { data: channels = [] } = useGetChannelsQuery();
   const channelNames = channels.map((channel) => channel.name);
   const channelNameSchema = getChannelNameSchema(t, channelNames);
+  const channelId = useSelector(selectChannelId);
+  const currentChannelId = useSelector(selectCurrentChannelId);
+  const channelName = useSelector(selectChannelName);
 
   const [renameChannel, { isLoading }] = useEditChannelMutation();
 
@@ -38,8 +45,10 @@ const RenameChannelModal = (props) => {
           removable: true,
         };
         const updatedChannel = await renameChannel(data).unwrap();
-        handleSelectChannel(updatedChannel);
         toast.success(t('toasts.renameChannel'));
+        if (updatedChannel.id === currentChannelId) {
+          dispatch(setCurrentChannel(updatedChannel));
+        }
       } catch (err) {
         toast.error(t('toasts.connectionError'));
       }

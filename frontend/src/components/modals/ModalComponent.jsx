@@ -1,53 +1,45 @@
-import { useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { Modal } from 'react-bootstrap';
-import {
-  closeModal, selectModal, selectChannelId, selectChannelName,
-} from '../../store/slices/modalsSlice';
-import { setCurrentChannel, selectCurrentChannelId } from '../../store/slices/channelsSlice';
+import { Modal as BootstrapModal } from 'react-bootstrap';
+import { selectIsOpen, closeModal, selectType } from '../../store/slices/modalsSlice';
 import { MODALS } from './constants';
 
-const ModalComponent = () => {
+const Modal = () => {
   const dispatch = useDispatch();
-  const inputRef = useRef(null);
-  const { t } = useTranslation();
+  const isOpen = useSelector(selectIsOpen);
+  const type = useSelector(selectType);
 
-  const modalType = useSelector(selectModal);
-  const channelId = useSelector(selectChannelId);
-  const channelName = useSelector(selectChannelName);
-  const currentChannelId = useSelector(selectCurrentChannelId);
-
-  const handleCloseModal = () => {
+  const handleClose = () => {
     dispatch(closeModal());
   };
 
-  const handleSelectChannel = (channel) => {
-    dispatch(setCurrentChannel(channel));
-  };
+  const Component = MODALS[type];
 
-  const ModalContent = MODALS[modalType];
-
-  return ModalContent ? (
-    <Modal show={modalType} onHide={handleCloseModal} centered>
-      <Modal.Header closeButton>
-        <Modal.Title>
-          {t(`modals.${modalType}ChannelTitle`)}
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <ModalContent
-          handleClose={handleCloseModal}
-          inputRef={inputRef}
-          handleSelectChannel={handleSelectChannel}
-          currentChannelId={currentChannelId}
-          channelId={channelId}
-          channelName={channelName}
-          t={t}
-        />
-      </Modal.Body>
-    </Modal>
-  ) : null;
+  return (
+    <BootstrapModal show={isOpen} onHide={handleClose} centered>
+      {Component && <Component handleClose={handleClose} />}
+    </BootstrapModal>
+  );
 };
 
-export default ModalComponent;
+export default Modal;
+
+// return ModalContent ? (
+//   <Modal show={isOpened} onHide={handleClose} centered>
+//     <Modal.Header closeButton>
+//       <Modal.Title>
+//         {t(`modals.${modalType}ChannelTitle`)}
+//       </Modal.Title>
+//     </Modal.Header>
+//     <Modal.Body>
+//       <ModalContent
+//         handleClose={handleCloseModal}
+//         inputRef={inputRef}
+//         handleSelectChannel={handleSelectChannel}
+//         currentChannelId={currentChannelId}
+//         channelId={channelId}
+//         channelName={channelName}
+//         t={t}
+//       />
+//     </Modal.Body>
+//   </Modal>
+// ) : null;

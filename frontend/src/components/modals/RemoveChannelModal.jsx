@@ -1,22 +1,25 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useRemoveChannelMutation } from '../../api/channelsApi';
-import { DEFAULT_CHANNEL } from '../../store/slices/constants';
+import { setDefaultChannel, selectCurrentChannelId } from '../../store/slices/channelsSlice';
+import { selectChannelId } from '../../store/slices/modalsSlice';
 import LoadingSpinner from '../LoadingSpinner';
 
-const RemoveChannelModal = (props) => {
-  const {
-    handleClose, handleSelectChannel, t, currentChannelId, channelId,
-  } = props;
-
+const RemoveChannelModal = ({ handleClose }) => {
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
+  const channelId = useSelector(selectChannelId);
+  const currentChannelId = useSelector(selectCurrentChannelId);
   const [removeChannel, { isLoading }] = useRemoveChannelMutation();
 
-  const handleRemoveChannel = async (id) => {
+  const handleRemoveChannel = async () => {
     try {
-      await removeChannel(id).unwrap();
+      await removeChannel(channelId).unwrap();
       toast.success(t('toasts.removeChannel'));
-      if (id === currentChannelId) {
-        handleSelectChannel(DEFAULT_CHANNEL);
+      if (channelId === currentChannelId) {
+        dispatch(setDefaultChannel);
       }
     } catch (err) {
       toast.error(t('toasts.connectionError'));
