@@ -24,7 +24,6 @@ const ChannelItem = ({ channelItem }) => {
       id: channelItem.id,
       name: channelItem.name,
     }));
-    console.log('Modal type being dispatched:', MODAL_TYPES.REMOVE);
   };
 
   const handleRenameChannel = () => {
@@ -33,7 +32,6 @@ const ChannelItem = ({ channelItem }) => {
       id: channelItem.id,
       name: channelItem.name,
     }));
-    console.log('Modal type being dispatched:', MODAL_TYPES.RENAME);
   };
 
   return (

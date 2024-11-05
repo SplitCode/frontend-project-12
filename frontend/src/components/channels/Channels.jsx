@@ -15,7 +15,6 @@ const Channels = () => {
 
   const handleOpenModal = () => {
     dispatch(openModal({ type: MODAL_TYPES.ADD }));
-    console.log('Modal type being dispatched:', MODAL_TYPES.ADD);
   };
 
   return (
