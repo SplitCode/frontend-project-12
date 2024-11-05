@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Button } from 'react-bootstrap';
+import { Modal as BootstrapModal, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useRemoveChannelMutation } from '../../api/channelsApi';
 import { setDefaultChannel, selectCurrentChannelId } from '../../store/slices/channelsSlice';
@@ -29,32 +29,39 @@ const RemoveChannelModal = ({ handleClose }) => {
 
   return (
     <>
-      <p className="lead">{t('modals.text')}</p>
-      <div className="d-flex justify-content-end">
-        <Button
-          type="button"
-          variant="secondary"
-          className="me-2"
-          onClick={handleClose}
-        >
-          {t('modals.cancel')}
-        </Button>
-        <Button
-          type="submit"
-          variant="danger"
-          onClick={() => handleRemoveChannel(channelId)}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <>
-              <LoadingSpinner />
-              <span>{t('modals.remove')}</span>
-            </>
-          ) : (
-            t('modals.remove')
-          )}
-        </Button>
-      </div>
+      <BootstrapModal.Header closeButton>
+        <BootstrapModal.Title>
+          {t('modals.removeTitle')}
+        </BootstrapModal.Title>
+      </BootstrapModal.Header>
+      <BootstrapModal.Body>
+        <p className="lead">{t('modals.text')}</p>
+        <div className="d-flex justify-content-end">
+          <Button
+            type="button"
+            variant="secondary"
+            className="me-2"
+            onClick={handleClose}
+          >
+            {t('modals.cancel')}
+          </Button>
+          <Button
+            type="submit"
+            variant="danger"
+            onClick={() => handleRemoveChannel(channelId)}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <LoadingSpinner />
+                <span>{t('modals.remove')}</span>
+              </>
+            ) : (
+              t('modals.remove')
+            )}
+          </Button>
+        </div>
+      </BootstrapModal.Body>
     </>
   );
 };
